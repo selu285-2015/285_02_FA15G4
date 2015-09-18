@@ -1,0 +1,54 @@
+/** Add css rules here for your application. */
+
+
+/** Example rules used by the template application (remove for your app) */
+.titleContainer{
+	border-left: 6px double black;
+	border-right: 6px double black;
+	border-top: 6px double black;
+	border-bottom: 6px double black;
+	background-color: #69a3cc;
+	height: 50px;
+}
+
+.titleLabel{
+	font: italic 50px sans-serif;
+	text-align: center;
+	bottom: 0px;
+}
+
+.forum{
+	align-items: stretch;
+	width: 100%;
+	height: 400px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border: 1px solid black;
+}
+
+.mapDecorator{
+	border: groove 2px black;
+	border-top: none;
+	bottom: 0px;
+	height: 500px;	
+	width: 1000px;
+}
+
+.queryPanel{
+	border-style: groove; 
+	border-top: none;
+	height: 500px;
+	width: 400px;
+}
+
+.flexTableCellHead{
+	border: 1px solid black;
+	font: italic 20px sans-serif;
+	text-align: center;
+	background-color: #d3e3e3;
+}
+
+.flexTableCell{
+   	border: 1px solid black;
+}
+
