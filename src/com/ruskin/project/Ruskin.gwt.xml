@@ -11,7 +11,7 @@
   <inherits name='com.google.gwt.user.User'/>
   
     <!-- Inherit the Open Layers stuff.                        	  -->
-`<inherits name='org.gwtopenmaps.openlayers.OpenLayers'/>	
+	<inherits name='org.gwtopenmaps.openlayers.OpenLayers'/>	
 
   <!-- Inherit the default GWT style sheet.      				  -->
   <inherits name='com.google.gwt.user.theme.clean.Clean'/>
