@@ -34,23 +34,39 @@ public class PlaceMapWidget implements IsWidget {
 
 	private final MainWidget master;	
 	private final VerticalPanel decorator;
+	private final Map map;
+	private final MapOptions options;
+	private final MapWidget mapWidget;
+	private final Vector pointVectorLayer;	
 
 	public PlaceMapWidget(int width, int height, MainWidget master) {		
 		this.master = master;
+		
+		options = new MapOptions();
+		options.setNumZoomLevels(30);		
+		mapWidget = new MapWidget(new Integer(width).toString(), new Integer(height).toString(), options);
+		
+		
 		decorator = new VerticalPanel();
 		decorator.setStyleName("mapDecorator");
+		
 		Label mapLbl = new Label("Ruskin Travels");
-		Label mapHolderLbl = new Label("Map HERE");
-		Image map = new Image("https://www.google.com/maps/vt/data=RfCSdfNZ0LFPrHSm0ublXdzhdrDFhtmHhN1u-gM,eiDvPvjfAtLd4FLM45tIGwPU16zG0tvjkTtJ9nHC-I6Cl7yiALL9lBq2W8Knf4et5bqZTCiVKB_S2DuFfipDrfyygCLFIUMwWJqtgm4HchwKl2LPPum3HwqiOga0GnPLkNZRhalWtt6oHCCdkWMC78ykvr9ykLoObGlGQXY9Goaa3qm08dATqd57IVxH_RnXzvek0RxVg55ppw");
-		mapLbl.setStyleName("flexTableCellHead");
-		HorizontalPanel mapPlaceHolder = new HorizontalPanel();
-		mapPlaceHolder.add(map);
-		mapPlaceHolder.setSize("1000px", "450px");
-		mapPlaceHolder.setStyleName("flexTableCell");
 		decorator.add(mapLbl);
-		decorator.add(mapPlaceHolder);
+		decorator.add(mapWidget);	
+		Label mapHolderLbl = new Label("Map HERE");
+//		Image map = new Image("https://www.google.com/maps/vt/data=RfCSdfNZ0LFPrHSm0ublXdzhdrDFhtmHhN1u-gM,eiDvPvjfAtLd4FLM45tIGwPU16zG0tvjkTtJ9nHC-I6Cl7yiALL9lBq2W8Knf4et5bqZTCiVKB_S2DuFfipDrfyygCLFIUMwWJqtgm4HchwKl2LPPum3HwqiOga0GnPLkNZRhalWtt6oHCCdkWMC78ykvr9ykLoObGlGQXY9Goaa3qm08dATqd57IVxH_RnXzvek0RxVg55ppw");
+		
+		decorator.add(mapLbl);
+		decorator.add(mapWidget);
+		decorator.setStyleName("flexTableCell");
+		
 		BuildUI();
-			
+		
+		map = mapWidget.getMap();	
+		map.setMinMaxZoomLevel(1, 40);
+		
+		pointVectorLayer = new Vector("Point Layer");
+		map.addLayer(pointVectorLayer);
 	}	
 	
 	private void BuildUI() {
