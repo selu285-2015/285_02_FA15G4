@@ -11,6 +11,7 @@ import org.gwtopenmaps.openlayers.client.control.SelectFeatureOptions;
 import org.gwtopenmaps.openlayers.client.event.MapClickListener;
 import org.gwtopenmaps.openlayers.client.event.VectorFeatureSelectedListener;
 import org.gwtopenmaps.openlayers.client.layer.Layer;
+import org.gwtopenmaps.openlayers.client.layer.OSM;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 
 import com.google.gwt.user.client.ui.CheckBox;
@@ -38,14 +39,15 @@ public class PlaceMapWidget implements IsWidget {
 	private final MapOptions options;
 	private final MapWidget mapWidget;
 	private final Vector pointVectorLayer;	
+	private final Bounds bounds = new Bounds(-180, -90, 180, 90);
 
 	public PlaceMapWidget(int width, int height, MainWidget master) {		
 		this.master = master;
 		
 		options = new MapOptions();
-		options.setNumZoomLevels(30);		
+		options.setNumZoomLevels(10);		
 		mapWidget = new MapWidget(new Integer(width).toString(), new Integer(height).toString(), options);
-		
+		OSM tempLayer = OSM.Mapnik("TempLayer");
 		
 		decorator = new VerticalPanel();
 		decorator.setStyleName("mapDecorator");
@@ -63,10 +65,16 @@ public class PlaceMapWidget implements IsWidget {
 		BuildUI();
 		
 		map = mapWidget.getMap();	
+		map.setRestrictedExtent(new Bounds(-180,-90,180,90));
 		map.setMinMaxZoomLevel(1, 40);
 		
 		pointVectorLayer = new Vector("Point Layer");
+		map.addLayer(tempLayer);
 		map.addLayer(pointVectorLayer);
+		
+		tempLayer.setIsBaseLayer(true);
+		this.zoomToBounds(bounds);
+		this.setCenter(new LonLat(0,0),1);
 	}	
 	
 	private void BuildUI() {
@@ -85,7 +93,29 @@ public class PlaceMapWidget implements IsWidget {
 		
 		decorator.add(buttonPanel);
 	}
+	
+	/** Sets the center of the map and zoom level.
+	 * 
+	 * @param ll
+	 * @param zoom
+	 */	
+	public void setCenter(LonLat ll, int zoom) {
+		this.map.setCenter(ll,zoom);
+	}	
+	
+	/** Zooms to a specified bounding box.
+	 * 
+	 * @param bounds
+	 */
+	public void zoomToBounds(Bounds bounds) {	
+		if(bounds == null){
 
+			return;
+		}
+		this.map.zoomToExtent(bounds);
+	}
+
+	
 	@Override
 	public Widget asWidget() {
 		return decorator;
