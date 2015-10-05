@@ -1,6 +1,5 @@
 package com.ruskin.project.client;
 
-
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -18,12 +17,14 @@ public class MainWidget implements IsWidget {
 	private final Forum forum;
 	private VerticalPanel mainPanel = new VerticalPanel();	
 	private final PlaceMapWidget placesMap;
+	private final ContactDialog contactDialog;
 	
 	public MainWidget() {
 		this.mainPanel = new VerticalPanel();
 		placesMap = new PlaceMapWidget(1000,450, this);
 		timePanel = new TimeWidget(this);
 		forum = new Forum(this);		
+		contactDialog = new ContactDialog();
 		
 		this.buildUI();		
 	}
@@ -57,6 +58,10 @@ public class MainWidget implements IsWidget {
 	
 	public TimeWidget getTimeWidget() {
 		return timePanel;
+	}
+	
+	public ContactDialog getContactDialog() {
+		return contactDialog;
 	}
 	
 	public Forum getForum() {
