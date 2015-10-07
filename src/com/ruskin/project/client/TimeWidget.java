@@ -1,12 +1,16 @@
 package com.ruskin.project.client;
 
 
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.ruskin.project.shared.GWTContact;
 
 public class TimeWidget implements IsWidget {
 	private final MainWidget master;
@@ -15,6 +19,7 @@ public class TimeWidget implements IsWidget {
 	private final HorizontalPanel timePanel;
 	private final ScrollPanel hold;
 	private final Label queryLbl;
+
 
 	public TimeWidget(MainWidget master) {
 		this.master = master;

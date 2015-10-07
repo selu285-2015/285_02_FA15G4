@@ -7,6 +7,8 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.ruskin.project.client.dialog.contact.ContactDialog;
+import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 
 /**
  * The main widget, which is added to the RootPanel.

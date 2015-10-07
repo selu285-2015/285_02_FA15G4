@@ -1,4 +1,4 @@
-package com.ruskin.project.client;
+package com.ruskin.project.client.dialog.contact;
 
 
 import java.util.Date;
@@ -22,6 +22,8 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.ruskin.project.client.Main;
+import com.ruskin.project.client.SimplifiedCallback;
 import com.ruskin.project.shared.GWTContact;
 
 public class ContactDialog {
