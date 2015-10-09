@@ -8,6 +8,8 @@ import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
+import org.gwtopenmaps.openlayers.client.OpenLayers;
+import org.gwtopenmaps.openlayers.client.Projection;
 import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.SelectFeature;
 import org.gwtopenmaps.openlayers.client.control.SelectFeatureOptions;
@@ -57,7 +59,7 @@ public class PlaceMapWidget implements IsWidget {
 	private SelectFeatureOptions clickControlOptions;
 	private SelectFeature contactControl;
 	
-	private final Bounds bounds = new Bounds(-180, -90, 180, 90);
+	private final Bounds bounds = new Bounds(0, 0, 180, 90);
 	private final Bounds maxVisibleExtent;
 	
 	private final ListDataProvider<GWTContact> dataProvider = new ListDataProvider<GWTContact>();		
@@ -68,6 +70,8 @@ public class PlaceMapWidget implements IsWidget {
 	private final List<ReducedContact> JohnJamesPoints = new ArrayList<ReducedContact>();
 	private final List<ReducedContact> JohnsPoints = new ArrayList<ReducedContact>();
 	private final List<ReducedContact> JohnsFuturePoints = new ArrayList<ReducedContact>();
+	
+	private final Projection proj;
 
 	boolean MargaretChecked = false;
 	
@@ -90,11 +94,11 @@ public class PlaceMapWidget implements IsWidget {
 		decorator.add(mapLbl);
 		decorator.add(mapWidget);
 		decorator.setStyleName("flexTableCell");
-		
+		proj = new Projection("EPSG:4326");
 		BuildUI();
 		
 		map = mapWidget.getMap();	
-		map.setRestrictedExtent(new Bounds(-180,-90,180,90));
+		map.setRestrictedExtent(new Bounds(0, 0, 180, 90));
 		map.setMinMaxZoomLevel(1, 40);
 		
 		pointVectorLayer = new Vector("Point Layer");
@@ -241,11 +245,11 @@ public class PlaceMapWidget implements IsWidget {
 	public void PlotPointMargaret (Boolean plot) {
 		Style pointStyle = new Style();	
 		if (plot == true) {
-			System.out.println("Point reached");
-			ReducedContact c = new ReducedContact("Margaret Was Here", 100, 52.5);
+			ReducedContact c = new ReducedContact("Margaret Was Here", 126, 52.5);
+			
 			LonLat ll = c.getCoordinate();
-			Point point = new Point(100, 100);
-				
+			Point point = new Point(126, 52.5);
+			point.transform(proj, new Projection(map.getProjection()));;	
 			pointStyle.setExternalGraphic("img/red_push_pin.png");
 			pointStyle.setGraphicSize(10, 17);
 			pointStyle.setFillOpacity(1.0);
@@ -264,10 +268,10 @@ public class PlaceMapWidget implements IsWidget {
 	
 	public void PlotPointJohnJames(Boolean plot) {
 		if (plot == true) {
-			System.out.println("Point reached");
-			ReducedContact c = new ReducedContact("John James Was Here", 100, 52.5);
+			ReducedContact c = new ReducedContact("John James Was Here", 50, 52.5);
 			LonLat ll = c.getCoordinate();
-			Point point = new Point(100, 100);
+			Point point = new Point(50, 52.5);
+			point.transform(proj, new Projection(map.getProjection()));;
 			Style pointStyle = new Style();		
 			pointStyle.setExternalGraphic("img/push_pin_green.png");
 			pointStyle.setGraphicSize(10, 17);
@@ -287,11 +291,11 @@ public class PlaceMapWidget implements IsWidget {
 	public void PlotPointJohn (Boolean plot) {
 		Style pointStyle = new Style();	
 		if (plot == true) {
-			System.out.println("Point reached");
-			ReducedContact c = new ReducedContact("John Was Here", 100, 52.5);
+			ReducedContact c = new ReducedContact("John Was Here", 100, 60);
+			
 			LonLat ll = c.getCoordinate();
-			Point point = new Point(100, 100);
-				
+			Point point = new Point(100, 60);
+			point.transform(proj, new Projection(map.getProjection()));;	
 			pointStyle.setExternalGraphic("img/red_push_pin.png");
 			pointStyle.setGraphicSize(10, 17);
 			pointStyle.setFillOpacity(1.0);
@@ -310,10 +314,11 @@ public class PlaceMapWidget implements IsWidget {
 	
 	public void PlotPointJohnFuture(Boolean plot) {
 		if (plot == true) {
-			System.out.println("Point reached");
 			ReducedContact c = new ReducedContact("John Wanted to Be Here", 100, 52.5);
+			
 			LonLat ll = c.getCoordinate();
-			Point point = new Point(100, 100);
+			Point point = new Point(100, 52.5);
+			point.transform(proj, new Projection(map.getProjection()));;
 			Style pointStyle = new Style();		
 			pointStyle.setExternalGraphic("img/push_pin_green.png");
 			pointStyle.setGraphicSize(10, 17);

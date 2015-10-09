@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.ruskin.project.client.dialog.contact.ContactDialog;
+import com.ruskin.project.client.searchWidget.SearchWidget;
 import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 
 /**
@@ -20,6 +21,7 @@ public class MainWidget implements IsWidget {
 	private VerticalPanel mainPanel = new VerticalPanel();	
 	private final PlaceMapWidget placesMap;
 	private final ContactDialog contactDialog;
+	private final SearchWidget searchWidget;
 	
 	public MainWidget() {
 		this.mainPanel = new VerticalPanel();
@@ -27,6 +29,7 @@ public class MainWidget implements IsWidget {
 		timePanel = new TimeWidget(this);
 		forum = new Forum(this);		
 		contactDialog = new ContactDialog();
+		searchWidget = new SearchWidget(this);
 		
 		this.buildUI();		
 	}
@@ -34,9 +37,12 @@ public class MainWidget implements IsWidget {
 
 	private void buildUI() {
 		final HorizontalPanel searchStuff = new HorizontalPanel();
+		final VerticalPanel smallWidgets = new VerticalPanel();
 		mainPanel.setWidth("100%");
 		searchStuff.add(placesMap);
-		searchStuff.add(timePanel);
+		smallWidgets.add(searchWidget);
+		smallWidgets.add(timePanel);
+		searchStuff.add(smallWidgets);
 		
 		FlowPanel titleContainer = new FlowPanel();
 		titleContainer.setStyleName("titleContainer");
@@ -64,6 +70,10 @@ public class MainWidget implements IsWidget {
 	
 	public ContactDialog getContactDialog() {
 		return contactDialog;
+	}
+	
+	public SearchWidget getSearchWidget() {
+		return searchWidget;
 	}
 	
 	public Forum getForum() {
