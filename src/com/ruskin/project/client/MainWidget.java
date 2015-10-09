@@ -25,7 +25,7 @@ public class MainWidget implements IsWidget {
 	
 	public MainWidget() {
 		this.mainPanel = new VerticalPanel();
-		placesMap = new PlaceMapWidget(1000,450, this);
+		placesMap = new PlaceMapWidget(800,450, this);
 		timePanel = new TimeWidget(this);
 		forum = new Forum(this);		
 		contactDialog = new ContactDialog();

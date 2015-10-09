@@ -25,7 +25,7 @@ public class SearchWidget implements IsWidget {
 		panel = new VerticalPanel();
 		tb = new TextBox();
 		b = new Button("Search");
-		tb.setWidth("400px");
+		tb.setWidth("370px");
 		lbl = new Label("Enter Search Criteria");
 		
 		
@@ -36,7 +36,7 @@ public class SearchWidget implements IsWidget {
 		// Making the button to press to search
 		b.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Window.alert("Search not functional yet...");
+				Window.alert("Will search for content matching: " + " '' " + tb.getText() + " '' ");
 			}
 		});
 
@@ -45,8 +45,6 @@ public class SearchWidget implements IsWidget {
 		lbl.setStyleName("flexTableCellHead");
 		panel.setWidth("400px");
 		panel.setHeight("100px");
-		panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		panel.add(lbl);
 		panel.add(tb);
 		panel.add(b);

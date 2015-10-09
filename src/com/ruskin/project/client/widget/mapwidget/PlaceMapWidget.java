@@ -71,6 +71,11 @@ public class PlaceMapWidget implements IsWidget {
 	private final List<ReducedContact> JohnsPoints = new ArrayList<ReducedContact>();
 	private final List<ReducedContact> JohnsFuturePoints = new ArrayList<ReducedContact>();
 	
+	private final List<Point> MargaretsPlaces = new ArrayList<Point>();
+	private final List<Point> JohnJamesPlaces = new ArrayList<Point>();
+	private final List<Point> JohnsPlaces = new ArrayList<Point>();
+	private final List<Point> JohnsFuturePlaces = new ArrayList<Point>();
+	
 	private final Projection proj;
 
 	boolean MargaretChecked = false;
@@ -242,6 +247,7 @@ public class PlaceMapWidget implements IsWidget {
 		}
 	}
 	
+	
 	public void PlotPointMargaret (Boolean plot) {
 		Style pointStyle = new Style();	
 		if (plot == true) {
@@ -260,6 +266,7 @@ public class PlaceMapWidget implements IsWidget {
 			pointVectorLayer.addFeature(pointFeature);
 			
 			MargaretsPoints.add(c);
+			MargaretsPlaces.add(point);
 		}
 		else {
 			eraseAllContacts();		
@@ -283,6 +290,7 @@ public class PlaceMapWidget implements IsWidget {
 			pointVectorLayer.addFeature(pointFeature);
 			
 			JohnJamesPoints.add(c);
+			JohnJamesPlaces.add(point);
 		}
 		else {
 			eraseAllContacts();
@@ -306,9 +314,10 @@ public class PlaceMapWidget implements IsWidget {
 			pointVectorLayer.addFeature(pointFeature);
 			
 			JohnsPoints.add(c);
+			JohnsPlaces.add(point);
 		}
 		else {
-			eraseAllContacts();		
+			eraseAllContacts();	
 		}
 	}
 	
@@ -329,13 +338,20 @@ public class PlaceMapWidget implements IsWidget {
 			pointFeature.setFeatureId(c.getId());
 			pointVectorLayer.addFeature(pointFeature);
 			
+			JohnsFuturePlaces.add(point);
 			JohnsFuturePoints.add(c);
 		}
 		else {
 			eraseAllContacts();
+			populateMargaret();
 		}
 	}
 	
+	public void populateMargaret() {
+		ReducedContact c = new ReducedContact("Margaret Was Here", 126, 52.5);
+		MargaretsPoints.add(c);
+	}
+
 	/**This method highlights the contact specified by contactId in green.
 	 * 
 	 * @param contactId - the contact to be highlighted
@@ -365,7 +381,7 @@ public class PlaceMapWidget implements IsWidget {
 	 * 
 	 */
 	public void eraseAllContacts() {
-		pointVectorLayer.destroyFeatures();		
+		pointVectorLayer.destroyFeatures();	
 		restoreStartupView();
 	}
 

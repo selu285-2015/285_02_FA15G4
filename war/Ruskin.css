@@ -37,8 +37,8 @@
 .queryPanel{
 	border-style: groove; 
 	border-top: none;
-	height: 500px;
-	width: 400px;
+	height: 300px;
+	width: 380px;
 }
 
 .flexTableCellHead{

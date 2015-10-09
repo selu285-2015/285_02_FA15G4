@@ -63,7 +63,7 @@ public class Main implements EntryPoint {
 		
 		main = new MainWidget();
 		main.asWidget().getElement().setAttribute("align",  "center");
-		main.asWidget().getElement().getStyle().setWidth(1200,  Unit.PX);			
+		main.asWidget().getElement().getStyle().setWidth(1000,  Unit.PX);			
 		root.add(main);
 	}
 }
