@@ -388,9 +388,9 @@ public class PlaceMapWidget implements IsWidget {
 	 * 
 	 */
 	public void restoreStartupView(){	
-		bounds.transform(proj, new Projection(map.getProjection()));
+		bounds.transform(proj, new Projection(map.getProjection())); 
 		this.zoomToBounds(bounds);		
-		this.setCenter(new LonLat(90.0,45.0),1);	
+		this.setCenter(new LonLat(90.0,45.0),1);	 
 	}
 	
 	/** Returns the layer responsible for drawing the contact images.
