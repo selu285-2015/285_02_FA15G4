@@ -13,6 +13,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.ruskin.project.client.MainWidget;
 
+
+/** A search criteria widget that allows for a user to input desired
+ * search criteria and fetch similar results
+ *Author: Holden Pitre
+ */
 public class SearchWidget implements IsWidget {
 	private final MainWidget master;
 	VerticalPanel panel;
@@ -33,15 +38,12 @@ public class SearchWidget implements IsWidget {
 	}
 	
 	private void BuildUI() {
-		// Making the button to press to search
 		b.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Window.alert("Will search for content matching: " + " '' " + tb.getText() + " '' ");
 			}
 		});
-
-		// Aligning the panel to be centered, can be altered later in order
-		// to fit our needs
+		
 		lbl.setStyleName("flexTableCellHead");
 		panel.setWidth("400px");
 		panel.setHeight("100px");

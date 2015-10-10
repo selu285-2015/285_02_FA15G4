@@ -13,6 +13,9 @@ import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 
 /**
  * The main widget, which is added to the RootPanel.
+ * It contains the Map, Search, Time, and Forum widgets.
+ * 
+ * Author: Brittney Jarreau
  */
 public class MainWidget implements IsWidget {
 	

@@ -14,6 +14,7 @@ import com.ruskin.project.shared.GWTContact;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
+ * Author: Brittney Jarreau
  */
 public class Main implements EntryPoint {
 	/**

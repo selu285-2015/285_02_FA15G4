@@ -23,6 +23,9 @@ import com.ruskin.project.client.Main;
 import com.ruskin.project.client.SimplifiedCallback;
 import com.ruskin.project.shared.GWTContact;
 
+/** This Widget is intended to display metadata describing clicked points
+ *Author: Brittney Jarreau
+ */
 public class ContactDialog {
 
 	private static final NumberFormat nf = NumberFormat.getFormat("0.0####");
