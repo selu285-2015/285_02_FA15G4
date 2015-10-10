@@ -83,6 +83,7 @@ public class PlaceMapWidget implements IsWidget {
 	
 	public PlaceMapWidget(int width, int height, MainWidget master) {		
 		this.master = master;
+		LonLat center = new LonLat(90, 45);
 		
 		options = new MapOptions();
 		options.setNumZoomLevels(10);		
@@ -101,11 +102,16 @@ public class PlaceMapWidget implements IsWidget {
 		decorator.add(mapWidget);
 		decorator.setStyleName("flexTableCell");
 		proj = new Projection("EPSG:4326");
+		
 		BuildUI();
 		
 		map = mapWidget.getMap();	
-		map.setRestrictedExtent(new Bounds(0, 0, 180, 90));
+		bounds.transform(proj, new Projection(map.getProjection()));
+		map.setRestrictedExtent(bounds);
 		map.setMinMaxZoomLevel(1, 40);
+		
+		
+		center.transform(proj.toString(), new Projection(map.getProjection()).toString());
 		
 		pointVectorLayer = new Vector("Point Layer");
 		map.addLayer(tempLayer);
@@ -127,7 +133,7 @@ public class PlaceMapWidget implements IsWidget {
 		
 		tempLayer.setIsBaseLayer(true);
 		this.zoomToBounds(bounds);
-		this.setCenter(new LonLat(0,0),1);
+		this.setCenter(center,1);
 		maxVisibleExtent = map.getExtent();
 		this.restoreStartupView();
 		
@@ -254,7 +260,7 @@ public class PlaceMapWidget implements IsWidget {
 			
 			LonLat ll = c.getCoordinate();
 			Point point = new Point(ll.lon(), ll.lat());
-			point.transform(proj, new Projection(map.getProjection()));;	
+			point.transform(proj, new Projection(map.getProjection()));	
 			pointStyle.setExternalGraphic("img/map_marker_orange.png");
 			pointStyle.setGraphicSize(10, 17);
 			pointStyle.setFillOpacity(1.0);
@@ -277,7 +283,7 @@ public class PlaceMapWidget implements IsWidget {
 			ReducedContact c = new ReducedContact("John James Was Here", 50, 52.5);
 			LonLat ll = c.getCoordinate();
 			Point point = new Point(ll.lon(), ll.lat());
-			point.transform(proj, new Projection(map.getProjection()));;
+			point.transform(proj, new Projection(map.getProjection()));
 			Style pointStyle = new Style();		
 			pointStyle.setExternalGraphic("img/map_marker_red.png");
 			pointStyle.setGraphicSize(10, 17);
@@ -302,7 +308,7 @@ public class PlaceMapWidget implements IsWidget {
 			
 			LonLat ll = c.getCoordinate();
 			Point point = new Point(ll.lon(), ll.lat());
-			point.transform(proj, new Projection(map.getProjection()));;	
+			point.transform(proj, new Projection(map.getProjection()));	
 			pointStyle.setExternalGraphic("img/map_marker_blue.png");
 			pointStyle.setGraphicSize(10, 17);
 			pointStyle.setFillOpacity(1.0);
@@ -326,7 +332,7 @@ public class PlaceMapWidget implements IsWidget {
 			
 			LonLat ll = c.getCoordinate();
 			Point point = new Point(ll.lon(), ll.lat());
-			point.transform(proj, new Projection(map.getProjection()));;
+			point.transform(proj, new Projection(map.getProjection()));
 			Style pointStyle = new Style();		
 			pointStyle.setExternalGraphic("img/map_marker_gray.png");
 			pointStyle.setGraphicSize(10, 17);
@@ -381,9 +387,10 @@ public class PlaceMapWidget implements IsWidget {
 	/** Positions and centers the map as it was on startup.\
 	 * 
 	 */
-	public void restoreStartupView(){				
+	public void restoreStartupView(){	
+		bounds.transform(proj, new Projection(map.getProjection()));
 		this.zoomToBounds(bounds);		
-		this.setCenter(new LonLat(0.0,0.0),1);	
+		this.setCenter(new LonLat(90.0,45.0),1);	
 	}
 	
 	/** Returns the layer responsible for drawing the contact images.
