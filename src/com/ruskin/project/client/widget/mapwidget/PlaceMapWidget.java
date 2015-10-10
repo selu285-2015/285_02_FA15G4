@@ -23,6 +23,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -46,7 +47,7 @@ import com.ruskin.project.shared.ReducedContact;
  * <p>
  *  Other layers, including WMS layers, can be added to this widget as well.
  * </p>
- *
+ *Author: Brittney Jarreau
  */
 public class PlaceMapWidget implements IsWidget {
 
@@ -120,9 +121,7 @@ public class PlaceMapWidget implements IsWidget {
 
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-				LonLat ll = new LonLat(eventObject.getVectorFeature().getCenterLonLat().lon(), eventObject.getVectorFeature().getCenterLonLat().lat());
-				PlaceMapWidget.this.master.getContactDialog().showFor(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID));
-				
+				Window.alert("Point Clicked!");
 			}
 		});		
 		
@@ -254,9 +253,9 @@ public class PlaceMapWidget implements IsWidget {
 			ReducedContact c = new ReducedContact("Margaret Was Here", 126, 52.5);
 			
 			LonLat ll = c.getCoordinate();
-			Point point = new Point(126, 52.5);
+			Point point = new Point(ll.lon(), ll.lat());
 			point.transform(proj, new Projection(map.getProjection()));;	
-			pointStyle.setExternalGraphic("img/red_push_pin.png");
+			pointStyle.setExternalGraphic("img/map_marker_orange.png");
 			pointStyle.setGraphicSize(10, 17);
 			pointStyle.setFillOpacity(1.0);
 
@@ -277,10 +276,10 @@ public class PlaceMapWidget implements IsWidget {
 		if (plot == true) {
 			ReducedContact c = new ReducedContact("John James Was Here", 50, 52.5);
 			LonLat ll = c.getCoordinate();
-			Point point = new Point(50, 52.5);
+			Point point = new Point(ll.lon(), ll.lat());
 			point.transform(proj, new Projection(map.getProjection()));;
 			Style pointStyle = new Style();		
-			pointStyle.setExternalGraphic("img/push_pin_green.png");
+			pointStyle.setExternalGraphic("img/map_marker_red.png");
 			pointStyle.setGraphicSize(10, 17);
 			pointStyle.setFillOpacity(1.0);
 
@@ -302,9 +301,9 @@ public class PlaceMapWidget implements IsWidget {
 			ReducedContact c = new ReducedContact("John Was Here", 100, 60);
 			
 			LonLat ll = c.getCoordinate();
-			Point point = new Point(100, 60);
+			Point point = new Point(ll.lon(), ll.lat());
 			point.transform(proj, new Projection(map.getProjection()));;	
-			pointStyle.setExternalGraphic("img/red_push_pin.png");
+			pointStyle.setExternalGraphic("img/map_marker_blue.png");
 			pointStyle.setGraphicSize(10, 17);
 			pointStyle.setFillOpacity(1.0);
 
@@ -326,10 +325,10 @@ public class PlaceMapWidget implements IsWidget {
 			ReducedContact c = new ReducedContact("John Wanted to Be Here", 100, 52.5);
 			
 			LonLat ll = c.getCoordinate();
-			Point point = new Point(100, 52.5);
+			Point point = new Point(ll.lon(), ll.lat());
 			point.transform(proj, new Projection(map.getProjection()));;
 			Style pointStyle = new Style();		
-			pointStyle.setExternalGraphic("img/push_pin_green.png");
+			pointStyle.setExternalGraphic("img/map_marker_gray.png");
 			pointStyle.setGraphicSize(10, 17);
 			pointStyle.setFillOpacity(1.0);
 
@@ -343,15 +342,9 @@ public class PlaceMapWidget implements IsWidget {
 		}
 		else {
 			eraseAllContacts();
-			populateMargaret();
 		}
 	}
 	
-	public void populateMargaret() {
-		ReducedContact c = new ReducedContact("Margaret Was Here", 126, 52.5);
-		MargaretsPoints.add(c);
-	}
-
 	/**This method highlights the contact specified by contactId in green.
 	 * 
 	 * @param contactId - the contact to be highlighted

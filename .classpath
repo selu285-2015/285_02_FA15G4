@@ -10,7 +10,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="E:/gwt-openlayers-client-1.0.jar"/>
-	<classpathentry kind="lib" path="E:/gwt-openlayers-server-1.0.jar"/>
+	<classpathentry kind="lib" path="F:/gwt-openlayers-client-1.0.jar"/>
+	<classpathentry kind="lib" path="F:/gwt-openlayers-server-1.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

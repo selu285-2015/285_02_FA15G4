@@ -1,8 +1,6 @@
 package com.ruskin.project.client.dialog.contact;
 
 
-import java.util.Date;
-
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,7 +9,6 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -29,43 +26,16 @@ import com.ruskin.project.shared.GWTContact;
 public class ContactDialog {
 
 	private static final NumberFormat nf = NumberFormat.getFormat("0.0####");
-	
 	private final DialogBox dialog;
-	
 	private final SimplePanel prettyView;
-	private final HTML jsonView;
-	private final HTML plainTextView;
-
 	private final Label lblId;
 	private final Label lblLatitude;
 	private final Label lblLongitude;
-	
-	private final AsyncCallback<String> jsonCallback = new AsyncCallback<String>(){
-
-		public void onSuccess(String json){
-						
-			jsonView.setText(json.replace(",", ", "));
-			
-		}
-		
-		public void onFailure(Throwable caught){
-			// Show the RPC error message to the user
-			System.out.print("'" + caught);
-
-		}
-
-	};
-	
-
 	private GWTContact showingFor;
 
 	public ContactDialog() {
 		dialog = new DialogBox(false, true);
-
 		prettyView = new SimplePanel();
-		jsonView = new HTML();
-		plainTextView = new HTML();
-
 		lblId = new Label();
 		lblLatitude = new Label();
 		lblLongitude = new Label();
@@ -84,15 +54,6 @@ public class ContactDialog {
 		});
 
 		buildPrettyView();
-		jsonView.getElement().getStyle().setWidth(100, Unit.PCT);
-		plainTextView.getElement().getStyle().setWidth(100, Unit.PCT);
-
-		final TabPanel tabPanel = new TabPanel();
-		tabPanel.getElement().getStyle().setWidth(100, Unit.PCT);
-		tabPanel.add(prettyView, "Detailed");
-		tabPanel.add(jsonView, "JSON");
-		tabPanel.add(plainTextView, "Plain text");
-		tabPanel.selectTab(0);
 
 		final FlowPanel btnPanel = new FlowPanel();
 
@@ -110,7 +71,7 @@ public class ContactDialog {
 		final VerticalPanel mainContents = new VerticalPanel();
 		mainContents.getElement().getStyle().setWidth(100, Unit.PCT);
 
-		mainContents.add(tabPanel);
+		mainContents.add(prettyView);
 		mainContents.add(new HTML(SafeHtmlUtils.fromSafeConstant("<hr />")));
 		mainContents.add(btnPanel);
 
@@ -140,7 +101,7 @@ public class ContactDialog {
 	}
 
 	private void updateUI() {
-		dialog.setText("Metadata for contact " + showingFor.getId());
+		dialog.setText("Metadata for Point " + showingFor.getId());
 		final StringBuilder txt = new StringBuilder();
 
 		{
@@ -158,8 +119,6 @@ public class ContactDialog {
 			lblLongitude.setText(val);
 			txt.append("Longitude: ").append(val).append("<br />");
 		}
-		
-		plainTextView.setHTML(SafeHtmlUtils.fromTrustedString(txt.toString()));
 	}
 
 	public void showFor(final String id) {
