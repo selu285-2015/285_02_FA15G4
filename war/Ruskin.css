@@ -3,16 +3,17 @@
 
 /** Example rules used by the template application (remove for your app) */
 .titleContainer{
-	border-left: 6px double black;
-	border-right: 6px double black;
-	border-top: 6px double black;
-	border-bottom: 6px double black;
-	background-color: #69a3cc;
+	border-left: 6px double white;
+	border-right: 6px double white;
+	border-top: 6px double white;
+	border-bottom: 6px double white;
+	background-color: #200081;
 	height: 50px;
 }
 
 .titleLabel{
 	font: italic 50px sans-serif;
+	color: white;
 	text-align: center;
 	bottom: 0px;
 }
@@ -38,14 +39,15 @@
 	border-style: groove; 
 	border-top: none;
 	height: 300px;
-	width: 380px;
+	width: 100%;
 }
 
 .flexTableCellHead{
 	border: 1px solid black;
 	font: italic 20px sans-serif;
+	color: white;
 	text-align: center;
-	background-color: #d3e3e3;
+	background-color: #200081;
 }
 
 .flexTableCell{

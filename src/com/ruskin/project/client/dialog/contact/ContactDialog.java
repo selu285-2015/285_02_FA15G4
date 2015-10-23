@@ -75,7 +75,6 @@ public class ContactDialog {
 		mainContents.getElement().getStyle().setWidth(100, Unit.PCT);
 
 		mainContents.add(prettyView);
-		mainContents.add(new HTML(SafeHtmlUtils.fromSafeConstant("<hr />")));
 		mainContents.add(btnPanel);
 
 		dialog.setWidget(mainContents);
@@ -125,7 +124,6 @@ public class ContactDialog {
 	}
 
 	public void showFor(final String id) {
-		
 		Main.getContactServices().getContact(id, new SimplifiedCallback<GWTContact>("get contact with id " + id, true) {
 			@Override
 			public void onSuccess(GWTContact result) {	

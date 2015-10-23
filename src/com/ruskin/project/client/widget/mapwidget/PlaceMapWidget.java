@@ -93,12 +93,7 @@ public class PlaceMapWidget implements IsWidget {
 		decorator = new VerticalPanel();
 		decorator.setStyleName("mapDecorator");
 		
-		Label mapLbl = new Label("Ruskin Travels");
-		decorator.add(mapLbl);
-		decorator.add(mapWidget);	
 //		Image map = new Image("https://www.google.com/maps/vt/data=RfCSdfNZ0LFPrHSm0ublXdzhdrDFhtmHhN1u-gM,eiDvPvjfAtLd4FLM45tIGwPU16zG0tvjkTtJ9nHC-I6Cl7yiALL9lBq2W8Knf4et5bqZTCiVKB_S2DuFfipDrfyygCLFIUMwWJqtgm4HchwKl2LPPum3HwqiOga0GnPLkNZRhalWtt6oHCCdkWMC78ykvr9ykLoObGlGQXY9Goaa3qm08dATqd57IVxH_RnXzvek0RxVg55ppw");
-		
-		decorator.add(mapLbl);
 		decorator.add(mapWidget);
 		decorator.setStyleName("flexTableCell");
 		proj = new Projection("EPSG:4326");
@@ -109,7 +104,6 @@ public class PlaceMapWidget implements IsWidget {
 		bounds.transform(proj, new Projection(map.getProjection()));
 		map.setRestrictedExtent(bounds);
 		map.setMinMaxZoomLevel(1, 40);
-		
 		
 		center.transform(proj.toString(), new Projection(map.getProjection()).toString());
 		
@@ -133,7 +127,7 @@ public class PlaceMapWidget implements IsWidget {
 		
 		tempLayer.setIsBaseLayer(true);
 		this.zoomToBounds(bounds);
-		this.setCenter(center,1);
+		this.setCenter(center);
 		maxVisibleExtent = map.getExtent();
 		this.restoreStartupView();
 		
@@ -205,8 +199,8 @@ public class PlaceMapWidget implements IsWidget {
 	 * @param ll
 	 * @param zoom
 	 */	
-	public void setCenter(LonLat ll, int zoom) {
-		this.map.setCenter(ll,zoom);
+	public void setCenter(LonLat ll) {
+		this.map.setCenter(ll);
 	}	
 	
 	/** Zooms to a specified bounding box.
@@ -248,7 +242,7 @@ public class PlaceMapWidget implements IsWidget {
 		if(!outOfBounds){		
 			zoomToBounds(pointVectorLayer.getDataExtent());			
 		}else{
-			this.setCenter(new LonLat(0,0), 1);
+			this.setCenter(new LonLat(0,0));
 		}
 	}
 	
@@ -390,7 +384,7 @@ public class PlaceMapWidget implements IsWidget {
 	public void restoreStartupView(){	
 		bounds.transform(proj, new Projection(map.getProjection())); 
 		this.zoomToBounds(bounds);		
-		this.setCenter(new LonLat(90.0,45.0),1);	 
+		this.setCenter(new LonLat(90.0,45.0));	 
 	}
 	
 	/** Returns the layer responsible for drawing the contact images.

@@ -27,11 +27,11 @@ public class TimeWidget implements IsWidget {
 		this.mainPanel.setStyleName("queryPanel");
 		searching = new VerticalPanel();
 		timePanel = new HorizontalPanel();
-		timePanel.setSize("400px", "100px");
+		timePanel.setSize("100%", "150px");
 		timePanel.addStyleName("flexTableCell");
 		
 		hold = new ScrollPanel();
-		hold.setSize("400px", "250px");
+		hold.setSize("100%", "150px");
 	
 		queryLbl = new Label("Time Tracker Widget to be placed here.");
 		queryLbl.setStyleName("flexTableCellHead");

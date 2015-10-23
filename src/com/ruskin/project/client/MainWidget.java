@@ -20,7 +20,6 @@ import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 public class MainWidget implements IsWidget {
 	
 	private final TimeWidget timePanel;
-	private final Forum forum;
 	private VerticalPanel mainPanel = new VerticalPanel();	
 	private final PlaceMapWidget placesMap;
 	private final ContactDialog contactDialog;
@@ -30,7 +29,6 @@ public class MainWidget implements IsWidget {
 		this.mainPanel = new VerticalPanel();
 		placesMap = new PlaceMapWidget(800,450, this);
 		timePanel = new TimeWidget(this);
-		forum = new Forum(this);		
 		contactDialog = new ContactDialog();
 		searchWidget = new SearchWidget(this);
 		
@@ -40,12 +38,9 @@ public class MainWidget implements IsWidget {
 
 	private void buildUI() {
 		final HorizontalPanel searchStuff = new HorizontalPanel();
-		final VerticalPanel smallWidgets = new VerticalPanel();
 		mainPanel.setWidth("100%");
 		searchStuff.add(placesMap);
-		smallWidgets.add(searchWidget);
-		smallWidgets.add(timePanel);
-		searchStuff.add(smallWidgets);
+		searchStuff.add(searchWidget);
 		
 		FlowPanel titleContainer = new FlowPanel();
 		titleContainer.setStyleName("titleContainer");
@@ -59,7 +54,7 @@ public class MainWidget implements IsWidget {
 		titleContainer.add(titleLabel);
 		mainPanel.add(titleContainer);		
 		mainPanel.add(searchStuff);
-		mainPanel.add(forum);		
+		mainPanel.add(timePanel);		
 	
 	}
 
@@ -79,9 +74,6 @@ public class MainWidget implements IsWidget {
 		return searchWidget;
 	}
 	
-	public Forum getForum() {
-		return forum;
-	}
 	@Override
 	public Widget asWidget() {
 		return mainPanel;
