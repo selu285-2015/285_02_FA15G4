@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.ruskin.project.client.dialog.contact.ContactDialog;
+import com.ruskin.project.client.dialog.contact.DiaryLayerDialog;
 import com.ruskin.project.client.searchWidget.SearchWidget;
 import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 
@@ -22,14 +22,14 @@ public class MainWidget implements IsWidget {
 	private final TimeWidget timePanel;
 	private VerticalPanel mainPanel = new VerticalPanel();	
 	private final PlaceMapWidget placesMap;
-	private final ContactDialog contactDialog;
+	private final DiaryLayerDialog contactDialog;
 	private final SearchWidget searchWidget;
 	
 	public MainWidget() {
 		this.mainPanel = new VerticalPanel();
 		placesMap = new PlaceMapWidget(800,450, this);
 		timePanel = new TimeWidget(this);
-		contactDialog = new ContactDialog();
+		contactDialog = new DiaryLayerDialog();
 		searchWidget = new SearchWidget(this);
 		
 		this.buildUI();		
@@ -66,7 +66,7 @@ public class MainWidget implements IsWidget {
 		return timePanel;
 	}
 	
-	public ContactDialog getContactDialog() {
+	public DiaryLayerDialog getContactDialog() {
 		return contactDialog;
 	}
 	

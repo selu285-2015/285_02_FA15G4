@@ -18,6 +18,8 @@ import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
+import org.gwtopenmaps.openlayers.client.layer.WMS;
+import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -60,13 +62,16 @@ public class PlaceMapWidget implements IsWidget {
 	private SelectFeatureOptions clickControlOptions;
 	private SelectFeature contactControl;
 	
-	private final Bounds bounds = new Bounds(0, 0, 180, 90);
+	private Bounds bounds = new Bounds(0, 0, 180, 90);
 	private final Bounds maxVisibleExtent;
+	private final LonLat center;
 	
 	private final ListDataProvider<GWTContact> dataProvider = new ListDataProvider<GWTContact>();		
 	private List<GWTContact> list = dataProvider.getList();	
 	private QueryResult currentQuery;
+	
 	private final List<ReducedContact> currentlyHighlighted = new ArrayList<ReducedContact>();
+	
 	private final List<ReducedContact> MargaretsPoints = new ArrayList<ReducedContact>();
 	private final List<ReducedContact> JohnJamesPoints = new ArrayList<ReducedContact>();
 	private final List<ReducedContact> JohnsPoints = new ArrayList<ReducedContact>();
@@ -83,17 +88,18 @@ public class PlaceMapWidget implements IsWidget {
 	
 	public PlaceMapWidget(int width, int height, MainWidget master) {		
 		this.master = master;
-		LonLat center = new LonLat(90, 45);
+		center = new LonLat(90, 45);
 		
 		options = new MapOptions();
-		options.setNumZoomLevels(10);		
+		options.setNumZoomLevels(10);
+		options.setProjection("ESPG: 4326");
+		
 		mapWidget = new MapWidget(new Integer(width).toString(), new Integer(height).toString(), options);
 		OSM tempLayer = OSM.Mapnik("TempLayer");
 		
 		decorator = new VerticalPanel();
 		decorator.setStyleName("mapDecorator");
 		
-//		Image map = new Image("https://www.google.com/maps/vt/data=RfCSdfNZ0LFPrHSm0ublXdzhdrDFhtmHhN1u-gM,eiDvPvjfAtLd4FLM45tIGwPU16zG0tvjkTtJ9nHC-I6Cl7yiALL9lBq2W8Knf4et5bqZTCiVKB_S2DuFfipDrfyygCLFIUMwWJqtgm4HchwKl2LPPum3HwqiOga0GnPLkNZRhalWtt6oHCCdkWMC78ykvr9ykLoObGlGQXY9Goaa3qm08dATqd57IVxH_RnXzvek0RxVg55ppw");
 		decorator.add(mapWidget);
 		decorator.setStyleName("flexTableCell");
 		proj = new Projection("EPSG:4326");
@@ -101,11 +107,8 @@ public class PlaceMapWidget implements IsWidget {
 		BuildUI();
 		
 		map = mapWidget.getMap();	
-		bounds.transform(proj, new Projection(map.getProjection()));
 		map.setRestrictedExtent(bounds);
 		map.setMinMaxZoomLevel(1, 40);
-		
-		center.transform(proj.toString(), new Projection(map.getProjection()).toString());
 		
 		pointVectorLayer = new Vector("Point Layer");
 		map.addLayer(tempLayer);
@@ -127,7 +130,7 @@ public class PlaceMapWidget implements IsWidget {
 		
 		tempLayer.setIsBaseLayer(true);
 		this.zoomToBounds(bounds);
-		this.setCenter(center);
+		this.setCenter(center, 1);
 		maxVisibleExtent = map.getExtent();
 		this.restoreStartupView();
 		
@@ -194,13 +197,21 @@ public class PlaceMapWidget implements IsWidget {
 		decorator.add(buttonPanel);
 	}
 	
+	/** Sets the center of the map.
+	 * 
+	 * @param ll
+	 */	
+	public void setCenter(LonLat ll) {
+		this.map.setCenter(ll);
+	}	
+	
 	/** Sets the center of the map and zoom level.
 	 * 
 	 * @param ll
 	 * @param zoom
 	 */	
-	public void setCenter(LonLat ll) {
-		this.map.setCenter(ll);
+	public void setCenter(LonLat ll, int zoom) {
+		this.map.setCenter(ll, zoom);
 	}	
 	
 	/** Zooms to a specified bounding box.
@@ -242,7 +253,7 @@ public class PlaceMapWidget implements IsWidget {
 		if(!outOfBounds){		
 			zoomToBounds(pointVectorLayer.getDataExtent());			
 		}else{
-			this.setCenter(new LonLat(0,0));
+			this.setCenter(center, 1);
 		}
 	}
 	
@@ -382,9 +393,9 @@ public class PlaceMapWidget implements IsWidget {
 	 * 
 	 */
 	public void restoreStartupView(){	
-		bounds.transform(proj, new Projection(map.getProjection())); 
+//		bounds.transform(proj, new Projection(map.getProjection())); 
 		this.zoomToBounds(bounds);		
-		this.setCenter(new LonLat(90.0,45.0));	 
+		this.setCenter(center, 1);	 
 	}
 	
 	/** Returns the layer responsible for drawing the contact images.

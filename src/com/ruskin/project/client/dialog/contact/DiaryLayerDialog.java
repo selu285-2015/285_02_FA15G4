@@ -26,22 +26,30 @@ import com.ruskin.project.shared.GWTContact;
 /** This Widget is intended to display metadata describing clicked points
  *Author: Brittney Jarreau
  */
-public class ContactDialog {
-
-	private static final NumberFormat nf = NumberFormat.getFormat("0.0####");
+public class DiaryLayerDialog {
+	
+	private final NumberFormat nf = NumberFormat.getFormat("0.0####");
 	private final DialogBox dialog;
+	private final TabPanel tabPanel;
 	private final SimplePanel prettyView;
 	private final Label lblId;
 	private final Label lblLatitude;
 	private final Label lblLongitude;
+	private final Label lblLink;
+	private final Label lblDate;
+	private final Label lblDetails;
 	private GWTContact showingFor;
 
-	public ContactDialog() {
+	public DiaryLayerDialog() {
 		dialog = new DialogBox(false, true);
+		tabPanel = new TabPanel();
 		prettyView = new SimplePanel();
 		lblId = new Label();
 		lblLatitude = new Label();
 		lblLongitude = new Label();
+		lblLink = new Label();
+		lblDate = new Label();
+		lblDetails = new Label();
 		buildUI();
 	}
 
@@ -97,6 +105,18 @@ public class ContactDialog {
 
 		table.setWidget(i, 0, new Label("Longitude:"));
 		table.setWidget(i, 1, lblLongitude);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Date:"));
+		table.setWidget(i, 1, lblDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Details:"));
+		table.setWidget(i, 1, lblDetails);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Artifact At:"));
+		table.setWidget(i, 1, lblLink);
 		i += 1;
 		
 		prettyView.setWidget(table);
