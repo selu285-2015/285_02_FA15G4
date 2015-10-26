@@ -31,7 +31,8 @@ public class DiaryLayerDialog {
 	private final NumberFormat nf = NumberFormat.getFormat("0.0####");
 	private final DialogBox dialog;
 	private final TabPanel tabPanel;
-	private final SimplePanel prettyView;
+	private final SimplePanel maryView;
+	private final SimplePanel johnView;
 	private final Label lblId;
 	private final Label lblLatitude;
 	private final Label lblLongitude;
@@ -43,7 +44,8 @@ public class DiaryLayerDialog {
 	public DiaryLayerDialog() {
 		dialog = new DialogBox(false, true);
 		tabPanel = new TabPanel();
-		prettyView = new SimplePanel();
+		maryView = new SimplePanel();
+		johnView = new SimplePanel();
 		lblId = new Label();
 		lblLatitude = new Label();
 		lblLongitude = new Label();
@@ -64,7 +66,15 @@ public class DiaryLayerDialog {
 			}
 		});
 
-		buildPrettyView();
+		buildMaryView();
+		buildJohnView();
+		
+		final TabPanel tabPanel = new TabPanel();
+		tabPanel.getElement().getStyle().setWidth(100, Unit.PCT);
+		tabPanel.add(maryView, "Mary");
+		tabPanel.add(johnView, "John James");
+		tabPanel.selectTab(0);
+
 
 		final FlowPanel btnPanel = new FlowPanel();
 
@@ -82,13 +92,13 @@ public class DiaryLayerDialog {
 		final VerticalPanel mainContents = new VerticalPanel();
 		mainContents.getElement().getStyle().setWidth(100, Unit.PCT);
 
-		mainContents.add(prettyView);
+		mainContents.add(tabPanel);
 		mainContents.add(btnPanel);
 
 		dialog.setWidget(mainContents);
 	}
 
-	private void buildPrettyView() {
+	private void buildMaryView() {
 		final FlexTable table = new FlexTable();
 		table.setWidth("500px");
 
@@ -119,7 +129,41 @@ public class DiaryLayerDialog {
 		table.setWidget(i, 1, lblLink);
 		i += 1;
 		
-		prettyView.setWidget(table);
+		maryView.setWidget(table);
+	}
+
+	private void buildJohnView() {
+		final FlexTable table = new FlexTable();
+		table.setWidth("500px");
+
+		int i = 0;
+
+		table.setWidget(i, 0, new Label("Contact ID:"));
+		table.setWidget(i, 1, lblId);
+		i += 1;
+
+
+		table.setWidget(i, 0, new Label("Latitude:"));
+		table.setWidget(i, 1, lblLatitude);
+		i += 1;
+
+		table.setWidget(i, 0, new Label("Longitude:"));
+		table.setWidget(i, 1, lblLongitude);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Date:"));
+		table.setWidget(i, 1, lblDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Details:"));
+		table.setWidget(i, 1, lblDetails);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Artifact At:"));
+		table.setWidget(i, 1, lblLink);
+		i += 1;
+		
+		johnView.setWidget(table);
 	}
 
 	private void updateUI() {
@@ -143,7 +187,8 @@ public class DiaryLayerDialog {
 		}
 	}
 
-	public void showFor(final String id) {
+	public void showForMary(final String id) {
+		
 		Main.getContactServices().getContact(id, new SimplifiedCallback<GWTContact>("get contact with id " + id, true) {
 			@Override
 			public void onSuccess(GWTContact result) {	

@@ -13,15 +13,13 @@ public class Cache {
 	
 	private static class InstanceHolder{
 		private static final Cache instance = new Cache();
-
 	}
+	
 	public static Cache getInstance(){
-
 		return InstanceHolder.instance;
 	}
 
 	private Map<String, ContactList> cache = new LinkedHashMap<String, ContactList>();
-	
 	
 	private final List<String> fileNameList;
 	private final Map<String,Comparator<Contact>> comparatorMap;

@@ -8,7 +8,6 @@ import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
-import org.gwtopenmaps.openlayers.client.OpenLayers;
 import org.gwtopenmaps.openlayers.client.Projection;
 import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.SelectFeature;
@@ -18,8 +17,9 @@ import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
-import org.gwtopenmaps.openlayers.client.layer.WMS;
-import org.gwtopenmaps.openlayers.client.layer.WMSParams;
+
+import com.ruskin.project.shared.GWTContact;
+import com.ruskin.project.shared.ReducedContact;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -31,17 +31,13 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.ruskin.project.client.Main;
 import com.ruskin.project.client.MainWidget;
-import com.ruskin.project.server.Contact;
 import com.ruskin.project.shared.Const;
-import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.QueryResult;
-import com.ruskin.project.shared.ReducedContact;
 
 /** A slippy map widget designed for displaying the location of contacts.
  * 	There is one layer in this widget for displaying the
@@ -56,9 +52,12 @@ public class PlaceMapWidget implements IsWidget {
 	private final MainWidget master;	
 	private final VerticalPanel decorator;
 	private final Map map;
+	
 	private final MapOptions options;
 	private final MapWidget mapWidget;
+	
 	private final Vector pointVectorLayer;
+	
 	private SelectFeatureOptions clickControlOptions;
 	private SelectFeature contactControl;
 	
@@ -70,12 +69,9 @@ public class PlaceMapWidget implements IsWidget {
 	private List<GWTContact> list = dataProvider.getList();	
 	private QueryResult currentQuery;
 	
-	private final List<ReducedContact> currentlyHighlighted = new ArrayList<ReducedContact>();
-	
-	private final List<ReducedContact> MargaretsPoints = new ArrayList<ReducedContact>();
+	private final List<ReducedContact> MarysPoints = new ArrayList<ReducedContact>();
 	private final List<ReducedContact> JohnJamesPoints = new ArrayList<ReducedContact>();
-	private final List<ReducedContact> JohnsPoints = new ArrayList<ReducedContact>();
-	private final List<ReducedContact> JohnsFuturePoints = new ArrayList<ReducedContact>();
+	private final List<ReducedContact> RuskinsPoints = new ArrayList<ReducedContact>();
 	
 	private final List<Point> MargaretsPlaces = new ArrayList<Point>();
 	private final List<Point> JohnJamesPlaces = new ArrayList<Point>();
@@ -138,59 +134,25 @@ public class PlaceMapWidget implements IsWidget {
 	
 	private void BuildUI() {
 		final HorizontalPanel buttonPanel = new HorizontalPanel();
-		final CheckBox Margaret = new CheckBox("Margaret");
-		final CheckBox JohnJames = new CheckBox("John James");
-		final CheckBox John = new CheckBox("John");
-		final CheckBox JohnFuture = new CheckBox ("John's Plans");
-		final Button clearPoints = new Button("Clear Points");
+		final CheckBox Diary = new CheckBox("DiaryEntries");
+		final CheckBox Ruskin = new CheckBox("Ruskin's Entries");
 			
 		buttonPanel.getElement().getStyle().setProperty("height", "inherit");
 	
-		buttonPanel.add(Margaret);
-		buttonPanel.add(JohnJames);			
-		buttonPanel.add(John);
-		buttonPanel.add(JohnFuture);
-		buttonPanel.add(clearPoints);
+		buttonPanel.add(Diary);		
+		buttonPanel.add(Ruskin);
 		
-		
-		final ClickHandler clearPlaceListener = new ClickHandler(){
-			@Override
-			public void onClick(ClickEvent event) {
-				pointVectorLayer.destroyFeatures();	
-				Margaret.setValue(false);
-				JohnJames.setValue(false);
-				John.setValue(false);
-				JohnFuture.setValue(false);
-			}
-		};
-		System.out.println("Point reached");
-		clearPoints.addClickHandler(clearPlaceListener);
-		
-		Margaret.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+		Diary.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				PlotPointMargaret(event.getValue());
+				PlotPointDiary(event.getValue());
 			}
 		});
 		
-		JohnJames.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+		Ruskin.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				PlotPointJohnJames(event.getValue());
-			}
-		});
-		
-		John.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				PlotPointJohn(event.getValue());
-			}
-		});
-		
-		JohnFuture.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				PlotPointJohnFuture(event.getValue());
+				PlotPointsRuskin(event.getValue());
 			}
 		});
 
@@ -258,34 +220,10 @@ public class PlaceMapWidget implements IsWidget {
 	}
 	
 	
-	public void PlotPointMargaret (Boolean plot) {
-		Style pointStyle = new Style();	
-		if (plot == true) {
-			ReducedContact c = new ReducedContact("Margaret Was Here", 126, 52.5);
-			
-			LonLat ll = c.getCoordinate();
-			Point point = new Point(ll.lon(), ll.lat());
-			point.transform(proj, new Projection(map.getProjection()));	
-			pointStyle.setExternalGraphic("img/map_marker_orange.png");
-			pointStyle.setGraphicSize(10, 17);
-			pointStyle.setFillOpacity(1.0);
-
-			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
-			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
-			pointFeature.setFeatureId(c.getId());
-			pointVectorLayer.addFeature(pointFeature);
-			
-			MargaretsPoints.add(c);
-			MargaretsPlaces.add(point);
-		}
-		else {
-			eraseAllContacts();		
-		}
-	}
 	
-	public void PlotPointJohnJames(Boolean plot) {
+	public void PlotPointDiary(Boolean plot) {
 		if (plot == true) {
-			ReducedContact c = new ReducedContact("John James Was Here", 50, 52.5);
+			ReducedContact c = new ReducedContact("John James & Mary Were Here", 50, 52.5);
 			LonLat ll = c.getCoordinate();
 			Point point = new Point(ll.lon(), ll.lat());
 			point.transform(proj, new Projection(map.getProjection()));
@@ -301,12 +239,14 @@ public class PlaceMapWidget implements IsWidget {
 			
 			JohnJamesPoints.add(c);
 			JohnJamesPlaces.add(point);
+			MarysPoints.add(c);
+			MargaretsPlaces.add(point);
 		}
 		else {
 			eraseAllContacts();
 		}
 	}
-	public void PlotPointJohn (Boolean plot) {
+	public void PlotPointsRuskin (Boolean plot) {
 		Style pointStyle = new Style();	
 		if (plot == true) {
 			ReducedContact c = new ReducedContact("John Was Here", 100, 60);
@@ -323,7 +263,7 @@ public class PlaceMapWidget implements IsWidget {
 			pointFeature.setFeatureId(c.getId());
 			pointVectorLayer.addFeature(pointFeature);
 			
-			JohnsPoints.add(c);
+			RuskinsPoints.add(c);
 			JohnsPlaces.add(point);
 		}
 		else {
@@ -331,55 +271,6 @@ public class PlaceMapWidget implements IsWidget {
 		}
 	}
 	
-	public void PlotPointJohnFuture(Boolean plot) {
-		if (plot == true) {
-			ReducedContact c = new ReducedContact("John Wanted to Be Here", 100, 52.5);
-			
-			LonLat ll = c.getCoordinate();
-			Point point = new Point(ll.lon(), ll.lat());
-			point.transform(proj, new Projection(map.getProjection()));
-			Style pointStyle = new Style();		
-			pointStyle.setExternalGraphic("img/map_marker_gray.png");
-			pointStyle.setGraphicSize(10, 17);
-			pointStyle.setFillOpacity(1.0);
-
-			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
-			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
-			pointFeature.setFeatureId(c.getId());
-			pointVectorLayer.addFeature(pointFeature);
-			
-			JohnsFuturePlaces.add(point);
-			JohnsFuturePoints.add(c);
-		}
-		else {
-			eraseAllContacts();
-		}
-	}
-	
-	/**This method highlights the contact specified by contactId in green.
-	 * 
-	 * @param contactId - the contact to be highlighted
-	 */
-	public void highlightContact(ReducedContact contact){
-		VectorFeature contactImage = pointVectorLayer.getFeatureById(contact.getId());
-		contactImage.getStyle().setExternalGraphic("img/push_pin_green.png");				
-		currentlyHighlighted.add(contact);
-	}	
-	
-	public List<ReducedContact> getCurrentlyHighlighted() {
-		return currentlyHighlighted;
-	}
-	
-	
-	/**This method unhighlights (or returns their color to red) all of the currently highlighted contacts.
-	 * 
-	 */
-	public void clearHighlighted(){	
-		for(ReducedContact c:currentlyHighlighted){
-			pointVectorLayer.getFeatureById(c.getId()).getStyle().setExternalGraphic("img/red_push_pin.png");
-		}
-		currentlyHighlighted.clear();
-	}
 
 	/** Erases all contacts from the map portion of this ContactMapWidget.
 	 * 

@@ -20,6 +20,13 @@ public class Contact{
 	// longitude (xs:double) or latLon 
 	private double longitude;
 
+	/**
+	 * Constructs an instance with a new id and revision. These may be overwritten.
+	 */
+	public Contact()
+	{
+		this(UUID.randomUUID().toString());
+	}
 
 	/**
 	 * Constructs a new instance with the provided id, a new revision, and defaults for all other fields.
@@ -66,6 +73,13 @@ public class Contact{
 	public String getId(){
 		return id;
 	}
+	
+	@XmlTransient
+	// @XmlElement(name = "position")
+	public Point2D.Double getPosition() {
+		return new Point2D.Double(longitude, latitude);
+	}
+
 
 	@Override
 	public String toString(){
