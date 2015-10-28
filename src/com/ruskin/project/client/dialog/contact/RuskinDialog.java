@@ -1,8 +1,6 @@
 package com.ruskin.project.client.dialog.contact;
 
 
-import java.util.Date;
-
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,39 +26,29 @@ import com.ruskin.project.shared.GWTContact;
 /** This Widget is intended to display metadata describing clicked points
  *Author: Brittney Jarreau
  */
-public class DiaryLayerDialog {
+public class RuskinDialog {
 	
 	private final NumberFormat nf = NumberFormat.getFormat("0.0####");
 	private final DialogBox dialog;
 	private final TabPanel tabPanel;
 	private final SimplePanel maryView;
 	private final SimplePanel johnView;
-	private final Label MarylblId;
-	private final Label	JohnJameslblId;
-	private final Label MarylblDate;
-	private final Label	JohnJameslblDate;
-	private final Label MarylblLatitude;
-	private final Label MarylblLongitude;
-	private final Label JohnJameslblLatitude;
-	private final Label JohnJameslblLongitude;
+	private final Label lblId;
+	private final Label lblLatitude;
+	private final Label lblLongitude;
 	private final Label lblLink;
 	private final Label lblDate;
 	private final Label lblDetails;
 	private GWTContact showingFor;
 
-	public DiaryLayerDialog() {
+	public RuskinDialog() {
 		dialog = new DialogBox(false, true);
 		tabPanel = new TabPanel();
 		maryView = new SimplePanel();
 		johnView = new SimplePanel();
-		MarylblId = new Label();
-		JohnJameslblId = new Label();
-		MarylblDate= new Label();
-		JohnJameslblDate = new Label();
-		MarylblLatitude = new Label();
-		MarylblLongitude = new Label();
-		JohnJameslblLatitude = new Label();
-		JohnJameslblLongitude = new Label();
+		lblId = new Label();
+		lblLatitude = new Label();
+		lblLongitude = new Label();
 		lblLink = new Label();
 		lblDate = new Label();
 		lblDetails = new Label();
@@ -116,22 +104,30 @@ public class DiaryLayerDialog {
 
 		int i = 0;
 
-		table.setWidget(i, 0, new Label("ID:"));
-		table.setWidget(i, 1, MarylblId);
+		table.setWidget(i, 0, new Label("Contact ID:"));
+		table.setWidget(i, 1, lblId);
 		i += 1;
-		
-		table.setWidget(i, 0, new Label("Longitude"));
-		table.setWidget(i, 1, MarylblLongitude);
-		i += 1;
-		
+
+
 		table.setWidget(i, 0, new Label("Latitude:"));
-		table.setWidget(i, 1, MarylblLatitude);
+		table.setWidget(i, 1, lblLatitude);
+		i += 1;
+
+		table.setWidget(i, 0, new Label("Longitude:"));
+		table.setWidget(i, 1, lblLongitude);
 		i += 1;
 		
 		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, MarylblDate);
+		table.setWidget(i, 1, lblDate);
 		i += 1;
 		
+		table.setWidget(i, 0, new Label("Details:"));
+		table.setWidget(i, 1, lblDetails);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Artifact At:"));
+		table.setWidget(i, 1, lblLink);
+		i += 1;
 		
 		maryView.setWidget(table);
 	}
@@ -143,19 +139,28 @@ public class DiaryLayerDialog {
 		int i = 0;
 
 		table.setWidget(i, 0, new Label("Contact ID:"));
-		table.setWidget(i, 1, JohnJameslblId);
+		table.setWidget(i, 1, lblId);
 		i += 1;
-		
-		table.setWidget(i, 0, new Label("Longitude"));
-		table.setWidget(i, 1, JohnJameslblLongitude);
-		i += 1;
-		
+
+
 		table.setWidget(i, 0, new Label("Latitude:"));
-		table.setWidget(i, 1, JohnJameslblLatitude);
+		table.setWidget(i, 1, lblLatitude);
+		i += 1;
+
+		table.setWidget(i, 0, new Label("Longitude:"));
+		table.setWidget(i, 1, lblLongitude);
 		i += 1;
 		
 		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, JohnJameslblDate);
+		table.setWidget(i, 1, lblDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Details:"));
+		table.setWidget(i, 1, lblDetails);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Artifact At:"));
+		table.setWidget(i, 1, lblLink);
 		i += 1;
 		
 		johnView.setWidget(table);
@@ -167,32 +172,22 @@ public class DiaryLayerDialog {
 
 		{
 			final String val = showingFor.getId();
-			MarylblId.setText(val);
-			JohnJameslblId.setText(val);
+			lblId.setText(val);
 			txt.append("ID: ").append(val).append("<br />");
 		}
 		{
-			final String val = nf.format(showingFor.getLongitude());
-			MarylblLongitude.setText(val);
-			JohnJameslblLongitude.setText(val);
-			txt.append("Longitude: ").append(val).append("<br />");
-		}
-		{
 			final String val = nf.format(showingFor.getLatitude());
-			MarylblLatitude.setText(val);
-			JohnJameslblLatitude.setText(val);
+			lblLatitude.setText(val);
 			txt.append("Latitude: ").append(val).append("<br />");
 		}
 		{
-			final String val = showingFor.getDate();
-			MarylblDate.setText(val);
-			JohnJameslblDate.setText(val);
-			txt.append("Date: ").append(val).append("<br />");
+			final String val = nf.format(showingFor.getLongitude());
+			lblLongitude.setText(val);
+			txt.append("Longitude: ").append(val).append("<br />");
 		}
-		
 	}
 
-	public void showFor(final String id) {
+	public void showForMary(final String id) {
 		
 		Main.getContactServices().getContact(id, new SimplifiedCallback<GWTContact>("get contact with id " + id, true) {
 			@Override

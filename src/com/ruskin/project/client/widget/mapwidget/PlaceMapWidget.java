@@ -82,7 +82,7 @@ public class PlaceMapWidget implements IsWidget {
 
 	boolean MargaretChecked = false;
 	
-	public PlaceMapWidget(int width, int height, MainWidget master) {		
+	public PlaceMapWidget(int width, int height, final MainWidget master) {		
 		this.master = master;
 		center = new LonLat(90, 45);
 		
@@ -120,7 +120,7 @@ public class PlaceMapWidget implements IsWidget {
 
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-				Window.alert("Point Clicked!");
+				master.getContactDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
 			}
 		});		
 		
@@ -223,11 +223,14 @@ public class PlaceMapWidget implements IsWidget {
 	
 	public void PlotPointDiary(Boolean plot) {
 		if (plot == true) {
-			ReducedContact c = new ReducedContact("John James & Mary Were Here", 50, 52.5);
+			ReducedContact c = new ReducedContact("Test Point - Mary & JohnJames", 50, 52.5);
 			LonLat ll = c.getCoordinate();
+			
 			Point point = new Point(ll.lon(), ll.lat());
 			point.transform(proj, new Projection(map.getProjection()));
 			Style pointStyle = new Style();		
+			
+					
 			pointStyle.setExternalGraphic("img/map_marker_red.png");
 			pointStyle.setGraphicSize(10, 17);
 			pointStyle.setFillOpacity(1.0);
@@ -237,6 +240,7 @@ public class PlaceMapWidget implements IsWidget {
 			pointFeature.setFeatureId(c.getId());
 			pointVectorLayer.addFeature(pointFeature);
 			
+		
 			JohnJamesPoints.add(c);
 			JohnJamesPlaces.add(point);
 			MarysPoints.add(c);
