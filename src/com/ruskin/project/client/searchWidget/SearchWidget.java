@@ -7,7 +7,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -23,9 +25,12 @@ public class SearchWidget implements IsWidget {
 	VerticalPanel panel;
 	HorizontalPanel searchbar;
 	ScrollPanel scrollable;
-	TextBox tb;
+//	TextBox tb;
 	Button b;
 	Label lbl;
+	MultiWordSuggestOracle oracle;   
+	SuggestBox box; 
+
 	
 	public SearchWidget(MainWidget master) {
 		this.master = master;
@@ -34,9 +39,11 @@ public class SearchWidget implements IsWidget {
 		searchbar.setHeight("100px");
 		scrollable = new ScrollPanel();
 		scrollable.setHeight("400px");
-		tb = new TextBox();
+		oracle = new MultiWordSuggestOracle();
+		box = new SuggestBox(oracle);
+//		tb = new TextBox();
 		b = new Button("Search");
-		tb.setWidth("100px");
+		box.setWidth("100px");
 		lbl = new Label("Enter Search Criteria");
 		
 		
@@ -44,9 +51,18 @@ public class SearchWidget implements IsWidget {
 	}
 	
 	private void BuildUI() {
+		oracle.add("Germany"); 
+		oracle.add("France"); 
+		oracle.add("Britain"); 
+		oracle.add("Belgium"); 
+		oracle.add("Prussia"); 
+		oracle.add("Germany"); 
+		oracle.add("Italy"); 
+		oracle.add("Switzerland"); 
+		
 		b.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Window.alert("Will search for content matching: " + " '' " + tb.getText() + " '' ");
+				Window.alert("Will search for content matching: " + " '' " + box.getText() + " '' ");
 			}
 		});
 		
@@ -54,8 +70,11 @@ public class SearchWidget implements IsWidget {
 		panel.setWidth("25%");
 		panel.setHeight("500px");
 		panel.add(lbl);
-		searchbar.add(tb);
+		searchbar.add(box);
 		searchbar.add(b);
+		
+		
+		
 		panel.add(searchbar);
 		panel.add(scrollable);
 	}
