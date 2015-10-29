@@ -362,17 +362,17 @@ public class AllDialog {
 		}
 	}
 
-	public void showForMary(final String id) {
+	public void showFor(final String id) {
 		
 		Main.getContactServices().getContact(id, new SimplifiedCallback<GWTContact>("get contact with id " + id, true) {
 			@Override
 			public void onSuccess(GWTContact result) {	
-				showForMary(result);
+				showFor(result);
 			}
 		});
 	}
 
-	public void showForMary(final GWTContact c) {
+	public void showFor(final GWTContact c) {
 		showingFor = c;
 		updateUI();
 		dialog.center();

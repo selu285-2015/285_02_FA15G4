@@ -7,7 +7,9 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.ruskin.project.client.dialog.contact.AllDialog;
 import com.ruskin.project.client.dialog.contact.DiaryLayerDialog;
+import com.ruskin.project.client.dialog.contact.RuskinDialog;
 import com.ruskin.project.client.searchWidget.SearchWidget;
 import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 
@@ -22,14 +24,18 @@ public class MainWidget implements IsWidget {
 	private final TimeWidget timePanel;
 	private VerticalPanel mainPanel = new VerticalPanel();	
 	private final PlaceMapWidget placesMap;
-	private final DiaryLayerDialog contactDialog;
+	private final DiaryLayerDialog diaryDialog;
+	private final RuskinDialog ruskinDialog;
+	private final AllDialog allDialog;
 	private final SearchWidget searchWidget;
 	
 	public MainWidget() {
 		this.mainPanel = new VerticalPanel();
 		placesMap = new PlaceMapWidget(800,450, this);
 		timePanel = new TimeWidget(this);
-		contactDialog = new DiaryLayerDialog();
+		diaryDialog = new DiaryLayerDialog();
+		ruskinDialog = new RuskinDialog();
+		allDialog = new AllDialog();
 		searchWidget = new SearchWidget(this);
 		
 		this.buildUI();		
@@ -66,8 +72,16 @@ public class MainWidget implements IsWidget {
 		return timePanel;
 	}
 	
-	public DiaryLayerDialog getContactDialog() {
-		return contactDialog;
+	public DiaryLayerDialog getDiaryDialog() {
+		return diaryDialog;
+	}
+	
+	public RuskinDialog getRuskinDialog() {
+		return ruskinDialog;
+	}
+	
+	public AllDialog getAllDialog() {
+		return allDialog;
 	}
 	
 	public SearchWidget getSearchWidget() {

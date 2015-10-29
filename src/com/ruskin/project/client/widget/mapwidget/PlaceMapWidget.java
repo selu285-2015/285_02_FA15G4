@@ -80,7 +80,9 @@ public class PlaceMapWidget implements IsWidget {
 	
 	private final Projection proj;
 
-	boolean MargaretChecked = false;
+	boolean DiaryChecked = false;
+	boolean RuskinChecked = false;
+	boolean BothChecked = false;
 	
 	public PlaceMapWidget(int width, int height, final MainWidget master) {		
 		this.master = master;
@@ -120,7 +122,15 @@ public class PlaceMapWidget implements IsWidget {
 
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-				master.getContactDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+//				if(DiaryChecked) {
+//					master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+//				}
+//				else if (RuskinChecked) {
+//					master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+//				}
+//				else if(BothChecked) {
+					master.getAllDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+//				}
 			}
 		});		
 		
@@ -155,6 +165,23 @@ public class PlaceMapWidget implements IsWidget {
 				PlotPointsRuskin(event.getValue());
 			}
 		});
+		
+//		if(Diary.getValue() == true && Ruskin.getValue()) {
+//			DiaryChecked =false;
+//			RuskinChecked = false;
+//			BothChecked = true;
+//		}
+//		else if(Diary.getValue() == true) {
+//			DiaryChecked = true;
+//			RuskinChecked = false;
+//			BothChecked = false;
+//		}
+//		else if(Ruskin.getValue() == true) {
+//			DiaryChecked = false;
+//			RuskinChecked = true;
+//			BothChecked = false;
+//		}
+		
 
 		decorator.add(buttonPanel);
 	}
