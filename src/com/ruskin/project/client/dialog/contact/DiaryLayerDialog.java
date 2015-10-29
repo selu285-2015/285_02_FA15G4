@@ -44,7 +44,6 @@ public class DiaryLayerDialog {
 	private final Label JohnJameslblLatitude;
 	private final Label JohnJameslblLongitude;
 	private final Label lblLink;
-	private final Label lblDate;
 	private final Label lblDetails;
 	private GWTContact showingFor;
 
@@ -62,7 +61,6 @@ public class DiaryLayerDialog {
 		JohnJameslblLatitude = new Label();
 		JohnJameslblLongitude = new Label();
 		lblLink = new Label();
-		lblDate = new Label();
 		lblDetails = new Label();
 		buildUI();
 	}

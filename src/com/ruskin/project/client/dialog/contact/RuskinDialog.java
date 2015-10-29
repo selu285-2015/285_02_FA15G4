@@ -27,30 +27,66 @@ import com.ruskin.project.shared.GWTContact;
  *Author: Brittney Jarreau
  */
 public class RuskinDialog {
-	
 	private final NumberFormat nf = NumberFormat.getFormat("0.0####");
 	private final DialogBox dialog;
 	private final TabPanel tabPanel;
-	private final SimplePanel maryView;
-	private final SimplePanel johnView;
-	private final Label lblId;
-	private final Label lblLatitude;
-	private final Label lblLongitude;
+	
+	private final SimplePanel V1View;
+	private final SimplePanel V2View;
+	private final SimplePanel V3View;
+	private final SimplePanel V4View;
+	
+	private final Label V1lblId;
+	private final Label	V2lblId;
+	private final Label V3lblId;
+	private final Label	V4lblId;
+	
+	private final Label V1lblDate;
+	private final Label	V2lblDate;
+	private final Label V3lblDate;
+	private final Label	V4lblDate;
+	
+	private final Label	V1lblLatitude;
+	private final Label V1lblLongitude;
+	private final Label V2lblLatitude;
+	private final Label V2lblLongitude;
+	private final Label	V3lblLatitude;
+	private final Label V3lblLongitude;
+	private final Label V4lblLatitude;
+	private final Label V4lblLongitude;
+	
 	private final Label lblLink;
-	private final Label lblDate;
 	private final Label lblDetails;
 	private GWTContact showingFor;
 
 	public RuskinDialog() {
 		dialog = new DialogBox(false, true);
 		tabPanel = new TabPanel();
-		maryView = new SimplePanel();
-		johnView = new SimplePanel();
-		lblId = new Label();
-		lblLatitude = new Label();
-		lblLongitude = new Label();
+		V1View = new SimplePanel();
+		V2View = new SimplePanel();
+		V3View = new SimplePanel();
+		V4View = new SimplePanel();
+		
+		V1lblId = new Label();
+		V2lblId = new Label();
+		V3lblId = new Label();
+		V4lblId = new Label();
+		
+		V1lblDate= new Label();
+		V2lblDate = new Label();
+		V3lblDate= new Label();
+		V4lblDate = new Label();
+		
+		V1lblLatitude = new Label();
+		V1lblLongitude = new Label();
+		V2lblLatitude = new Label();
+		V2lblLongitude = new Label();
+		V3lblLatitude = new Label();
+		V3lblLongitude = new Label();
+		V4lblLatitude = new Label();
+		V4lblLongitude = new Label();
+		
 		lblLink = new Label();
-		lblDate = new Label();
 		lblDetails = new Label();
 		buildUI();
 	}
@@ -66,13 +102,17 @@ public class RuskinDialog {
 			}
 		});
 
-		buildMaryView();
-		buildJohnView();
+		buildV1View();
+		buildV2View();
+		buildV3View();
+		buildV4View();
 		
 		final TabPanel tabPanel = new TabPanel();
 		tabPanel.getElement().getStyle().setWidth(100, Unit.PCT);
-		tabPanel.add(maryView, "Mary");
-		tabPanel.add(johnView, "John James");
+		tabPanel.add(V1View, "Version 1");
+		tabPanel.add(V2View, "Version 2");
+		tabPanel.add(V3View, "Version 3");
+		tabPanel.add(V4View, "Version 4");
 		tabPanel.selectTab(0);
 
 
@@ -98,96 +138,147 @@ public class RuskinDialog {
 		dialog.setWidget(mainContents);
 	}
 
-	private void buildMaryView() {
+	private void buildV1View() {
+		final FlexTable table = new FlexTable();
+		table.setWidth("500px");
+
+		int i = 0;
+
+		table.setWidget(i, 0, new Label("ID:"));
+		table.setWidget(i, 1, V1lblId);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Longitude"));
+		table.setWidget(i, 1, V1lblLongitude);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Latitude:"));
+		table.setWidget(i, 1, V1lblLatitude);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Date:"));
+		table.setWidget(i, 1, V1lblDate);
+		i += 1;
+		
+		
+		V1View.setWidget(table);
+	}
+
+	private void buildV2View() {
 		final FlexTable table = new FlexTable();
 		table.setWidth("500px");
 
 		int i = 0;
 
 		table.setWidget(i, 0, new Label("Contact ID:"));
-		table.setWidget(i, 1, lblId);
+		table.setWidget(i, 1, V2lblId);
 		i += 1;
-
-
+		
+		table.setWidget(i, 0, new Label("Longitude"));
+		table.setWidget(i, 1, V2lblLongitude);
+		i += 1;
+		
 		table.setWidget(i, 0, new Label("Latitude:"));
-		table.setWidget(i, 1, lblLatitude);
-		i += 1;
-
-		table.setWidget(i, 0, new Label("Longitude:"));
-		table.setWidget(i, 1, lblLongitude);
+		table.setWidget(i, 1, V2lblLatitude);
 		i += 1;
 		
 		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, lblDate);
+		table.setWidget(i, 1, V2lblDate);
 		i += 1;
 		
-		table.setWidget(i, 0, new Label("Details:"));
-		table.setWidget(i, 1, lblDetails);
-		i += 1;
-		
-		table.setWidget(i, 0, new Label("Artifact At:"));
-		table.setWidget(i, 1, lblLink);
-		i += 1;
-		
-		maryView.setWidget(table);
+		V2View.setWidget(table);
 	}
 
-	private void buildJohnView() {
+	private void buildV3View() {
+		final FlexTable table = new FlexTable();
+		table.setWidth("500px");
+
+		int i = 0;
+
+		table.setWidget(i, 0, new Label("ID:"));
+		table.setWidget(i, 1, V3lblId);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Longitude"));
+		table.setWidget(i, 1, V3lblLongitude);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Latitude:"));
+		table.setWidget(i, 1, V3lblLatitude);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Date:"));
+		table.setWidget(i, 1, V3lblDate);
+		i += 1;
+		
+		
+		V3View.setWidget(table);
+	}
+
+	private void buildV4View() {
 		final FlexTable table = new FlexTable();
 		table.setWidth("500px");
 
 		int i = 0;
 
 		table.setWidget(i, 0, new Label("Contact ID:"));
-		table.setWidget(i, 1, lblId);
+		table.setWidget(i, 1, V4lblId);
 		i += 1;
-
-
+		
+		table.setWidget(i, 0, new Label("Longitude"));
+		table.setWidget(i, 1, V4lblLongitude);
+		i += 1;
+		
 		table.setWidget(i, 0, new Label("Latitude:"));
-		table.setWidget(i, 1, lblLatitude);
-		i += 1;
-
-		table.setWidget(i, 0, new Label("Longitude:"));
-		table.setWidget(i, 1, lblLongitude);
+		table.setWidget(i, 1, V4lblLatitude);
 		i += 1;
 		
 		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, lblDate);
+		table.setWidget(i, 1, V4lblDate);
 		i += 1;
 		
-		table.setWidget(i, 0, new Label("Details:"));
-		table.setWidget(i, 1, lblDetails);
-		i += 1;
-		
-		table.setWidget(i, 0, new Label("Artifact At:"));
-		table.setWidget(i, 1, lblLink);
-		i += 1;
-		
-		johnView.setWidget(table);
+		V4View.setWidget(table);
 	}
-
 	private void updateUI() {
 		dialog.setText("Metadata for Point " + showingFor.getId());
 		final StringBuilder txt = new StringBuilder();
 
 		{
 			final String val = showingFor.getId();
-			lblId.setText(val);
+			V1lblId.setText(val);
+			V2lblId.setText(val);
+			V3lblId.setText(val);
+			V4lblId.setText(val);
 			txt.append("ID: ").append(val).append("<br />");
 		}
 		{
+			final String val = nf.format(showingFor.getLongitude());
+			V1lblLongitude.setText(val);
+			V2lblLongitude.setText(val);
+			V3lblLongitude.setText(val);
+			V4lblLongitude.setText(val);
+			txt.append("Longitude: ").append(val).append("<br />");
+		}
+		{
 			final String val = nf.format(showingFor.getLatitude());
-			lblLatitude.setText(val);
+			V1lblLatitude.setText(val);
+			V2lblLatitude.setText(val);
+			V3lblLatitude.setText(val);
+			V4lblLatitude.setText(val);
 			txt.append("Latitude: ").append(val).append("<br />");
 		}
 		{
-			final String val = nf.format(showingFor.getLongitude());
-			lblLongitude.setText(val);
-			txt.append("Longitude: ").append(val).append("<br />");
+			final String val = showingFor.getDate();
+			V1lblDate.setText(val);
+			V2lblDate.setText(val);
+			V3lblDate.setText(val);
+			V4lblDate.setText(val);
+			txt.append("Date: ").append(val).append("<br />");
 		}
+		
 	}
 
-	public void showForMary(final String id) {
+	public void showFor(final String id) {
 		
 		Main.getContactServices().getContact(id, new SimplifiedCallback<GWTContact>("get contact with id " + id, true) {
 			@Override
@@ -202,5 +293,4 @@ public class RuskinDialog {
 		updateUI();
 		dialog.center();
 	}
-	
 }
