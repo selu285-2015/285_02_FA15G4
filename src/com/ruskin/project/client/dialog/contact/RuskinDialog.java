@@ -46,6 +46,11 @@ public class RuskinDialog {
 	private final Label V3lblDate;
 	private final Label	V4lblDate;
 	
+	private final Label V1lblLocation;
+	private final Label	V2lblLocation;
+	private final Label V3lblLocation;
+	private final Label	V4lblLocation;
+	
 	private final Label	V1lblLatitude;
 	private final Label V1lblLongitude;
 	private final Label V2lblLatitude;
@@ -76,6 +81,11 @@ public class RuskinDialog {
 		V2lblDate = new Label();
 		V3lblDate= new Label();
 		V4lblDate = new Label();
+		
+		V1lblLocation= new Label();
+		V2lblLocation = new Label();
+		V3lblLocation= new Label();
+		V4lblLocation = new Label();
 		
 		V1lblLatitude = new Label();
 		V1lblLongitude = new Label();
@@ -160,6 +170,10 @@ public class RuskinDialog {
 		table.setWidget(i, 1, V1lblDate);
 		i += 1;
 		
+		table.setWidget(i, 0, new Label("Location:"));
+		table.setWidget(i, 1, V1lblLocation);
+		i += 1;
+		
 		
 		V1View.setWidget(table);
 	}
@@ -184,6 +198,10 @@ public class RuskinDialog {
 		
 		table.setWidget(i, 0, new Label("Date:"));
 		table.setWidget(i, 1, V2lblDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Location:"));
+		table.setWidget(i, 1, V2lblLocation);
 		i += 1;
 		
 		V2View.setWidget(table);
@@ -211,6 +229,9 @@ public class RuskinDialog {
 		table.setWidget(i, 1, V3lblDate);
 		i += 1;
 		
+		table.setWidget(i, 0, new Label("Location:"));
+		table.setWidget(i, 1, V3lblLocation);
+		i += 1;
 		
 		V3View.setWidget(table);
 	}
@@ -221,7 +242,7 @@ public class RuskinDialog {
 
 		int i = 0;
 
-		table.setWidget(i, 0, new Label("Contact ID:"));
+		table.setWidget(i, 0, new Label("ID:"));
 		table.setWidget(i, 1, V4lblId);
 		i += 1;
 		
@@ -235,6 +256,10 @@ public class RuskinDialog {
 		
 		table.setWidget(i, 0, new Label("Date:"));
 		table.setWidget(i, 1, V4lblDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Location:"));
+		table.setWidget(i, 1, V4lblLocation);
 		i += 1;
 		
 		V4View.setWidget(table);
@@ -274,6 +299,14 @@ public class RuskinDialog {
 			V3lblDate.setText(val);
 			V4lblDate.setText(val);
 			txt.append("Date: ").append(val).append("<br />");
+		}
+		{
+			final String val = showingFor.getLocation();
+			V1lblLocation.setText(val);
+			V2lblLocation.setText(val);
+			V3lblLocation.setText(val);
+			V4lblLocation.setText(val);
+			txt.append("Location: ").append(val).append("<br />");
 		}
 		
 	}

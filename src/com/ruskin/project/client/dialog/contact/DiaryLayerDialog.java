@@ -33,16 +33,24 @@ public class DiaryLayerDialog {
 	private final NumberFormat nf = NumberFormat.getFormat("0.0####");
 	private final DialogBox dialog;
 	private final TabPanel tabPanel;
+	
 	private final SimplePanel maryView;
 	private final SimplePanel johnView;
+	
 	private final Label MarylblId;
 	private final Label	JohnJameslblId;
+	
 	private final Label MarylblDate;
 	private final Label	JohnJameslblDate;
+	
+	private final Label MarylblLocation;
+	private final Label	JohnJameslblLocation;
+	
 	private final Label MarylblLatitude;
 	private final Label MarylblLongitude;
 	private final Label JohnJameslblLatitude;
 	private final Label JohnJameslblLongitude;
+	
 	private final Label lblLink;
 	private final Label lblDetails;
 	private GWTContact showingFor;
@@ -50,12 +58,19 @@ public class DiaryLayerDialog {
 	public DiaryLayerDialog() {
 		dialog = new DialogBox(false, true);
 		tabPanel = new TabPanel();
+		
 		maryView = new SimplePanel();
 		johnView = new SimplePanel();
+		
 		MarylblId = new Label();
 		JohnJameslblId = new Label();
+		
 		MarylblDate= new Label();
 		JohnJameslblDate = new Label();
+		
+		MarylblLocation= new Label();
+		JohnJameslblLocation = new Label();
+		
 		MarylblLatitude = new Label();
 		MarylblLongitude = new Label();
 		JohnJameslblLatitude = new Label();
@@ -130,6 +145,9 @@ public class DiaryLayerDialog {
 		table.setWidget(i, 1, MarylblDate);
 		i += 1;
 		
+		table.setWidget(i, 0, new Label("Location:"));
+		table.setWidget(i, 1, MarylblLocation);
+		i += 1;
 		
 		maryView.setWidget(table);
 	}
@@ -186,6 +204,12 @@ public class DiaryLayerDialog {
 			MarylblDate.setText(val);
 			JohnJameslblDate.setText(val);
 			txt.append("Date: ").append(val).append("<br />");
+		}
+		{
+			final String val = showingFor.getLocation();
+			MarylblLocation.setText(val);
+			JohnJameslblLocation.setText(val);
+			txt.append("Location: ").append(val).append("<br />");
 		}
 		
 	}

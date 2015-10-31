@@ -56,10 +56,12 @@ public class PlaceMapWidget implements IsWidget {
 	private final MapOptions options;
 	private final MapWidget mapWidget;
 	
-	private final Vector pointVectorLayer;
+	private final Vector diaryVectorLayer;
+	private final Vector ruskinVectorLayer;
 	
 	private SelectFeatureOptions clickControlOptions;
-	private SelectFeature contactControl;
+	private SelectFeature diaryControl;
+	private SelectFeature ruskinControl;
 	
 	private Bounds bounds = new Bounds(0, 0, 180, 90);
 	private final Bounds maxVisibleExtent;
@@ -76,7 +78,6 @@ public class PlaceMapWidget implements IsWidget {
 	private final List<Point> MargaretsPlaces = new ArrayList<Point>();
 	private final List<Point> JohnJamesPlaces = new ArrayList<Point>();
 	private final List<Point> JohnsPlaces = new ArrayList<Point>();
-	private final List<Point> JohnsFuturePlaces = new ArrayList<Point>();
 	
 	private final Projection proj;
 
@@ -108,31 +109,37 @@ public class PlaceMapWidget implements IsWidget {
 		map.setRestrictedExtent(bounds);
 		map.setMinMaxZoomLevel(1, 40);
 		
-		pointVectorLayer = new Vector("Point Layer");
+		diaryVectorLayer = new Vector("Diary Layer");
+		ruskinVectorLayer = new Vector("Ruskin Layer");
+		
 		map.addLayer(tempLayer);
-		map.addLayer(pointVectorLayer);
+		map.addLayer(diaryVectorLayer);
+		map.addLayer(ruskinVectorLayer);
 		
 		clickControlOptions = new SelectFeatureOptions();
-		contactControl = new SelectFeature(pointVectorLayer, clickControlOptions);
-		map.addControl(contactControl);
-		contactControl.activate();
+		
+		diaryControl = new SelectFeature(diaryVectorLayer, clickControlOptions);
+		ruskinControl = new SelectFeature(ruskinVectorLayer, clickControlOptions);
+		
+		map.addControl(diaryControl);
+		map.addControl(ruskinControl);
 		
 		
-		pointVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
+		diaryVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
 
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-//				if(DiaryChecked) {
-//					master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
-//				else if (RuskinChecked) {
-//					master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
-//				else if(BothChecked) {
-					master.getAllDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
+					master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
 			}
 		});		
+		
+		ruskinVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
+
+			@Override
+			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
+					master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+			}
+		});	
 		
 		tempLayer.setIsBaseLayer(true);
 		this.zoomToBounds(bounds);
@@ -156,6 +163,7 @@ public class PlaceMapWidget implements IsWidget {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				PlotPointDiary(event.getValue());
+				DiaryChecked = (event.getValue().booleanValue());
 			}
 		});
 		
@@ -163,26 +171,16 @@ public class PlaceMapWidget implements IsWidget {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				PlotPointsRuskin(event.getValue());
+				RuskinChecked = event.getValue().booleanValue();
 			}
 		});
 		
-//		if(Diary.getValue() == true && Ruskin.getValue()) {
-//			DiaryChecked =false;
+//		if (DiaryChecked == RuskinChecked) {
+//			DiaryChecked = false;
 //			RuskinChecked = false;
 //			BothChecked = true;
 //		}
-//		else if(Diary.getValue() == true) {
-//			DiaryChecked = true;
-//			RuskinChecked = false;
-//			BothChecked = false;
-//		}
-//		else if(Ruskin.getValue() == true) {
-//			DiaryChecked = false;
-//			RuskinChecked = true;
-//			BothChecked = false;
-//		}
 		
-
 		decorator.add(buttonPanel);
 	}
 	
@@ -221,7 +219,8 @@ public class PlaceMapWidget implements IsWidget {
 	 *            - a list of {@link ReducedContact} objects
 	 */		
 	public void printContacts(List<? extends ReducedContact> contacts) {
-		pointVectorLayer.destroyFeatures();
+		diaryVectorLayer.destroyFeatures();
+		ruskinVectorLayer.destroyFeatures();
 		for (ReducedContact c : contacts) {
 			LonLat ll = c.getCoordinate();
 			Point point = new Point(ll.lon(), ll.lat());
@@ -233,20 +232,20 @@ public class PlaceMapWidget implements IsWidget {
 			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
 			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
 			pointFeature.setFeatureId(c.getId());
-			pointVectorLayer.addFeature(pointFeature);
-			contactControl.activate(); 			
+			diaryVectorLayer.addFeature(pointFeature);
+			ruskinVectorLayer.addFeature(pointFeature);
+			ruskinControl.activate(); 		
+			diaryControl.activate(); 
 		}
 
-		Bounds dataExtent = pointVectorLayer.getDataExtent();
+		Bounds dataExtent = diaryVectorLayer.getDataExtent();
 		boolean outOfBounds = !maxVisibleExtent.containsBounds(dataExtent, false, true);
 		if(!outOfBounds){		
-			zoomToBounds(pointVectorLayer.getDataExtent());			
+			zoomToBounds(diaryVectorLayer.getDataExtent());			
 		}else{
 			this.setCenter(center, 1);
 		}
 	}
-	
-	
 	
 	public void PlotPointDiary(Boolean plot) {
 		if (plot == true) {
@@ -265,16 +264,19 @@ public class PlaceMapWidget implements IsWidget {
 			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
 			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
 			pointFeature.setFeatureId(c.getId());
-			pointVectorLayer.addFeature(pointFeature);
+			diaryVectorLayer.addFeature(pointFeature);
 			
 		
 			JohnJamesPoints.add(c);
 			JohnJamesPlaces.add(point);
 			MarysPoints.add(c);
 			MargaretsPlaces.add(point);
+			ruskinControl.deactivate();
+			diaryControl.activate();
 		}
 		else {
-			eraseAllContacts();
+			eraseDiaryContacts();
+			diaryControl.deactivate();
 		}
 	}
 	public void PlotPointsRuskin (Boolean plot) {
@@ -292,13 +294,16 @@ public class PlaceMapWidget implements IsWidget {
 			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
 			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
 			pointFeature.setFeatureId(c.getId());
-			pointVectorLayer.addFeature(pointFeature);
+			ruskinVectorLayer.addFeature(pointFeature);
 			
 			RuskinsPoints.add(c);
 			JohnsPlaces.add(point);
+			diaryControl.deactivate();
+			ruskinControl.activate();
 		}
 		else {
-			eraseAllContacts();	
+			eraseRuskinContacts();	
+			ruskinControl.deactivate();
 		}
 	}
 	
@@ -307,7 +312,24 @@ public class PlaceMapWidget implements IsWidget {
 	 * 
 	 */
 	public void eraseAllContacts() {
-		pointVectorLayer.destroyFeatures();	
+		diaryVectorLayer.destroyFeatures();
+		ruskinVectorLayer.destroyFeatures();
+		restoreStartupView();
+	}
+	
+	/** Erases all contacts from the diary layer.
+	 * 
+	 */
+	public void eraseDiaryContacts() {
+		diaryVectorLayer.destroyFeatures();
+		restoreStartupView();
+	}
+	
+	/** Erases all contacts from the Ruskin layer.
+	 * 
+	 */
+	public void eraseRuskinContacts() {
+		ruskinVectorLayer.destroyFeatures();
 		restoreStartupView();
 	}
 
@@ -325,7 +347,7 @@ public class PlaceMapWidget implements IsWidget {
 	 * @return
 	 */
 	public Vector getVectorLayer() {
-		return pointVectorLayer;
+		return diaryVectorLayer;
 	}
 	
 	private final AsyncCallback<List<GWTContact>> queryCacheCallback = new AsyncCallback<List<GWTContact>>() {

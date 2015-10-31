@@ -4,6 +4,7 @@ package com.ruskin.project.shared;
 public class GWTContact extends ReducedContact{
 
 	private String time;
+	private String location;
 	
 	private GWTContact() {
 		super();
@@ -26,6 +27,14 @@ public class GWTContact extends ReducedContact{
 
 	public void setDate(String time) {
 		this.time = time;
+	}
+	
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 }
