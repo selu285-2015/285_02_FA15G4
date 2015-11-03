@@ -46,12 +46,19 @@ public class AllDialog {
 	private final Label V3lblId;
 	private final Label	V4lblId;
 	
-	private final Label MarylblDate;
-	private final Label	JohnJameslblDate;
-	private final Label V1lblDate;
-	private final Label	V2lblDate;
-	private final Label V3lblDate;
-	private final Label	V4lblDate;
+	private final Label MarylblArrivalDate;
+	private final Label	JohnJameslblArrivalDate;
+	private final Label V1lblArrivalDate;
+	private final Label	V2lblArrivalDate;
+	private final Label V3lblArrivalDate;
+	private final Label	V4lblArrivalDate;
+	
+	private final Label MarylblDepartDate;
+	private final Label	JohnJameslblDepartDate;
+	private final Label V1lblDepartDate;
+	private final Label	V2lblDepartDate;
+	private final Label V3lblDepartDate;
+	private final Label	V4lblDepartDate;
 	
 	private final Label MarylblLocation;
 	private final Label	JohnJameslblLocation;
@@ -59,6 +66,20 @@ public class AllDialog {
 	private final Label	V2lblLocation;
 	private final Label V3lblLocation;
 	private final Label	V4lblLocation;
+	
+	private final Label MarylblLink;
+	private final Label	JohnJameslblLink;
+	private final Label V1lblLink;
+	private final Label	V2lblLink;
+	private final Label V3lblLink;
+	private final Label	V4lblLink;
+	
+	private final Label MarylblSights;
+	private final Label	JohnJameslblSights;
+	private final Label V1lblSights;
+	private final Label	V2lblSights;
+	private final Label V3lblSights;
+	private final Label	V4lblSights;
 	
 	private final Label MarylblLatitude;
 	private final Label MarylblLongitude;
@@ -73,8 +94,6 @@ public class AllDialog {
 	private final Label V4lblLatitude;
 	private final Label V4lblLongitude;
 	
-	private final Label lblLink;
-	private final Label lblDetails;
 	private GWTContact showingFor;
 
 	public AllDialog() {
@@ -95,12 +114,19 @@ public class AllDialog {
 		V3lblId = new Label();
 		V4lblId = new Label();
 		
-		MarylblDate= new Label();
-		JohnJameslblDate = new Label();
-		V1lblDate= new Label();
-		V2lblDate = new Label();
-		V3lblDate= new Label();
-		V4lblDate = new Label();
+		MarylblArrivalDate= new Label();
+		JohnJameslblArrivalDate = new Label();
+		V1lblArrivalDate= new Label();
+		V2lblArrivalDate = new Label();
+		V3lblArrivalDate= new Label();
+		V4lblArrivalDate = new Label();
+		
+		MarylblDepartDate= new Label();
+		JohnJameslblDepartDate = new Label();
+		V1lblDepartDate= new Label();
+		V2lblDepartDate = new Label();
+		V3lblDepartDate= new Label();
+		V4lblDepartDate = new Label();
 		
 		MarylblLocation= new Label();
 		JohnJameslblLocation = new Label();
@@ -108,6 +134,20 @@ public class AllDialog {
 		V2lblLocation = new Label();
 		V3lblLocation= new Label();
 		V4lblLocation = new Label();
+		
+		MarylblLink= new Label();
+		JohnJameslblLink = new Label();
+		V1lblLink= new Label();
+		V2lblLink = new Label();
+		V3lblLink= new Label();
+		V4lblLink = new Label();
+		
+		MarylblSights= new Label();
+		JohnJameslblSights = new Label();
+		V1lblSights= new Label();
+		V2lblSights = new Label();
+		V3lblSights= new Label();
+		V4lblSights = new Label();
 		
 		MarylblLatitude = new Label();
 		MarylblLongitude = new Label();
@@ -122,8 +162,6 @@ public class AllDialog {
 		V4lblLatitude = new Label();
 		V4lblLongitude = new Label();
 		
-		lblLink = new Label();
-		lblDetails = new Label();
 		buildUI();
 	}
 
@@ -183,7 +221,7 @@ public class AllDialog {
 
 		int i = 0;
 
-		table.setWidget(i, 0, new Label("ID:"));
+		table.setWidget(i, 0, new Label("Country:"));
 		table.setWidget(i, 1, MarylblId);
 		i += 1;
 		
@@ -195,12 +233,24 @@ public class AllDialog {
 		table.setWidget(i, 1, MarylblLatitude);
 		i += 1;
 		
-		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, MarylblDate);
+		table.setWidget(i, 0, new Label("Arrival Date:"));
+		table.setWidget(i, 1, MarylblArrivalDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Departure Date:"));
+		table.setWidget(i, 1, MarylblDepartDate);
 		i += 1;
 		
 		table.setWidget(i, 0, new Label("Location:"));
 		table.setWidget(i, 1, MarylblLocation);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Sights:"));
+		table.setWidget(i, 1, MarylblSights);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Link:"));
+		table.setWidget(i, 1, MarylblLink);
 		i += 1;
 		
 		maryView.setWidget(table);
@@ -212,7 +262,7 @@ public class AllDialog {
 
 		int i = 0;
 
-		table.setWidget(i, 0, new Label("Contact ID:"));
+		table.setWidget(i, 0, new Label("Country:"));
 		table.setWidget(i, 1, JohnJameslblId);
 		i += 1;
 		
@@ -224,12 +274,24 @@ public class AllDialog {
 		table.setWidget(i, 1, JohnJameslblLatitude);
 		i += 1;
 		
-		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, JohnJameslblDate);
+		table.setWidget(i, 0, new Label("Arrival Date:"));
+		table.setWidget(i, 1, JohnJameslblArrivalDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Departure Date:"));
+		table.setWidget(i, 1, JohnJameslblDepartDate);
 		i += 1;
 		
 		table.setWidget(i, 0, new Label("Location:"));
 		table.setWidget(i, 1, JohnJameslblLocation);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Sights:"));
+		table.setWidget(i, 1, JohnJameslblSights);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Link:"));
+		table.setWidget(i, 1, JohnJameslblLink);
 		i += 1;
 		
 		johnView.setWidget(table);
@@ -241,7 +303,7 @@ public class AllDialog {
 
 		int i = 0;
 
-		table.setWidget(i, 0, new Label("ID:"));
+		table.setWidget(i, 0, new Label("Country:"));
 		table.setWidget(i, 1, V1lblId);
 		i += 1;
 		
@@ -253,12 +315,24 @@ public class AllDialog {
 		table.setWidget(i, 1, V1lblLatitude);
 		i += 1;
 		
-		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, V1lblDate);
+		table.setWidget(i, 0, new Label("Arrival Date:"));
+		table.setWidget(i, 1, V1lblArrivalDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Departure Date:"));
+		table.setWidget(i, 1, V1lblDepartDate);
 		i += 1;
 		
 		table.setWidget(i, 0, new Label("Location:"));
 		table.setWidget(i, 1, V1lblLocation);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Sights:"));
+		table.setWidget(i, 1, V1lblSights);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Link:"));
+		table.setWidget(i, 1, V1lblLink);
 		i += 1;
 		
 		V1View.setWidget(table);
@@ -270,7 +344,7 @@ public class AllDialog {
 
 		int i = 0;
 
-		table.setWidget(i, 0, new Label("Contact ID:"));
+		table.setWidget(i, 0, new Label("Country:"));
 		table.setWidget(i, 1, V2lblId);
 		i += 1;
 		
@@ -282,12 +356,24 @@ public class AllDialog {
 		table.setWidget(i, 1, V2lblLatitude);
 		i += 1;
 		
-		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, V2lblDate);
+		table.setWidget(i, 0, new Label("Arrival Date:"));
+		table.setWidget(i, 1, V2lblArrivalDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Departure Date:"));
+		table.setWidget(i, 1, V2lblDepartDate);
 		i += 1;
 		
 		table.setWidget(i, 0, new Label("Location:"));
 		table.setWidget(i, 1, V2lblLocation);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Sights:"));
+		table.setWidget(i, 1, V2lblSights);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Link:"));
+		table.setWidget(i, 1, V2lblLink);
 		i += 1;
 		
 		V2View.setWidget(table);
@@ -299,7 +385,7 @@ public class AllDialog {
 
 		int i = 0;
 
-		table.setWidget(i, 0, new Label("ID:"));
+		table.setWidget(i, 0, new Label("Country:"));
 		table.setWidget(i, 1, V3lblId);
 		i += 1;
 		
@@ -311,12 +397,24 @@ public class AllDialog {
 		table.setWidget(i, 1, V3lblLatitude);
 		i += 1;
 		
-		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, V3lblDate);
+		table.setWidget(i, 0, new Label("Arrival Date:"));
+		table.setWidget(i, 1, V3lblArrivalDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Departure Date:"));
+		table.setWidget(i, 1, V3lblDepartDate);
 		i += 1;
 		
 		table.setWidget(i, 0, new Label("Location:"));
 		table.setWidget(i, 1, V3lblLocation);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Sights:"));
+		table.setWidget(i, 1, V3lblSights);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Link:"));
+		table.setWidget(i, 1, V3lblLink);
 		i += 1;
 		
 		V3View.setWidget(table);
@@ -328,7 +426,7 @@ public class AllDialog {
 
 		int i = 0;
 
-		table.setWidget(i, 0, new Label("Contact ID:"));
+		table.setWidget(i, 0, new Label("Country:"));
 		table.setWidget(i, 1, V4lblId);
 		i += 1;
 		
@@ -340,12 +438,24 @@ public class AllDialog {
 		table.setWidget(i, 1, V4lblLatitude);
 		i += 1;
 		
-		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, V4lblDate);
+		table.setWidget(i, 0, new Label("Arrival Date:"));
+		table.setWidget(i, 1, V4lblArrivalDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Departure Date:"));
+		table.setWidget(i, 1, V4lblDepartDate);
 		i += 1;
 		
 		table.setWidget(i, 0, new Label("Location:"));
 		table.setWidget(i, 1, V4lblLocation);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Sights:"));
+		table.setWidget(i, 1, V4lblSights);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Link:"));
+		table.setWidget(i, 1, V4lblLink);
 		i += 1;
 		
 		V4View.setWidget(table);
@@ -356,14 +466,14 @@ public class AllDialog {
 		final StringBuilder txt = new StringBuilder();
 
 		{
-			final String val = showingFor.getId();
+			final String val = showingFor.getCountry();
 			MarylblId.setText(val);
 			JohnJameslblId.setText(val);
 			V1lblId.setText(val);
 			V2lblId.setText(val);
 			V3lblId.setText(val);
 			V4lblId.setText(val);
-			txt.append("ID: ").append(val).append("<br />");
+			txt.append("Country: ").append(val).append("<br />");
 		}
 		{
 			final String val = nf.format(showingFor.getLongitude());
@@ -386,14 +496,24 @@ public class AllDialog {
 			txt.append("Latitude: ").append(val).append("<br />");
 		}
 		{
-			final String val = showingFor.getDate();
-			MarylblDate.setText(val);
-			JohnJameslblDate.setText(val);
-			V1lblDate.setText(val);
-			V2lblDate.setText(val);
-			V3lblDate.setText(val);
-			V4lblDate.setText(val);
-			txt.append("Date: ").append(val).append("<br />");
+			final String val = showingFor.getArrivalDate();
+			MarylblArrivalDate.setText(val);
+			JohnJameslblArrivalDate.setText(val);
+			V1lblArrivalDate.setText(val);
+			V2lblArrivalDate.setText(val);
+			V3lblArrivalDate.setText(val);
+			V4lblArrivalDate.setText(val);
+			txt.append("Arrival Date: ").append(val).append("<br />");
+		}
+		{
+			final String val = showingFor.getDepartDate();
+			MarylblDepartDate.setText(val);
+			JohnJameslblDepartDate.setText(val);
+			V1lblDepartDate.setText(val);
+			V2lblDepartDate.setText(val);
+			V3lblDepartDate.setText(val);
+			V4lblDepartDate.setText(val);
+			txt.append("Depart Date: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getLocation();
@@ -404,6 +524,26 @@ public class AllDialog {
 			MarylblLocation.setText(val);
 			JohnJameslblLocation.setText(val);
 			txt.append("Location: ").append(val).append("<br />");
+		}
+		{
+			final String val = showingFor.getLink();
+			V1lblLink.setText(val);
+			V2lblLink.setText(val);
+			V3lblLink.setText(val);
+			V4lblLink.setText(val);
+			MarylblLink.setText(val);
+			JohnJameslblLink.setText(val);
+			txt.append("Link: ").append(val).append("<br />");
+		}
+		{
+			final String val = showingFor.getSights();
+			V1lblSights.setText(val);
+			V2lblSights.setText(val);
+			V3lblSights.setText(val);
+			V4lblSights.setText(val);
+			MarylblSights.setText(val);
+			JohnJameslblSights.setText(val);
+			txt.append("Sights: ").append(val).append("<br />");
 		}
 	}
 

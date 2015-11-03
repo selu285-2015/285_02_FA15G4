@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.ruskin.project.client.Main;
 import com.ruskin.project.client.SimplifiedCallback;
+import com.ruskin.project.client.lists.MarysList;
 import com.ruskin.project.shared.GWTContact;
 
 /** This Widget is intended to display metadata describing clicked points
@@ -40,19 +41,26 @@ public class DiaryLayerDialog {
 	private final Label MarylblId;
 	private final Label	JohnJameslblId;
 	
-	private final Label MarylblDate;
-	private final Label	JohnJameslblDate;
+	private final Label MarylblArrivalDate;
+	private final Label	JohnJameslblArrivalDate;
+	
+	private final Label MarylblDepartDate;
+	private final Label	JohnJameslblDepartDate;
 	
 	private final Label MarylblLocation;
 	private final Label	JohnJameslblLocation;
+	
+	private final Label MarylblLink;
+	private final Label	JohnJameslblLink;
+	
+	private final Label MarylblSights;
+	private final Label	JohnJameslblSights;
 	
 	private final Label MarylblLatitude;
 	private final Label MarylblLongitude;
 	private final Label JohnJameslblLatitude;
 	private final Label JohnJameslblLongitude;
 	
-	private final Label lblLink;
-	private final Label lblDetails;
 	private GWTContact showingFor;
 
 	public DiaryLayerDialog() {
@@ -65,18 +73,26 @@ public class DiaryLayerDialog {
 		MarylblId = new Label();
 		JohnJameslblId = new Label();
 		
-		MarylblDate= new Label();
-		JohnJameslblDate = new Label();
+		MarylblArrivalDate= new Label();
+		JohnJameslblArrivalDate = new Label();
+		
+		MarylblDepartDate= new Label();
+		JohnJameslblDepartDate = new Label();
 		
 		MarylblLocation= new Label();
 		JohnJameslblLocation = new Label();
+		
+		MarylblLink= new Label();
+		JohnJameslblLink = new Label();
+
+		MarylblSights= new Label();
+		JohnJameslblSights = new Label();
 		
 		MarylblLatitude = new Label();
 		MarylblLongitude = new Label();
 		JohnJameslblLatitude = new Label();
 		JohnJameslblLongitude = new Label();
-		lblLink = new Label();
-		lblDetails = new Label();
+		
 		buildUI();
 	}
 
@@ -141,12 +157,24 @@ public class DiaryLayerDialog {
 		table.setWidget(i, 1, MarylblLatitude);
 		i += 1;
 		
-		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, MarylblDate);
+		table.setWidget(i, 0, new Label("Arrival Date:"));
+		table.setWidget(i, 1, MarylblArrivalDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Departure Date:"));
+		table.setWidget(i, 1, MarylblDepartDate);
 		i += 1;
 		
 		table.setWidget(i, 0, new Label("Location:"));
 		table.setWidget(i, 1, MarylblLocation);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Sights:"));
+		table.setWidget(i, 1, MarylblSights);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Link:"));
+		table.setWidget(i, 1, MarylblLink);
 		i += 1;
 		
 		maryView.setWidget(table);
@@ -170,8 +198,24 @@ public class DiaryLayerDialog {
 		table.setWidget(i, 1, JohnJameslblLatitude);
 		i += 1;
 		
-		table.setWidget(i, 0, new Label("Date:"));
-		table.setWidget(i, 1, JohnJameslblDate);
+		table.setWidget(i, 0, new Label("Arrival Date:"));
+		table.setWidget(i, 1, JohnJameslblArrivalDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Departure Date:"));
+		table.setWidget(i, 1, JohnJameslblDepartDate);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Location:"));
+		table.setWidget(i, 1, JohnJameslblLocation);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Sights:"));
+		table.setWidget(i, 1, JohnJameslblSights);
+		i += 1;
+		
+		table.setWidget(i, 0, new Label("Link:"));
+		table.setWidget(i, 1, JohnJameslblLink);
 		i += 1;
 		
 		johnView.setWidget(table);
@@ -182,7 +226,7 @@ public class DiaryLayerDialog {
 		final StringBuilder txt = new StringBuilder();
 
 		{
-			final String val = showingFor.getId();
+			final String val = showingFor.getCountry();
 			MarylblId.setText(val);
 			JohnJameslblId.setText(val);
 			txt.append("ID: ").append(val).append("<br />");
@@ -200,10 +244,16 @@ public class DiaryLayerDialog {
 			txt.append("Latitude: ").append(val).append("<br />");
 		}
 		{
-			final String val = showingFor.getDate();
-			MarylblDate.setText(val);
-			JohnJameslblDate.setText(val);
-			txt.append("Date: ").append(val).append("<br />");
+			final String val = showingFor.getArrivalDate();
+			MarylblArrivalDate.setText(val);
+			JohnJameslblArrivalDate.setText(val);
+			txt.append("Arrival Date: ").append(val).append("<br />");
+		}
+		{
+			final String val = showingFor.getDepartDate();
+			MarylblDepartDate.setText(val);
+			JohnJameslblDepartDate.setText(val);
+			txt.append("Depart Date: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getLocation();
@@ -211,7 +261,18 @@ public class DiaryLayerDialog {
 			JohnJameslblLocation.setText(val);
 			txt.append("Location: ").append(val).append("<br />");
 		}
-		
+		{
+			final String val = showingFor.getLink();
+			MarylblLink.setText(val);
+			JohnJameslblLink.setText(val);
+			txt.append("Link: ").append(val).append("<br />");
+		}
+		{
+			final String val = showingFor.getSights();
+			MarylblSights.setText(val);
+			JohnJameslblSights.setText(val);
+			txt.append("Sights: ").append(val).append("<br />");
+		}
 	}
 
 	public void showFor(final String id) {

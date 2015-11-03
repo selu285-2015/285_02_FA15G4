@@ -1,6 +1,7 @@
 package com.ruskin.project.client.widget.mapwidget;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.gwtopenmaps.openlayers.client.Bounds;
