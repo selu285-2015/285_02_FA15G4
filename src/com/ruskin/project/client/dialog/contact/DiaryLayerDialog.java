@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.ruskin.project.client.Main;
 import com.ruskin.project.client.SimplifiedCallback;
-import com.ruskin.project.client.lists.MarysList;
 import com.ruskin.project.shared.GWTContact;
 
 /** This Widget is intended to display metadata describing clicked points
