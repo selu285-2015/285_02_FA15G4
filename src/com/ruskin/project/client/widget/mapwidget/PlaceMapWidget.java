@@ -1,27 +1,39 @@
 package com.ruskin.project.client.widget.mapwidget;
 
-import java.util.ArrayList;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.gwtopenmaps.openlayers.client.Bounds;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
+import org.gwtopenmaps.openlayers.client.MapUnits;
 import org.gwtopenmaps.openlayers.client.MapWidget;
 import org.gwtopenmaps.openlayers.client.Projection;
+import org.gwtopenmaps.openlayers.client.Size;
 import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.SelectFeature;
 import org.gwtopenmaps.openlayers.client.control.SelectFeatureOptions;
+import org.gwtopenmaps.openlayers.client.event.MapClickListener;
 import org.gwtopenmaps.openlayers.client.event.VectorFeatureSelectedListener;
+import org.gwtopenmaps.openlayers.client.event.MapClickListener.MapClickEvent;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
+import org.gwtopenmaps.openlayers.client.layer.Layer;
+import org.gwtopenmaps.openlayers.client.layer.LayerOptions;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
+import org.gwtopenmaps.openlayers.client.layer.OSMOptions;
+import org.gwtopenmaps.openlayers.client.layer.TransitionEffect;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
+import org.gwtopenmaps.openlayers.client.layer.VectorOptions;
+import org.gwtopenmaps.openlayers.client.layer.WMS;
+import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
+import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 
 import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.ReducedContact;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -68,8 +80,13 @@ public class PlaceMapWidget implements IsWidget {
 	private SelectFeature ruskinControl;
 	private SelectFeature allControl;
 	
-	private Bounds bounds = new Bounds(0, 0, 180, 90);
+	private Bounds bounds = new Bounds(0, 0, 180, 90).transform(new Projection("EPSG: 900913"), new Projection("EPSG: 4326"));
+//	private Bounds bounds = new Bounds(0, 0, 180, 90).transform(new Projection("EPSG: 4326"), new Projection("EPSG: 900913"));
 	private final Bounds maxVisibleExtent;
+	
+	private final java.util.Map<String, WMS> wmsLayers = new HashMap<String,WMS>();
+	private final java.util.Map<String, Layer> layersHashMap= new HashMap<String, Layer>();
+	
 	private final LonLat center;
 	
 	private final ListDataProvider<GWTContact> dataProvider = new ListDataProvider<GWTContact>();		
@@ -88,42 +105,51 @@ public class PlaceMapWidget implements IsWidget {
 	
 	public PlaceMapWidget(int width, int height, final MainWidget master) {		
 		this.master = master;
-	
-		currentLayer = new ChooseLayer(master);
 		
 		center = new LonLat(90, 45);
 		
-		options = new MapOptions();
-		options.setNumZoomLevels(10);
-		options.setProjection("ESPG: 4326");
+		currentLayer = new ChooseLayer(master);
 		
+		options = new MapOptions();
+		options.setNumZoomLevels(20);
 		mapWidget = new MapWidget(new Integer(width).toString(), new Integer(height).toString(), options);
-		OSM tempLayer = OSM.Mapnik("TempLayer");
 		
 		decorator = new VerticalPanel();
 		decorator.setStyleName("mapDecorator");
-		
 		decorator.add(mapWidget);
-		decorator.setStyleName("flexTableCell");
+//		decorator.setStyleName("flexTableCell");
 		proj = new Projection("EPSG:4326");
+		
+		map = mapWidget.getMap();
+		map.setRestrictedExtent(bounds);
+		map.setMinMaxZoomLevel(0, 20);
 		
 		BuildUI();
 		
-		map = mapWidget.getMap();	
-		map.setRestrictedExtent(bounds);
-		map.setMinMaxZoomLevel(1, 40);
+		map.addMapClickListener(new MapClickListener(){ 
+			@Override
+			public void onClick(MapClickEvent mapClickEvent) {
+				System.out.println("Hash code: " + PlaceMapWidget.this.hashCode());
+				System.out.println("Current projection: " + map.getProjection());
+				System.out.println("Current bounds: " + map.getExtent() + ", zoom: " + map.getZoom());
+				System.out.println("Chosen bounds: " + bounds );
+				System.out.println("Center: " + center.lat() + "," + center.lon());
+				System.out.println("Widget Size: " + getWidgetSize());
+				System.out.println("Map Size: " + getMapSize());
+			}
+		});	
 		
+		OSM tempLayer = OSM.Mapnik("TempLayer");
 		diaryVectorLayer = new Vector("Diary Layer");
 		ruskinVectorLayer = new Vector("Ruskin Layer");
 		allVectorLayer = new Vector("All Layers");
-		
+//		this.addSingleLayerWMS("wms1", Main.getConfig().get(Const.KEY_WMS_BASE_LAYER));
+//		this.setBaseLayer("wms1");
+//		
 		map.addLayer(tempLayer);
-//		map.addLayer(diaryVectorLayer);
-//		map.addLayer(ruskinVectorLayer);
-//		map.addLayer(allVectorLayer);
+		layersHashMap.put("TempLayer", tempLayer);	
 		
 		clickControlOptions = new SelectFeatureOptions();
-		
 		diaryControl = new SelectFeature(diaryVectorLayer, clickControlOptions);
 		ruskinControl = new SelectFeature(ruskinVectorLayer, clickControlOptions);
 		allControl = new SelectFeature(ruskinVectorLayer, clickControlOptions);
@@ -131,7 +157,6 @@ public class PlaceMapWidget implements IsWidget {
 		map.addControl(diaryControl);
 		map.addControl(ruskinControl);
 		map.addControl(allControl);
-		
 		
 		diaryVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
 			@Override
@@ -178,10 +203,12 @@ public class PlaceMapWidget implements IsWidget {
 			}
 		});	
 		
-		tempLayer.setIsBaseLayer(true);
-		this.zoomToBounds(bounds);
-		this.setCenter(center, 1);
-		maxVisibleExtent = map.getExtent();
+		this.setBaseLayer("TempLayer");
+		map.setRestrictedExtent(bounds);
+		map.zoomToExtent(bounds);
+//		this.zoomToBounds(bounds);
+		this.setCenter(new LonLat(90, 45), 2);
+		maxVisibleExtent = map.getExtent().transform( new Projection("EPSG: 900913"), new Projection("EPSG: 4326"));
 //		this.restoreStartupView();
 		
 	}	
@@ -222,6 +249,54 @@ public class PlaceMapWidget implements IsWidget {
 		return choice;
 	}
 	
+	/** Adds a {@link Layer} to the map.
+	 * 
+	 * @param name
+	 * @param layer
+	 */
+	public void addLayer(String name, Layer layer) {
+		layersHashMap.put(name, layer);
+		this.map.addLayer(layer);
+	}
+
+	/** Removes the specified layer from this MapWidget.
+	 * 
+	 * @param name - the layer to be removed
+	 */
+	public void removeLayer(String name){
+		Layer layer = layersHashMap.get(name);
+		this.map.removeLayer(layer);
+		layersHashMap.remove(name);
+		if (layer instanceof WMS){
+			wmsLayers.remove(name);	
+		}
+
+	}
+	
+	/** Returns the current base layer of this MapWidget.
+	 * 
+	 * @return
+	 */	
+	public Layer getBaseLayer(){		
+		return this.map.getBaseLayer();
+	}
+
+	/** Sets the base layer for this MapWidget.
+	 * 
+	 * @param name
+	 */
+	public void setBaseLayer(String name) {		
+		this.map.setBaseLayer(layersHashMap.get(name));
+	}
+
+	/** Returns the longitude and latitude coordinates for the center of the map in {@link LonLat} format.
+	 *  
+	 * @return
+	 */
+	public LonLat getCenter() {
+		return this.map.getCenter();
+	}
+	
 	/** Sets the center of the map.
 	 * 
 	 * @param ll
@@ -239,6 +314,47 @@ public class PlaceMapWidget implements IsWidget {
 		this.map.setCenter(ll, zoom);
 	}	
 	
+
+	/** Adds a {@link WMS} with only one map layer to this MapWidget.
+	 * 
+	 * @param name
+	 * @param url - the URL needed for the WMS layer
+	 */
+	public void addSingleLayerWMS(String name, String url) {
+		WMSParams wmsParams = new WMSParams();
+		WMSOptions wmsLayerParams = new WMSOptions();
+		wmsParams.setFormat("image/png");
+		wmsParams.setLayers("bluemarble");
+		wmsParams.setStyles("");
+		wmsLayerParams.setUntiled();
+		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
+		WMS wmsLayer = new WMS(name, url, wmsParams, wmsLayerParams);
+		wmsLayers.put(name,wmsLayer);
+		layersHashMap.put(name, wmsLayer);			
+		this.map.addLayer(wmsLayer);
+
+	}
+
+	/** Adds a {@link WMS} with multiple layers to this MapWidget.
+	 * 
+	 * @param name
+	 * @param url - the URLs needed for the WMS layer
+	 */
+	public void addMultiLayerWMS(String name, String[] urls) {
+		WMSParams wmsParams = new WMSParams();
+		WMSOptions wmsLayerParams = new WMSOptions();
+		wmsParams.setFormat("image/png");
+		wmsParams.setLayers("basic");
+		wmsParams.setStyles("");
+		wmsLayerParams.setUntiled();
+		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
+		WMS wmsLayer = new WMS(name, urls, wmsParams, wmsLayerParams);
+		wmsLayers.put(name,wmsLayer);
+		layersHashMap.put(name, wmsLayer);
+		this.map.addLayer(wmsLayer);
+
+	}
+	
 	/** Zooms to a specified bounding box.
 	 * 
 	 * @param bounds
@@ -247,8 +363,49 @@ public class PlaceMapWidget implements IsWidget {
 		if(bounds == null){
 			return;
 		}
+		bounds = bounds.transform( new Projection("EPSG: 900913"), new Projection("EPSG: 4326"));
 		this.map.zoomToExtent(bounds);
 	}
+	
+	/** Gets the bounding box currently being displayed by this MapWidget.
+	 * 
+	 * @return
+	 */
+	public Bounds getBounds() {
+		return this.map.getExtent().transform(new Projection("EPSG: 900913"), new Projection("EPSG: 4326"));
+	}	
+	
+	/** Returns an array of all layers that have been added to this map.
+	 * 
+	 * @return
+	 */
+	public Layer[] getLayers() {
+		return map.getLayers();
+	}
+
+	/** Returns an array of all the WMS layers that have been added to this MapWidget.
+	 * 
+	 * @return
+	 */
+	public WMS[] getWMSLayers(){
+		return wmsLayers.values().toArray(new WMS[wmsLayers.size()]);
+	}
+
+	/** Returns the pixel width and height of the whole widget, including the button panel, as a {@link Size} object.
+	 * 
+	 * @return
+	 */
+	public Size getWidgetSize(){
+		return new Size(decorator.getOffsetWidth(), decorator.getOffsetHeight());
+	}
+
+	/** Returns the size, in pixels, of the actual map contained in this MapWidget.
+	 *  
+	 * @return
+	 */
+	public Size getMapSize(){
+		return map.getSize();
+	}	
 	
 	/**
 	 * Prints the given {@link ReducedContact}s on this PlaceMapWidget.
@@ -282,7 +439,7 @@ public class PlaceMapWidget implements IsWidget {
 		if(!outOfBounds){		
 			zoomToBounds(allVectorLayer.getDataExtent());			
 		}else{
-			this.setCenter(center, 1);
+			this.setCenter(center, 0);
 		}
 	}
 	
@@ -380,7 +537,6 @@ public class PlaceMapWidget implements IsWidget {
 	 * 
 	 */
 //	public void restoreStartupView(){	
-////		bounds.transform(proj, new Projection(map.getProjection())); 
 //		this.zoomToBounds(bounds);		
 //		this.setCenter(center, 1);	 
 //	}
