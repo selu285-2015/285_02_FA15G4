@@ -152,7 +152,7 @@ public class PlaceMapWidget implements IsWidget {
 		clickControlOptions = new SelectFeatureOptions();
 		diaryControl = new SelectFeature(diaryVectorLayer, clickControlOptions);
 		ruskinControl = new SelectFeature(ruskinVectorLayer, clickControlOptions);
-		allControl = new SelectFeature(ruskinVectorLayer, clickControlOptions);
+		allControl = new SelectFeature(allVectorLayer, clickControlOptions);
 		
 		map.addControl(diaryControl);
 		map.addControl(ruskinControl);
@@ -161,45 +161,45 @@ public class PlaceMapWidget implements IsWidget {
 		diaryVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-				if(currentLayer.layer().matches("All Layers")) {
-					master.getAllDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-				}
-				else if(currentLayer.layer().matches("Diary Layer")) {
+//				if(currentLayer.layer().matches("All Layers")) {
+//					master.getAllDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+//				}
+//				else if(currentLayer.layer().matches("Diary Layer")) {
 					master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-				}
-				else if (currentLayer.layer().matches("Ruskin Layer")){
-					master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-				}
+//				}
+//				else if (currentLayer.layer().matches("Ruskin Layer")){
+//					master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+//				}
 			}
 		});		
 		
 		ruskinVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-				if(currentLayer.layer().matches("All Layers")) {
-					master.getAllDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-				}
-				else if(currentLayer.layer().matches("Diary Layer")) {
-					master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-				}
-				else if (currentLayer.layer().matches("Ruskin Layer")){
+//				if(currentLayer.layer().matches("All Layers")) {
+//					master.getAllDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+//				}
+//				else if(currentLayer.layer().matches("Diary Layer")) {
+//					master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+//				}
+//				else if (currentLayer.layer().matches("Ruskin Layer")){
 					master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-				}
+//				}
 			}
 		});	
 		
 		allVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-				if(currentLayer.layer().matches("All Layers")) {
+//				if(currentLayer.layer().matches("All Layers")) {
 					master.getAllDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-				}
-				else if(currentLayer.layer().matches("Diary Layer")) {
-					master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-				}
-				else if (currentLayer.layer().matches("Ruskin Layer")){
-					master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-				}
+//				}
+//				else if(currentLayer.layer().matches("Diary Layer")) {
+//					master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+//				}
+//				else if (currentLayer.layer().matches("Ruskin Layer")){
+//					master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+//				}
 			}
 		});	
 		
@@ -236,13 +236,18 @@ public class PlaceMapWidget implements IsWidget {
 	
 	public String NewLayer(String choice) {
 		if(choice.matches("All Layers")) {
-			Window.alert("woops..You still need to set this up!");
+//			Window.alert("woops..You still need to set this up!");
+			PlotPointAll(true);
+			PlotPointDiary(false);
+			PlotPointsRuskin(false);
 		}
 		else if (choice.matches("Diary Layer")) {
+			PlotPointAll(false);
 			PlotPointDiary(true);
 			PlotPointsRuskin(false);
 		}
 		else if (choice.matches("Ruskin Layer")) {
+			PlotPointAll(false);
 			PlotPointDiary(false);
 			PlotPointsRuskin(true);
 		}
@@ -430,8 +435,8 @@ public class PlaceMapWidget implements IsWidget {
 			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
 			pointFeature.setFeatureId(c.getId());
 		
-			allVectorLayer.addFeature(pointFeature);
-			allControl.activate(); 		
+//			allVectorLayer.addFeature(pointFeature);
+//			allControl.activate(); 		
 		}
 
 		Bounds dataExtent = allVectorLayer.getDataExtent();
@@ -443,8 +448,11 @@ public class PlaceMapWidget implements IsWidget {
 		}
 	}
 	
-	public void PlotPointDiary(Boolean plot) {
-		map.addLayer(diaryVectorLayer);
+	public void PlotPointAll(Boolean plot) {
+		map.addLayer(allVectorLayer);
+		Style pointStyle = new Style();		
+		Style pointStyle2 = new Style();		
+		
 		if (plot == true) {
 			ReducedContact c = new ReducedContact("Test Point - Mary & JohnJames", 50, 52.5);
 			
@@ -452,8 +460,57 @@ public class PlaceMapWidget implements IsWidget {
 			
 			Point point = new Point(c.getLongitude(), c.getLatitude());
 			point.transform(proj, new Projection(map.getProjection()));
-			Style pointStyle = new Style();		
+					
+			pointStyle.setExternalGraphic("img/map_marker_red.png");
+			pointStyle.setGraphicSize(10, 17);
+			pointStyle.setFillOpacity(1.0);
+
+			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
+			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
+			pointFeature.setFeatureId(c.getId());
+			allVectorLayer.addFeature(pointFeature);
 			
+			ReducedContact c2 = new ReducedContact("John Was Here", 100, 60);
+			
+			LonLat ll2 = c2.getCoordinate();
+			Point point2 = new Point(ll2.lon(), ll2.lat());
+			point2.transform(proj, new Projection(map.getProjection()));	
+			pointStyle2.setExternalGraphic("img/map_marker_blue.png");
+			pointStyle2.setGraphicSize(10, 17);
+			pointStyle2.setFillOpacity(1.0);
+
+			VectorFeature pointFeature2 = new VectorFeature(point2, pointStyle2);
+			pointFeature2.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c2.getId());
+			pointFeature2.setFeatureId(c2.getId());
+			allVectorLayer.addFeature(pointFeature2);
+			
+//			RuskinsPoints.add(c2);
+//			JohnJamesPoints.add(c);
+//			JohnJamesPlaces.add(point);
+//			MarysPoints.add(c);
+//			MargaretsPlaces.add(point);
+			ruskinControl.deactivate();
+			diaryControl.deactivate();
+			allControl.activate();
+		}
+		else {
+			eraseAllContacts();
+			allControl.deactivate();
+			map.removeLayer(allVectorLayer);
+		}
+	}
+	
+	public void PlotPointDiary(Boolean plot) {
+		map.addLayer(diaryVectorLayer);
+		Style pointStyle = new Style();		
+		if (plot == true) {
+			ReducedContact c = new ReducedContact("Test Point - Mary & JohnJames", 50, 52.5);
+			
+			LonLat ll = c.getCoordinate();
+			
+			Point point = new Point(c.getLongitude(), c.getLatitude());
+			point.transform(proj, new Projection(map.getProjection()));
+		
 					
 			pointStyle.setExternalGraphic("img/map_marker_red.png");
 			pointStyle.setGraphicSize(10, 17);
@@ -470,6 +527,7 @@ public class PlaceMapWidget implements IsWidget {
 			MarysPoints.add(c);
 			MargaretsPlaces.add(point);
 			ruskinControl.deactivate();
+			allControl.deactivate();
 			diaryControl.activate();
 		}
 		else {
@@ -498,6 +556,7 @@ public class PlaceMapWidget implements IsWidget {
 			
 			RuskinsPoints.add(c);
 			JohnsPlaces.add(point);
+			allControl.deactivate();
 			diaryControl.deactivate();
 			ruskinControl.activate();
 		}
@@ -512,9 +571,7 @@ public class PlaceMapWidget implements IsWidget {
 	 * 
 	 */
 	public void eraseAllContacts() {
-		diaryVectorLayer.destroyFeatures();
-		ruskinVectorLayer.destroyFeatures();
-//		restoreStartupView();
+		allVectorLayer.destroyFeatures();
 	}
 	
 	/** Erases all contacts from the diary layer.
@@ -522,7 +579,6 @@ public class PlaceMapWidget implements IsWidget {
 	 */
 	public void eraseDiaryContacts() {
 		diaryVectorLayer.destroyFeatures();
-//		restoreStartupView();
 	}
 	
 	/** Erases all contacts from the Ruskin layer.
@@ -530,16 +586,7 @@ public class PlaceMapWidget implements IsWidget {
 	 */
 	public void eraseRuskinContacts() {
 		ruskinVectorLayer.destroyFeatures();
-//		restoreStartupView();
 	}
-
-	/** Positions and centers the map as it was on startup.\
-	 * 
-	 */
-//	public void restoreStartupView(){	
-//		this.zoomToBounds(bounds);		
-//		this.setCenter(center, 1);	 
-//	}
 	
 	/** Returns the layer responsible for drawing the contact images.
 	 * 
