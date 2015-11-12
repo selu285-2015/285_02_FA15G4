@@ -12,6 +12,7 @@ import com.ruskin.project.client.dialog.contact.DiaryLayerDialog;
 import com.ruskin.project.client.dialog.contact.RuskinDialog;
 import com.ruskin.project.client.searchWidget.SearchWidget;
 import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
+import com.ruskin.project.client.widget.time.TimeWidget;
 
 /**
  * The main widget, which is added to the RootPanel.
