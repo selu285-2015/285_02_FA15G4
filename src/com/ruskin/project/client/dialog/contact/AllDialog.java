@@ -1,6 +1,8 @@
 package com.ruskin.project.client.dialog.contact;
 
 
+import java.util.List;
+
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -9,17 +11,23 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.ListDataProvider;
 import com.ruskin.project.client.Main;
+import com.ruskin.project.client.MainWidget;
 import com.ruskin.project.client.SimplifiedCallback;
 import com.ruskin.project.shared.GWTContact;
 
@@ -28,8 +36,16 @@ import com.ruskin.project.shared.GWTContact;
  */
 public class AllDialog {
 	
+//	private final MainWidget master;
+	
 	private final NumberFormat nf = NumberFormat.getFormat("0.0####");
 	private final DialogBox dialog;
+	
+	protected final CellTable<GWTContact> table = new CellTable<GWTContact>();
+	private final ListDataProvider<GWTContact> dataProvider = new ListDataProvider<GWTContact>();		
+	private List<GWTContact> list = dataProvider.getList();	
+	
+	private final HorizontalPanel passPnl;
 	private final TabPanel tabPanel;
 	
 	private final SimplePanel maryView;
@@ -94,11 +110,29 @@ public class AllDialog {
 	private final Label V4lblLatitude;
 	private final Label V4lblLongitude;
 	
+	private final Label passThrus;
+	
 	private GWTContact showingFor;
+	
+//	private final AsyncCallback<List<GWTContact>> sortCallback = new AsyncCallback<List<GWTContact>>(){
+//		@Override
+//		public void onFailure(Throwable caught) {
+//			caught.printStackTrace();
+//		}
+//		public void onSuccess(List<GWTContact> result) {
+//			master.getResultPanel().getList().clear();
+//			
+//			for(GWTContact c: result){
+//				master.getResultPanel().getList().add(c);
+//			}
+//		}
+//	};
 
 	public AllDialog() {
+//		master = new MainWidget();
 		dialog = new DialogBox(false, true);
 		tabPanel = new TabPanel();
+		passPnl = new HorizontalPanel();
 		
 		maryView = new SimplePanel();
 		johnView = new SimplePanel();
@@ -106,6 +140,10 @@ public class AllDialog {
 		V2View = new SimplePanel();
 		V3View = new SimplePanel();
 		V4View = new SimplePanel();
+		
+		passThrus = new Label("pass-throughs");
+		passThrus.setWidth("100%");
+		passThrus.setStyleName("flexTableCellHead");
 	
 		MarylblId = new Label();
 		JohnJameslblId = new Label();
@@ -208,8 +246,48 @@ public class AllDialog {
 
 		final VerticalPanel mainContents = new VerticalPanel();
 		mainContents.getElement().getStyle().setWidth(100, Unit.PCT);
-
+		
+		// Create the Results table
+				TextColumn<GWTContact> countryColumn = new TextColumn<GWTContact>() {
+					@Override
+					public String getValue(GWTContact contact) {
+						return contact.getCountry();
+					}
+				};
+				TextColumn<GWTContact> locationColumn = new TextColumn<GWTContact>() {
+					@Override
+					public String getValue(GWTContact contact) {
+						return contact.getLocation();
+					}
+				};
+				TextColumn<GWTContact> sightColumn = new TextColumn<GWTContact>() {
+					@Override
+					public String getValue(GWTContact contact) {
+						return contact.getSights();
+					}
+				};
+				TextColumn<GWTContact> linkColumn = new TextColumn<GWTContact>() {
+					@Override
+					public String getValue(GWTContact contact) {
+						return contact.getLink();
+					}
+				};
+				
+		table.addColumn(countryColumn, "COUNTRY");
+		table.addColumn(locationColumn, "LOCATION");
+		table.addColumn(sightColumn, "SIGHTS");
+		table.addColumn(linkColumn, "LINK");	
+		
+		table.setWidth("100%", true);
+				
+		dataProvider.addDataDisplay(table);	
+		
+		passPnl.add(table);
+		passPnl.setStyleName("flexTableCell");
+		
 		mainContents.add(tabPanel);
+		mainContents.add(passThrus);
+		mainContents.add(passPnl);
 		mainContents.add(btnPanel);
 
 		dialog.setWidget(mainContents);
@@ -561,6 +639,22 @@ public class AllDialog {
 		showingFor = c;
 		updateUI();
 		dialog.center();
+	}
+	
+	public CellTable<GWTContact> getTable() {
+		return table;
+	}
+	
+	public List<GWTContact> getList() {
+		return list;
+	}
+
+	public void setList(List<GWTContact> newList){
+		list = newList;
+	}
+
+	public ListDataProvider<GWTContact> getDataProvider() {
+		return dataProvider;
 	}
 	
 }

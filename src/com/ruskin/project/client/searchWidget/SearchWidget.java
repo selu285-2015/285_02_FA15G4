@@ -73,8 +73,6 @@ public class SearchWidget implements IsWidget {
 		searchbar.add(box);
 		searchbar.add(b);
 		
-		
-		
 		panel.add(searchbar);
 		panel.add(scrollable);
 	}

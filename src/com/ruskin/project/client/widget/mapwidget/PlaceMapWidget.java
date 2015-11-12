@@ -80,9 +80,7 @@ public class PlaceMapWidget implements IsWidget {
 	private SelectFeature ruskinControl;
 	private SelectFeature allControl;
 	
-	private Bounds bounds = new Bounds(0, 0, 180, 90).transform(new Projection("EPSG: 900913"), new Projection("EPSG: 4326"));
-//	private Bounds bounds = new Bounds(0, 0, 180, 90).transform(new Projection("EPSG: 4326"), new Projection("EPSG: 900913"));
-	private final Bounds maxVisibleExtent;
+	private Bounds bounds = new Bounds(0, 0, 180, 90).transform(new Projection("EPSG: 4326"), new Projection("EPSG: 900913"));
 	
 	private final java.util.Map<String, WMS> wmsLayers = new HashMap<String,WMS>();
 	private final java.util.Map<String, Layer> layersHashMap= new HashMap<String, Layer>();
@@ -154,62 +152,45 @@ public class PlaceMapWidget implements IsWidget {
 		ruskinControl = new SelectFeature(ruskinVectorLayer, clickControlOptions);
 		allControl = new SelectFeature(allVectorLayer, clickControlOptions);
 		
+		allControl.setAutoActivate(true);  
+		diaryControl.setAutoActivate(true);  
+		ruskinControl.setAutoActivate(true);  
+		
 		map.addControl(diaryControl);
 		map.addControl(ruskinControl);
 		map.addControl(allControl);
 		
+			  
+
+		
 		diaryVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-//				if(currentLayer.layer().matches("All Layers")) {
-//					master.getAllDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
-//				else if(currentLayer.layer().matches("Diary Layer")) {
-					master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
-//				else if (currentLayer.layer().matches("Ruskin Layer")){
-//					master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
+				master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+				diaryControl.unSelect(eventObject.getVectorFeature());
 			}
 		});		
 		
 		ruskinVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-//				if(currentLayer.layer().matches("All Layers")) {
-//					master.getAllDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
-//				else if(currentLayer.layer().matches("Diary Layer")) {
-//					master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
-//				else if (currentLayer.layer().matches("Ruskin Layer")){
-					master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
+				master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+				ruskinControl.unSelect(eventObject.getVectorFeature());
 			}
 		});	
 		
 		allVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-//				if(currentLayer.layer().matches("All Layers")) {
-					master.getAllDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
-//				else if(currentLayer.layer().matches("Diary Layer")) {
-//					master.getDiaryDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
-//				else if (currentLayer.layer().matches("Ruskin Layer")){
-//					master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
-//				}
+				master.getAllDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
+				allControl.unSelect(eventObject.getVectorFeature());
 			}
 		});	
 		
 		this.setBaseLayer("TempLayer");
 		map.setRestrictedExtent(bounds);
 		map.zoomToExtent(bounds);
-//		this.zoomToBounds(bounds);
 		this.setCenter(new LonLat(90, 45), 2);
-		maxVisibleExtent = map.getExtent().transform( new Projection("EPSG: 900913"), new Projection("EPSG: 4326"));
-//		this.restoreStartupView();
 		
 	}	
 	
@@ -433,18 +414,7 @@ public class PlaceMapWidget implements IsWidget {
 
 			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
 			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
-			pointFeature.setFeatureId(c.getId());
-		
-//			allVectorLayer.addFeature(pointFeature);
-//			allControl.activate(); 		
-		}
-
-		Bounds dataExtent = allVectorLayer.getDataExtent();
-		boolean outOfBounds = !maxVisibleExtent.containsBounds(dataExtent, false, true);
-		if(!outOfBounds){		
-			zoomToBounds(allVectorLayer.getDataExtent());			
-		}else{
-			this.setCenter(center, 0);
+			pointFeature.setFeatureId(c.getId());	
 		}
 	}
 	
