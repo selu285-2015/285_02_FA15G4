@@ -49,6 +49,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.ruskin.project.client.Main;
 import com.ruskin.project.client.MainWidget;
+import com.ruskin.project.client.lists.MaryList;
 import com.ruskin.project.shared.Const;
 import com.ruskin.project.shared.QueryResult;
 
@@ -80,18 +81,11 @@ public class PlaceMapWidget implements IsWidget {
 	private SelectFeature ruskinControl;
 	private SelectFeature allControl;
 	
-	private Bounds bounds = new Bounds(0, 0, 180, 90).transform(new Projection("EPSG: 4326"), new Projection("EPSG: 900913"));
+	private Bounds bounds = new Bounds(-6602637.2967569,2397352.6248374,9051666.0938681,11202898.282064);
 	
-	private final java.util.Map<String, WMS> wmsLayers = new HashMap<String,WMS>();
-	private final java.util.Map<String, Layer> layersHashMap= new HashMap<String, Layer>();
+	private final MaryList Mary = new MaryList();
 	
-	private final LonLat center;
-	
-	private final ListDataProvider<GWTContact> dataProvider = new ListDataProvider<GWTContact>();		
-	private List<GWTContact> list = dataProvider.getList();	
-	private QueryResult currentQuery;
-	
-	private final List<ReducedContact> MarysPoints = new ArrayList<ReducedContact>();
+//	private final List<ReducedContact> MarysPoints = new ArrayList<ReducedContact>();
 	private final List<ReducedContact> JohnJamesPoints = new ArrayList<ReducedContact>();
 	private final List<ReducedContact> RuskinsPoints = new ArrayList<ReducedContact>();
 	
@@ -104,8 +98,6 @@ public class PlaceMapWidget implements IsWidget {
 	public PlaceMapWidget(int width, int height, final MainWidget master) {		
 		this.master = master;
 		
-		center = new LonLat(90, 45);
-		
 		currentLayer = new ChooseLayer(master);
 		
 		options = new MapOptions();
@@ -115,7 +107,7 @@ public class PlaceMapWidget implements IsWidget {
 		decorator = new VerticalPanel();
 		decorator.setStyleName("mapDecorator");
 		decorator.add(mapWidget);
-//		decorator.setStyleName("flexTableCell");
+		
 		proj = new Projection("EPSG:4326");
 		
 		map = mapWidget.getMap();
@@ -124,28 +116,12 @@ public class PlaceMapWidget implements IsWidget {
 		
 		BuildUI();
 		
-		map.addMapClickListener(new MapClickListener(){ 
-			@Override
-			public void onClick(MapClickEvent mapClickEvent) {
-				System.out.println("Hash code: " + PlaceMapWidget.this.hashCode());
-				System.out.println("Current projection: " + map.getProjection());
-				System.out.println("Current bounds: " + map.getExtent() + ", zoom: " + map.getZoom());
-				System.out.println("Chosen bounds: " + bounds );
-				System.out.println("Center: " + center.lat() + "," + center.lon());
-				System.out.println("Widget Size: " + getWidgetSize());
-				System.out.println("Map Size: " + getMapSize());
-			}
-		});	
-		
 		OSM tempLayer = OSM.Mapnik("TempLayer");
 		diaryVectorLayer = new Vector("Diary Layer");
 		ruskinVectorLayer = new Vector("Ruskin Layer");
 		allVectorLayer = new Vector("All Layers");
-//		this.addSingleLayerWMS("wms1", Main.getConfig().get(Const.KEY_WMS_BASE_LAYER));
-//		this.setBaseLayer("wms1");
-//		
+		
 		map.addLayer(tempLayer);
-		layersHashMap.put("TempLayer", tempLayer);	
 		
 		clickControlOptions = new SelectFeatureOptions();
 		diaryControl = new SelectFeature(diaryVectorLayer, clickControlOptions);
@@ -159,9 +135,6 @@ public class PlaceMapWidget implements IsWidget {
 		map.addControl(diaryControl);
 		map.addControl(ruskinControl);
 		map.addControl(allControl);
-		
-			  
-
 		
 		diaryVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
 			@Override
@@ -187,10 +160,13 @@ public class PlaceMapWidget implements IsWidget {
 			}
 		});	
 		
-		this.setBaseLayer("TempLayer");
 		map.setRestrictedExtent(bounds);
 		map.zoomToExtent(bounds);
-		this.setCenter(new LonLat(90, 45), 2);
+		this.zoomToBounds(bounds);
+		LonLat center = new LonLat(11,52);
+		center.transform(proj.getProjectionCode(), map.getProjection());
+		System.out.println("Center: " + center.lat() + "," + center.lon());
+		map.setCenter(center, 3);
 		
 	}	
 	
@@ -204,7 +180,6 @@ public class PlaceMapWidget implements IsWidget {
 		buttonPanel.add(plot);
 		
 		decorator.add(buttonPanel);
-		String choice = null;
 		
 		plot.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -217,7 +192,6 @@ public class PlaceMapWidget implements IsWidget {
 	
 	public String NewLayer(String choice) {
 		if(choice.matches("All Layers")) {
-//			Window.alert("woops..You still need to set this up!");
 			PlotPointAll(true);
 			PlotPointDiary(false);
 			PlotPointsRuskin(false);
@@ -235,30 +209,6 @@ public class PlaceMapWidget implements IsWidget {
 		return choice;
 	}
 	
-	/** Adds a {@link Layer} to the map.
-	 * 
-	 * @param name
-	 * @param layer
-	 */
-	public void addLayer(String name, Layer layer) {
-		layersHashMap.put(name, layer);
-		this.map.addLayer(layer);
-	}
-
-	/** Removes the specified layer from this MapWidget.
-	 * 
-	 * @param name - the layer to be removed
-	 */
-	public void removeLayer(String name){
-		Layer layer = layersHashMap.get(name);
-		this.map.removeLayer(layer);
-		layersHashMap.remove(name);
-		if (layer instanceof WMS){
-			wmsLayers.remove(name);	
-		}
-
-	}
-	
 	/** Returns the current base layer of this MapWidget.
 	 * 
 	 * @return
@@ -267,80 +217,6 @@ public class PlaceMapWidget implements IsWidget {
 		return this.map.getBaseLayer();
 	}
 
-	/** Sets the base layer for this MapWidget.
-	 * 
-	 * @param name
-	 */
-	public void setBaseLayer(String name) {		
-		this.map.setBaseLayer(layersHashMap.get(name));
-	}
-
-	/** Returns the longitude and latitude coordinates for the center of the map in {@link LonLat} format.
-	 *  
-	 * @return
-	 */
-	public LonLat getCenter() {
-		return this.map.getCenter();
-	}
-	
-	/** Sets the center of the map.
-	 * 
-	 * @param ll
-	 */	
-	public void setCenter(LonLat ll) {
-		this.map.setCenter(ll);
-	}	
-	
-	/** Sets the center of the map and zoom level.
-	 * 
-	 * @param ll
-	 * @param zoom
-	 */	
-	public void setCenter(LonLat ll, int zoom) {
-		this.map.setCenter(ll, zoom);
-	}	
-	
-
-	/** Adds a {@link WMS} with only one map layer to this MapWidget.
-	 * 
-	 * @param name
-	 * @param url - the URL needed for the WMS layer
-	 */
-	public void addSingleLayerWMS(String name, String url) {
-		WMSParams wmsParams = new WMSParams();
-		WMSOptions wmsLayerParams = new WMSOptions();
-		wmsParams.setFormat("image/png");
-		wmsParams.setLayers("bluemarble");
-		wmsParams.setStyles("");
-		wmsLayerParams.setUntiled();
-		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
-		WMS wmsLayer = new WMS(name, url, wmsParams, wmsLayerParams);
-		wmsLayers.put(name,wmsLayer);
-		layersHashMap.put(name, wmsLayer);			
-		this.map.addLayer(wmsLayer);
-
-	}
-
-	/** Adds a {@link WMS} with multiple layers to this MapWidget.
-	 * 
-	 * @param name
-	 * @param url - the URLs needed for the WMS layer
-	 */
-	public void addMultiLayerWMS(String name, String[] urls) {
-		WMSParams wmsParams = new WMSParams();
-		WMSOptions wmsLayerParams = new WMSOptions();
-		wmsParams.setFormat("image/png");
-		wmsParams.setLayers("basic");
-		wmsParams.setStyles("");
-		wmsLayerParams.setUntiled();
-		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
-		WMS wmsLayer = new WMS(name, urls, wmsParams, wmsLayerParams);
-		wmsLayers.put(name,wmsLayer);
-		layersHashMap.put(name, wmsLayer);
-		this.map.addLayer(wmsLayer);
-
-	}
-	
 	/** Zooms to a specified bounding box.
 	 * 
 	 * @param bounds
@@ -368,30 +244,6 @@ public class PlaceMapWidget implements IsWidget {
 	public Layer[] getLayers() {
 		return map.getLayers();
 	}
-
-	/** Returns an array of all the WMS layers that have been added to this MapWidget.
-	 * 
-	 * @return
-	 */
-	public WMS[] getWMSLayers(){
-		return wmsLayers.values().toArray(new WMS[wmsLayers.size()]);
-	}
-
-	/** Returns the pixel width and height of the whole widget, including the button panel, as a {@link Size} object.
-	 * 
-	 * @return
-	 */
-	public Size getWidgetSize(){
-		return new Size(decorator.getOffsetWidth(), decorator.getOffsetHeight());
-	}
-
-	/** Returns the size, in pixels, of the actual map contained in this MapWidget.
-	 *  
-	 * @return
-	 */
-	public Size getMapSize(){
-		return map.getSize();
-	}	
 	
 	/**
 	 * Prints the given {@link ReducedContact}s on this PlaceMapWidget.
@@ -400,10 +252,6 @@ public class PlaceMapWidget implements IsWidget {
 	 *            - a list of {@link ReducedContact} objects
 	 */		
 	public void printContacts(List<? extends GWTContact> contacts) {
-//		diaryVectorLayer.destroyFeatures();
-//		ruskinVectorLayer.destroyFeatures();
-//		map.removeLayer(diaryVectorLayer);
-//		map.removeLayer(ruskinVectorLayer);
 		for (GWTContact c : contacts) {
 			LonLat ll = c.getCoordinate();
 			Point point = new Point(ll.lon(), ll.lat());
@@ -424,23 +272,25 @@ public class PlaceMapWidget implements IsWidget {
 		Style pointStyle2 = new Style();		
 		
 		if (plot == true) {
-			ReducedContact c = new ReducedContact("Test Point - Mary & JohnJames", 50, 52.5);
 			
-			LonLat ll = c.getCoordinate();
+			for (int i=0; i<MaryList.getSize(); i++) {
+				ReducedContact c = MaryList.getReducedContact(i);
 			
-			Point point = new Point(c.getLongitude(), c.getLatitude());
-			point.transform(proj, new Projection(map.getProjection()));
+				LonLat ll = c.getCoordinate();
+				Point point = new Point(c.getLongitude(), c.getLatitude());
+				point.transform(proj, new Projection(map.getProjection()));
 					
-			pointStyle.setExternalGraphic("img/map_marker_red.png");
-			pointStyle.setGraphicSize(10, 17);
-			pointStyle.setFillOpacity(1.0);
+				pointStyle.setExternalGraphic("img/map_marker_red.png");
+				pointStyle.setGraphicSize(10, 17);
+				pointStyle.setFillOpacity(1.0);
 
-			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
-			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
-			pointFeature.setFeatureId(c.getId());
-			allVectorLayer.addFeature(pointFeature);
+				VectorFeature pointFeature = new VectorFeature(point, pointStyle);
+				pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
+				pointFeature.setFeatureId(c.getId());
+				allVectorLayer.addFeature(pointFeature);
+			}
 			
-			ReducedContact c2 = new ReducedContact("John Was Here", 100, 60);
+			ReducedContact c2 = new ReducedContact("John Was Here", 60, 40);
 			
 			LonLat ll2 = c2.getCoordinate();
 			Point point2 = new Point(ll2.lon(), ll2.lat());
@@ -454,11 +304,6 @@ public class PlaceMapWidget implements IsWidget {
 			pointFeature2.setFeatureId(c2.getId());
 			allVectorLayer.addFeature(pointFeature2);
 			
-//			RuskinsPoints.add(c2);
-//			JohnJamesPoints.add(c);
-//			JohnJamesPlaces.add(point);
-//			MarysPoints.add(c);
-//			MargaretsPlaces.add(point);
 			ruskinControl.deactivate();
 			diaryControl.deactivate();
 			allControl.activate();
@@ -472,30 +317,30 @@ public class PlaceMapWidget implements IsWidget {
 	
 	public void PlotPointDiary(Boolean plot) {
 		map.addLayer(diaryVectorLayer);
-		Style pointStyle = new Style();		
+		Style pointStyle = new Style();	
+		
 		if (plot == true) {
-			ReducedContact c = new ReducedContact("Test Point - Mary & JohnJames", 50, 52.5);
+			System.out.println(MaryList.getSize());
+			for (int i=0; i<MaryList.getSize(); i++) {
+				ReducedContact c = MaryList.getReducedContact(i);
 			
-			LonLat ll = c.getCoordinate();
-			
-			Point point = new Point(c.getLongitude(), c.getLatitude());
-			point.transform(proj, new Projection(map.getProjection()));
-		
+				LonLat ll = c.getCoordinate();
+				Point point = new Point(c.getLongitude(), c.getLatitude());
+				point.transform(proj, new Projection(map.getProjection()));
 					
-			pointStyle.setExternalGraphic("img/map_marker_red.png");
-			pointStyle.setGraphicSize(10, 17);
-			pointStyle.setFillOpacity(1.0);
+				pointStyle.setExternalGraphic("img/map_marker_red.png");
+				pointStyle.setGraphicSize(10, 17);
+				pointStyle.setFillOpacity(1.0);
 
-			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
-			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
-			pointFeature.setFeatureId(c.getId());
-			diaryVectorLayer.addFeature(pointFeature);
-			
+				VectorFeature pointFeature = new VectorFeature(point, pointStyle);
+				pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
+				pointFeature.setFeatureId(c.getId());
+				diaryVectorLayer.addFeature(pointFeature);
+			}
 		
-			JohnJamesPoints.add(c);
-			JohnJamesPlaces.add(point);
-			MarysPoints.add(c);
-			MargaretsPlaces.add(point);
+//			JohnJamesPoints.add(c);
+//			JohnJamesPlaces.add(point);
+//			MargaretsPlaces.add(point);
 			ruskinControl.deactivate();
 			allControl.deactivate();
 			diaryControl.activate();
@@ -510,7 +355,7 @@ public class PlaceMapWidget implements IsWidget {
 		Style pointStyle = new Style();	
 		map.addLayer(ruskinVectorLayer);
 		if (plot == true) {
-			ReducedContact c = new ReducedContact("John Was Here", 100, 60);
+			ReducedContact c = new ReducedContact("John Was Here", 60, 40);
 			
 			LonLat ll = c.getCoordinate();
 			Point point = new Point(ll.lon(), ll.lat());
@@ -572,40 +417,6 @@ public class PlaceMapWidget implements IsWidget {
 		else {
 			return allVectorLayer;
 		}
-	}
-	
-	private final AsyncCallback<List<GWTContact>> queryCacheCallback = new AsyncCallback<List<GWTContact>>() {
-		public void onFailure(Throwable caught) {
-			// Show the RPC error message to the user
-			System.out.print("'" + caught);
-		}
-
-		// populate table
-		public void onSuccess(List<GWTContact> result) {
-			
-			for (GWTContact c : result) {
-				getList().add(c);
-				master.getMap().printContacts(result);
-			}
-			master.getMap().getVectorLayer().redraw();
-		}
-	};
-	
-	public void doCacheCallback() {
-		Main.getContactServices().queryCache(currentQuery.getQueryId(),
-				currentQuery.getHitRange(), queryCacheCallback);
-	}
-	
-	public List<GWTContact> getList() {
-		return list;
-	}
-
-	public void setList(List<GWTContact> newList){
-		list = newList;
-	}
-
-	public ListDataProvider<GWTContact> getDataProvider() {
-		return dataProvider;
 	}
 
 	@Override

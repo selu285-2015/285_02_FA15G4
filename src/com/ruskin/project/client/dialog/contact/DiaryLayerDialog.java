@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.ruskin.project.client.Main;
 import com.ruskin.project.client.SimplifiedCallback;
+import com.ruskin.project.client.lists.MaryList;
 import com.ruskin.project.shared.GWTContact;
 
 /** This Widget is intended to display metadata describing clicked points
@@ -74,6 +75,7 @@ public class DiaryLayerDialog {
 	private final Label passThrus;
 	
 	private GWTContact showingFor;
+	private GWTContact showingForMary;
 
 	public DiaryLayerDialog() {
 		dialog = new DialogBox(false, true);
@@ -121,6 +123,7 @@ public class DiaryLayerDialog {
 			@Override
 			public void onClose(final CloseEvent<PopupPanel> event) {
 				showingFor = null;
+				showingForMary = null;
 			}
 		});
 
@@ -344,6 +347,7 @@ public class DiaryLayerDialog {
 
 	public void showFor(final GWTContact c) {
 		showingFor = c;
+		showingForMary = MaryList.getContact(c.getId());
 		updateUI();
 		dialog.center();
 	}

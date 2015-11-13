@@ -21,7 +21,6 @@ public class QueryResult implements IsSerializable {
 		this.queryId = queryId;
 		this.hitCount = hitCount;
 		reducedList = new ArrayList<ReducedContact>();
-		
 	}	
 	
 	private QueryResult (){

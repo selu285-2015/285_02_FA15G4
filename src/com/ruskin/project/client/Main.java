@@ -1,6 +1,7 @@
 package com.ruskin.project.client;
 
 import java.util.Collections;
+
 import java.util.List;
 import java.util.Map;
 
@@ -29,19 +30,10 @@ public class Main implements EntryPoint {
 	public static ContactServiceAsync getContactServices() {
 		return INSTANCE.manager;
 	}
-	
-	/**
-	 * Get the Map of config to key values. Known keys are defined in {@link Const}.
-	 * This map is unmodifiable.
-	 */
-//	public static Map<String, String> getConfig() {
-//		return INSTANCE.config;
-//	}
 
 	private Map<String, String> config;
 
 	private Main() {
-//		Main.this.config = Collections.unmodifiableMap(config);
 		INSTANCE = this;
 		manager = GWT.create(ContactService.class);
 	}

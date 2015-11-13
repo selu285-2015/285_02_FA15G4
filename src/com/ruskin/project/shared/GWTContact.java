@@ -17,7 +17,6 @@ public class GWTContact extends ReducedContact{
 	public static GWTContact createGWTContact(String id){
 		GWTContact contact = new GWTContact();
 		contact.id = id;
-		
 		return contact;	
 	}	
 

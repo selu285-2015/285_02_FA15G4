@@ -14,6 +14,7 @@ import com.ruskin.project.shared.ReducedContact;
  */
 @RemoteServiceRelativePath("pm")
 public interface ContactService extends RemoteService {
+	
 	/**
 	 * Get a contact from the supplied contact id.
 	 */
