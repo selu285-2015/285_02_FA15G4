@@ -282,54 +282,61 @@ public class DiaryLayerDialog {
 	}
 
 	private void updateUI() {
-		dialog.setText("Metadata for Point " + showingFor.getId());
+		dialog.setText(showingFor.getId());
 		final StringBuilder txt = new StringBuilder();
-
 		{
 			final String val = showingFor.getCountry();
-			MarylblId.setText(val);
+			final String Mval = showingForMary.getCountry();
+			MarylblId.setText(Mval);
 			JohnJameslblId.setText(val);
-			txt.append("ID: ").append(val).append("<br />");
+			txt.append("Country: ").append(val).append("<br />");
 		}
 		{
 			final String val = nf.format(showingFor.getLongitude());
-			MarylblLongitude.setText(val);
+			final String Mval = nf.format(showingForMary.getLongitude());
+			MarylblLongitude.setText(Mval);
 			JohnJameslblLongitude.setText(val);
 			txt.append("Longitude: ").append(val).append("<br />");
 		}
 		{
 			final String val = nf.format(showingFor.getLatitude());
-			MarylblLatitude.setText(val);
+			final String Mval = nf.format(showingForMary.getLatitude());
+			MarylblLatitude.setText(Mval);
 			JohnJameslblLatitude.setText(val);
 			txt.append("Latitude: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getArrivalDate();
-			MarylblArrivalDate.setText(val);
+			final String Mval = showingForMary.getArrivalDate();
+			MarylblArrivalDate.setText(Mval);
 			JohnJameslblArrivalDate.setText(val);
 			txt.append("Arrival Date: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getDepartDate();
-			MarylblDepartDate.setText(val);
+			final String Mval = showingForMary.getDepartDate();
+			MarylblDepartDate.setText(Mval);
 			JohnJameslblDepartDate.setText(val);
 			txt.append("Depart Date: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getLocation();
-			MarylblLocation.setText(val);
+			final String Mval = showingForMary.getLocation();
+			MarylblLocation.setText(Mval);
 			JohnJameslblLocation.setText(val);
 			txt.append("Location: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getLink();
-			MarylblLink.setText(val);
+			final String Mval = showingForMary.getLink();
+			MarylblLink.setText(Mval);
 			JohnJameslblLink.setText(val);
 			txt.append("Link: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getSights();
-			MarylblSights.setText(val);
+			final String Mval = showingForMary.getSights();
+			MarylblSights.setText(Mval);
 			JohnJameslblSights.setText(val);
 			txt.append("Sights: ").append(val).append("<br />");
 		}

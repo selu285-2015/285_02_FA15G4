@@ -526,7 +526,7 @@ public class AllDialog {
 	}
 
 	private void updateUI() {
-		dialog.setText("Metadata for Point " + showingFor.getId());
+		dialog.setText(showingFor.getId());
 		final StringBuilder txt = new StringBuilder();
 
 		{
