@@ -30,6 +30,7 @@ import com.ruskin.project.client.Main;
 import com.ruskin.project.client.SimplifiedCallback;
 import com.ruskin.project.client.lists.MaryList;
 import com.ruskin.project.shared.GWTContact;
+import com.ruskin.project.shared.GWTPassThrough;
 
 /** This Widget is intended to display metadata describing clicked points
  *Author: Brittney Jarreau
@@ -39,9 +40,9 @@ public class DiaryLayerDialog {
 	private final NumberFormat nf = NumberFormat.getFormat("0.0####");
 	private final DialogBox dialog;
 	
-	protected final CellTable<GWTContact> table = new CellTable<GWTContact>();
-	private final ListDataProvider<GWTContact> dataProvider = new ListDataProvider<GWTContact>();		
-	private List<GWTContact> list = dataProvider.getList();	
+	protected final CellTable<GWTPassThrough> table = new CellTable<GWTPassThrough>();
+	private final ListDataProvider<GWTPassThrough> dataProvider = new ListDataProvider<GWTPassThrough>();		
+	private List<GWTPassThrough> list = dataProvider.getList();	
 	
 	private final HorizontalPanel passPnl;
 	private final TabPanel tabPanel;
@@ -136,7 +137,6 @@ public class DiaryLayerDialog {
 		tabPanel.add(johnView, "John James");
 		tabPanel.selectTab(0);
 
-
 		final FlowPanel btnPanel = new FlowPanel();
 
 		final Button btnClose = new Button("Close");
@@ -154,27 +154,27 @@ public class DiaryLayerDialog {
 		mainContents.getElement().getStyle().setWidth(100, Unit.PCT);
 
 		// Create the Results table
-		TextColumn<GWTContact> countryColumn = new TextColumn<GWTContact>() {
+		TextColumn<GWTPassThrough> countryColumn = new TextColumn<GWTPassThrough>() {
 			@Override
-			public String getValue(GWTContact contact) {
+			public String getValue(GWTPassThrough contact) {
 				return contact.getCountry();
 			}
 		};
-		TextColumn<GWTContact> locationColumn = new TextColumn<GWTContact>() {
+		TextColumn<GWTPassThrough> locationColumn = new TextColumn<GWTPassThrough>() {
 			@Override
-			public String getValue(GWTContact contact) {
+			public String getValue(GWTPassThrough contact) {
 				return contact.getLocation();
 			}
 		};
-		TextColumn<GWTContact> sightColumn = new TextColumn<GWTContact>() {
+		TextColumn<GWTPassThrough> sightColumn = new TextColumn<GWTPassThrough>() {
 			@Override
-			public String getValue(GWTContact contact) {
+			public String getValue(GWTPassThrough contact) {
 				return contact.getSights();
 			}
 		};
-		TextColumn<GWTContact> linkColumn = new TextColumn<GWTContact>() {
+		TextColumn<GWTPassThrough> linkColumn = new TextColumn<GWTPassThrough>() {
 			@Override
-			public String getValue(GWTContact contact) {
+			public String getValue(GWTPassThrough contact) {
 				return contact.getLink();
 			}
 		};
@@ -359,19 +359,19 @@ public class DiaryLayerDialog {
 		dialog.center();
 	}
 	
-	public CellTable<GWTContact> getTable() {
+	public CellTable<GWTPassThrough> getTable() {
 		return table;
 	}
 	
-	public List<GWTContact> getList() {
+	public List<GWTPassThrough> getList() {
 		return list;
 	}
 
-	public void setList(List<GWTContact> newList){
+	public void setList(List<GWTPassThrough> newList){
 		list = newList;
 	}
 
-	public ListDataProvider<GWTContact> getDataProvider() {
+	public ListDataProvider<GWTPassThrough> getDataProvider() {
 		return dataProvider;
 	}
 	

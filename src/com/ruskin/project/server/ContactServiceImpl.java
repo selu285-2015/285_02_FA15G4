@@ -1,6 +1,7 @@
 package com.ruskin.project.server;
 
 import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,6 @@ import java.util.UUID;
 
 import com.ruskin.project.client.ContactService;
 import com.ruskin.project.shared.GWTContact;
-import com.ruskin.project.shared.QueryResult;
 import com.ruskin.project.shared.ReducedContact;
 //import com.sun.jersey.api.client.ClientResponse;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -33,25 +33,6 @@ public class ContactServiceImpl extends RemoteServiceServlet implements ContactS
 		return null;
 	}
 	
-//	@Override
-//	public QueryResult queryForContacts(String query, String oldQueryId) {
-//		if(oldQueryId != null){
-//			cacheMap.getCache().remove(oldQueryId);
-//		}
-
-//		final ClientResponse response = web.queryParam("filter", query).accept("application/json").get(ClientResponse.class);
-//		ContactList contacts = response.getEntity(ContactList.class);
-
-//		UUID uuid = UUID.randomUUID();
-//		QueryResult result = new QueryResult(uuid.toString(), contactList.class.getContacts().size());
-//
-//		for(Contact c:contacts.getContacts()){
-//			result.getReducedList().add(new ReducedContact(c.getId(),c.getLongitude(),c.getLatitude()));
-//		}
-//		cacheMap.getCache().put(uuid.toString(), contacts);
-//		return result;
-//	}
-
 	@Override
 	public List<GWTContact> queryCache(String queryId, int[] hitRange) {
 		ContactList list = cacheMap.getCache().get(queryId);

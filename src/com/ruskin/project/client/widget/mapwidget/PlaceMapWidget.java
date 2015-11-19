@@ -2,56 +2,36 @@ package com.ruskin.project.client.widget.mapwidget;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.gwtopenmaps.openlayers.client.Bounds;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
-import org.gwtopenmaps.openlayers.client.MapUnits;
 import org.gwtopenmaps.openlayers.client.MapWidget;
 import org.gwtopenmaps.openlayers.client.Projection;
-import org.gwtopenmaps.openlayers.client.Size;
 import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.SelectFeature;
 import org.gwtopenmaps.openlayers.client.control.SelectFeatureOptions;
-import org.gwtopenmaps.openlayers.client.event.MapClickListener;
 import org.gwtopenmaps.openlayers.client.event.VectorFeatureSelectedListener;
-import org.gwtopenmaps.openlayers.client.event.MapClickListener.MapClickEvent;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
 import org.gwtopenmaps.openlayers.client.layer.Layer;
-import org.gwtopenmaps.openlayers.client.layer.LayerOptions;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
-import org.gwtopenmaps.openlayers.client.layer.OSMOptions;
-import org.gwtopenmaps.openlayers.client.layer.TransitionEffect;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
-import org.gwtopenmaps.openlayers.client.layer.VectorOptions;
-import org.gwtopenmaps.openlayers.client.layer.WMS;
-import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
-import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 
-import com.ruskin.project.shared.GWTContact;
-import com.ruskin.project.shared.ReducedContact;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.ListDataProvider;
-import com.ruskin.project.client.Main;
 import com.ruskin.project.client.MainWidget;
 import com.ruskin.project.client.lists.MaryList;
 import com.ruskin.project.shared.Const;
-import com.ruskin.project.shared.QueryResult;
+import com.ruskin.project.shared.GWTContact;
+import com.ruskin.project.shared.ReducedContact;
 
 /** A slippy map widget designed for displaying the location of contacts.
  * 	There is one layer in this widget for displaying the
@@ -85,12 +65,7 @@ public class PlaceMapWidget implements IsWidget {
 	
 	private final MaryList Mary = new MaryList();
 	
-//	private final List<ReducedContact> MarysPoints = new ArrayList<ReducedContact>();
-	private final List<ReducedContact> JohnJamesPoints = new ArrayList<ReducedContact>();
 	private final List<ReducedContact> RuskinsPoints = new ArrayList<ReducedContact>();
-	
-	private final List<Point> MargaretsPlaces = new ArrayList<Point>();
-	private final List<Point> JohnJamesPlaces = new ArrayList<Point>();
 	private final List<Point> JohnsPlaces = new ArrayList<Point>();
 	
 	private final Projection proj;
@@ -163,10 +138,9 @@ public class PlaceMapWidget implements IsWidget {
 		map.setRestrictedExtent(bounds);
 		map.zoomToExtent(bounds);
 		this.zoomToBounds(bounds);
-		LonLat center = new LonLat(11,52);
+		LonLat center = new LonLat(8,48);
 		center.transform(proj.getProjectionCode(), map.getProjection());
-		System.out.println("Center: " + center.lat() + "," + center.lon());
-		map.setCenter(center, 3);
+		map.setCenter(center, 5);
 		
 	}	
 	
@@ -245,26 +219,26 @@ public class PlaceMapWidget implements IsWidget {
 		return map.getLayers();
 	}
 	
-	/**
-	 * Prints the given {@link ReducedContact}s on this PlaceMapWidget.
-	 * 
-	 * @param contacts
-	 *            - a list of {@link ReducedContact} objects
-	 */		
-	public void printContacts(List<? extends GWTContact> contacts) {
-		for (GWTContact c : contacts) {
-			LonLat ll = c.getCoordinate();
-			Point point = new Point(ll.lon(), ll.lat());
-			Style pointStyle = new Style();		
-			pointStyle.setExternalGraphic("img/red_push_pin.png");
-			pointStyle.setGraphicSize(10, 17);
-			pointStyle.setFillOpacity(1.0);
-
-			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
-			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
-			pointFeature.setFeatureId(c.getId());	
-		}
-	}
+//	/**
+//	 * Prints the given {@link ReducedContact}s on this PlaceMapWidget.
+//	 * 
+//	 * @param contacts
+//	 *            - a list of {@link ReducedContact} objects
+//	 */		
+//	public void printContacts(List<? extends GWTContact> contacts) {
+//		for (GWTContact c : contacts) {
+//			LonLat ll = c.getCoordinate();
+//			Point point = new Point(ll.lon(), ll.lat());
+//			Style pointStyle = new Style();		
+//			pointStyle.setExternalGraphic("img/red_push_pin.png");
+//			pointStyle.setGraphicSize(10, 17);
+//			pointStyle.setFillOpacity(1.0);
+//
+//			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
+//			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
+//			pointFeature.setFeatureId(c.getId());	
+//		}
+//	}
 	
 	public void PlotPointAll(Boolean plot) {
 		map.addLayer(allVectorLayer);
@@ -276,7 +250,7 @@ public class PlaceMapWidget implements IsWidget {
 			for (int i=0; i<MaryList.getSize(); i++) {
 				ReducedContact c = MaryList.getReducedContact(i);
 			
-				LonLat ll = c.getCoordinate();
+//				LonLat ll = c.getCoordinate();
 				Point point = new Point(c.getLongitude(), c.getLatitude());
 				point.transform(proj, new Projection(map.getProjection()));
 					
@@ -290,20 +264,20 @@ public class PlaceMapWidget implements IsWidget {
 				allVectorLayer.addFeature(pointFeature);
 			}
 			
-			ReducedContact c2 = new ReducedContact("John Was Here", 60, 40);
-			
-			LonLat ll2 = c2.getCoordinate();
-			Point point2 = new Point(ll2.lon(), ll2.lat());
-			point2.transform(proj, new Projection(map.getProjection()));	
-			pointStyle2.setExternalGraphic("img/map_marker_blue.png");
-			pointStyle2.setGraphicSize(10, 17);
-			pointStyle2.setFillOpacity(1.0);
-
-			VectorFeature pointFeature2 = new VectorFeature(point2, pointStyle2);
-			pointFeature2.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c2.getId());
-			pointFeature2.setFeatureId(c2.getId());
-			allVectorLayer.addFeature(pointFeature2);
-			
+//			ReducedContact c2 = new ReducedContact("John Was Here", 60, 40);
+//			
+//			LonLat ll2 = c2.getCoordinate();
+//			Point point2 = new Point(ll2.lon(), ll2.lat());
+//			point2.transform(proj, new Projection(map.getProjection()));	
+//			pointStyle2.setExternalGraphic("img/map_marker_blue.png");
+//			pointStyle2.setGraphicSize(10, 17);
+//			pointStyle2.setFillOpacity(1.0);
+//
+//			VectorFeature pointFeature2 = new VectorFeature(point2, pointStyle2);
+//			pointFeature2.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c2.getId());
+//			pointFeature2.setFeatureId(c2.getId());
+//			allVectorLayer.addFeature(pointFeature2);
+//			
 			ruskinControl.deactivate();
 			diaryControl.deactivate();
 			allControl.activate();
@@ -324,7 +298,7 @@ public class PlaceMapWidget implements IsWidget {
 			for (int i=0; i<MaryList.getSize(); i++) {
 				ReducedContact c = MaryList.getReducedContact(i);
 			
-				LonLat ll = c.getCoordinate();
+//				LonLat ll = c.getCoordinate();
 				Point point = new Point(c.getLongitude(), c.getLatitude());
 				point.transform(proj, new Projection(map.getProjection()));
 					
@@ -337,10 +311,6 @@ public class PlaceMapWidget implements IsWidget {
 				pointFeature.setFeatureId(c.getId());
 				diaryVectorLayer.addFeature(pointFeature);
 			}
-		
-//			JohnJamesPoints.add(c);
-//			JohnJamesPlaces.add(point);
-//			MargaretsPlaces.add(point);
 			ruskinControl.deactivate();
 			allControl.deactivate();
 			diaryControl.activate();

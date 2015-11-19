@@ -528,7 +528,6 @@ public class AllDialog {
 	private void updateUI() {
 		dialog.setText(showingFor.getId());
 		final StringBuilder txt = new StringBuilder();
-
 		{
 			final String val = showingFor.getCountry();
 			final String Mval = showingForMary.getCountry();
