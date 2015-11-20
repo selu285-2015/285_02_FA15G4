@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.ruskin.project.client.MainWidget;
 import com.ruskin.project.client.lists.MaryList;
+import com.ruskin.project.client.lists.PassThrough;
 import com.ruskin.project.shared.Const;
 import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.ReducedContact;
@@ -64,6 +65,7 @@ public class PlaceMapWidget implements IsWidget {
 	private Bounds bounds = new Bounds(-6602637.2967569,2397352.6248374,9051666.0938681,11202898.282064);
 	
 	private final MaryList Mary = new MaryList();
+	private final PassThrough Pass = new PassThrough();
 	
 	private final List<ReducedContact> RuskinsPoints = new ArrayList<ReducedContact>();
 	private final List<Point> JohnsPlaces = new ArrayList<Point>();
@@ -250,7 +252,6 @@ public class PlaceMapWidget implements IsWidget {
 			for (int i=0; i<MaryList.getSize(); i++) {
 				ReducedContact c = MaryList.getReducedContact(i);
 			
-//				LonLat ll = c.getCoordinate();
 				Point point = new Point(c.getLongitude(), c.getLatitude());
 				point.transform(proj, new Projection(map.getProjection()));
 					
@@ -298,7 +299,6 @@ public class PlaceMapWidget implements IsWidget {
 			for (int i=0; i<MaryList.getSize(); i++) {
 				ReducedContact c = MaryList.getReducedContact(i);
 			
-//				LonLat ll = c.getCoordinate();
 				Point point = new Point(c.getLongitude(), c.getLatitude());
 				point.transform(proj, new Projection(map.getProjection()));
 					

@@ -50,9 +50,9 @@ public class MaryList extends ArrayList<GWTContact>{
 		gwtC4.setDepartDate("17 May, 1833");
 		gwtC4.setSights("Hotel d'Angleterre, Ascension Day procession");
 		
-		GWTContact gwtC5 = GWTContact.createGWTContact("Lillie");
+		GWTContact gwtC5 = GWTContact.createGWTContact("Lille");
 		gwtC5.setCountry("France");
-		gwtC5.setLocation("Lillie");
+		gwtC5.setLocation("Lille");
 		gwtC5.setLongitude(3.05858);
 		gwtC5.setLatitude(50.63297);
 		gwtC5.setArrivalDate("17 May, 1833");

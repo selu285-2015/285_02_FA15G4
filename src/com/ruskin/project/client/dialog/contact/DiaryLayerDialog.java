@@ -1,6 +1,7 @@
 package com.ruskin.project.client.dialog.contact;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.ruskin.project.client.Main;
 import com.ruskin.project.client.SimplifiedCallback;
 import com.ruskin.project.client.lists.MaryList;
+import com.ruskin.project.client.lists.PassThrough;
 import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.GWTPassThrough;
 
@@ -77,7 +79,9 @@ public class DiaryLayerDialog {
 	
 	private GWTContact showingFor;
 	private GWTContact showingForMary;
-
+	
+	private List<GWTPassThrough> newList;
+	
 	public DiaryLayerDialog() {
 		dialog = new DialogBox(false, true);
 		tabPanel = new TabPanel();
@@ -117,6 +121,7 @@ public class DiaryLayerDialog {
 	}
 
 	private void buildUI() {
+
 		dialog.getElement().getStyle().setZIndex(2000);
 		dialog.setGlassEnabled(true);
 		dialog.setWidth("500px");
@@ -125,6 +130,7 @@ public class DiaryLayerDialog {
 			public void onClose(final CloseEvent<PopupPanel> event) {
 				showingFor = null;
 				showingForMary = null;
+				list.clear();
 			}
 		});
 
@@ -152,7 +158,7 @@ public class DiaryLayerDialog {
 
 		final VerticalPanel mainContents = new VerticalPanel();
 		mainContents.getElement().getStyle().setWidth(100, Unit.PCT);
-
+		
 		// Create the Results table
 		TextColumn<GWTPassThrough> countryColumn = new TextColumn<GWTPassThrough>() {
 			@Override
@@ -190,7 +196,7 @@ public class DiaryLayerDialog {
 
 		passPnl.add(table);
 		passPnl.setStyleName("flexTableCell");
-		
+
 		mainContents.add(tabPanel);
 		mainContents.add(passThrus);
 		mainContents.add(passPnl);
@@ -282,6 +288,7 @@ public class DiaryLayerDialog {
 	}
 
 	private void updateUI() {
+
 		dialog.setText(showingFor.getId());
 		final StringBuilder txt = new StringBuilder();
 		{
@@ -355,6 +362,9 @@ public class DiaryLayerDialog {
 	public void showFor(final GWTContact c) {
 		showingFor = c;
 		showingForMary = MaryList.getContact(c.getId());
+		for(int i=0; i<PassThrough.getPass(c.getId()).size(); i++) {
+			list.add(PassThrough.getPass(c.getId()).get(i));
+		}
 		updateUI();
 		dialog.center();
 	}
