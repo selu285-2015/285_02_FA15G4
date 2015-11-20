@@ -1,0 +1,40 @@
+<?php
+
+header('Content-Type: application/json');
+$mysql_host= 'localhost';
+$port= '3306';
+$username= 'root';
+$password= 'root';
+$db_name= 'ruskin_db';
+
+$link = mysqli_connect($mysql_host, $username, $password, $db_name);
+
+if(!link){
+	echo "Error: Unable to connect to MySQL." .PHP_EOL;
+	echo "Debugging errno: " . mysqli_connect_errno() .PHP_EOL;
+	echo "Debugging error: " . mysqli_connect_error() .PHP_EOL;
+	exit;
+
+}
+
+echo "Successfully connected to MySQL!" . PHP_EOL;
+echo "Host information: " . mysqli_get_host_info($link) . PHP_EOL;
+
+mb_internal_encoding("UTF-8");
+
+$result = mysqli_query($link, "SELECT * FROM ruskin") or die("Error with query" .mysqli_errror($link));
+$arr = array();
+$response = array();
+$fp = fopen('empdata.json', 'w');
+while($row = mysqli_fetch_array($result)){
+	$json = $row."\r";
+	fwrite($fp, json_encode($row));
+	$arr[] = $row["ID"] .$row["Country"] .$row["Location"] .$row["Latatitude"] .$row["Longitude"] .$row["Author"] .$row["Sight"] .$row["link"] .$row["Arrival"] .$row["Departure"];
+}
+
+
+fclose($fp);
+
+	mysqli_close($link);
+
+?>
