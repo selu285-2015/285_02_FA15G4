@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -30,6 +31,7 @@ import com.ruskin.project.client.Main;
 import com.ruskin.project.client.MainWidget;
 import com.ruskin.project.client.SimplifiedCallback;
 import com.ruskin.project.client.lists.MaryList;
+import com.ruskin.project.client.lists.JJList;
 import com.ruskin.project.client.lists.PassThrough;
 import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.GWTPassThrough;
@@ -44,10 +46,9 @@ public class AllDialog {
 	
 	protected final CellTable<GWTPassThrough> table = new CellTable<GWTPassThrough>();
 	private final ListDataProvider<GWTPassThrough> dataProvider = new ListDataProvider<GWTPassThrough>();		
+	private List<GWTPassThrough> list = dataProvider.getList();	
 	
-//	private List<GWTContact> list = ();	
-	
-	private final HorizontalPanel passPnl;
+	private final ScrollPanel passPnl;
 	private final TabPanel tabPanel;
 	
 	private final SimplePanel maryView;
@@ -116,15 +117,16 @@ public class AllDialog {
 	
 	private GWTContact showingFor;
 	private GWTContact showingForMary;
-	private List<GWTPassThrough> passThroughs;
+	private GWTContact showingForJJ;
 	
-//	private List<GWTContact> list = dataProvider.getList();	
-	private List<GWTPassThrough> list = passThroughs;	
+	private List<GWTPassThrough> newList;
 	
 	public AllDialog() {
 		dialog = new DialogBox(false, true);
 		tabPanel = new TabPanel();
-		passPnl = new HorizontalPanel();
+		passPnl = new ScrollPanel();
+		passPnl.setWidth("500px");
+		passPnl.setHeight("100px");
 		
 		maryView = new SimplePanel();
 		johnView = new SimplePanel();
@@ -204,6 +206,7 @@ public class AllDialog {
 			public void onClose(final CloseEvent<PopupPanel> event) {
 				showingFor = null;
 				showingForMary = null;
+				showingForJJ = null;
 			}
 		});
 
@@ -259,17 +262,12 @@ public class AllDialog {
 						return contact.getSights();
 					}
 				};
-				TextColumn<GWTPassThrough> linkColumn = new TextColumn<GWTPassThrough>() {
-					@Override
-					public String getValue(GWTPassThrough contact) {
-						return contact.getLink();
-					}
-				};
-				
+		table.setColumnWidth(0, "25%");
+		table.setColumnWidth(1, "25%");
+		table.setColumnWidth(2, "50%");		
 		table.addColumn(countryColumn, "COUNTRY");
 		table.addColumn(locationColumn, "LOCATION");
 		table.addColumn(sightColumn, "SIGHTS");
-		table.addColumn(linkColumn, "LINK");	
 		
 		table.setWidth("100%", true);
 				
@@ -538,8 +536,9 @@ public class AllDialog {
 		{
 			final String val = showingFor.getCountry();
 			final String Mval = showingForMary.getCountry();
+			final String Jval = showingForJJ.getCountry();
 			MarylblId.setText(Mval);
-			JohnJameslblId.setText(val);
+			JohnJameslblId.setText(Jval);
 			V1lblId.setText(val);
 			V2lblId.setText(val);
 			V3lblId.setText(val);
@@ -549,8 +548,9 @@ public class AllDialog {
 		{
 			final String val = nf.format(showingFor.getLongitude());
 			final String Mval = nf.format(showingForMary.getLongitude());
+			final String Jval = nf.format(showingForJJ.getLongitude());
 			MarylblLongitude.setText(Mval);
-			JohnJameslblLongitude.setText(val);
+			JohnJameslblLongitude.setText(Jval);
 			V1lblLongitude.setText(val);
 			V2lblLongitude.setText(val);
 			V3lblLongitude.setText(val);
@@ -560,8 +560,9 @@ public class AllDialog {
 		{
 			final String val = nf.format(showingFor.getLatitude());
 			final String Mval = nf.format(showingForMary.getLatitude());
+			final String Jval = nf.format(showingForJJ.getLatitude());
 			MarylblLatitude.setText(Mval);
-			JohnJameslblLatitude.setText(val);
+			JohnJameslblLatitude.setText(Jval);
 			V1lblLatitude.setText(val);
 			V2lblLatitude.setText(val);
 			V3lblLatitude.setText(val);
@@ -571,8 +572,9 @@ public class AllDialog {
 		{
 			final String val = showingFor.getArrivalDate();
 			final String Mval = showingForMary.getArrivalDate();
+			final String Jval = showingForJJ.getArrivalDate();
 			MarylblArrivalDate.setText(Mval);
-			JohnJameslblArrivalDate.setText(val);
+			JohnJameslblArrivalDate.setText(Jval);
 			V1lblArrivalDate.setText(val);
 			V2lblArrivalDate.setText(val);
 			V3lblArrivalDate.setText(val);
@@ -582,8 +584,9 @@ public class AllDialog {
 		{
 			final String val = showingFor.getDepartDate();
 			final String Mval = showingForMary.getDepartDate();
+			final String Jval = showingForJJ.getDepartDate();
 			MarylblDepartDate.setText(Mval);
-			JohnJameslblDepartDate.setText(val);
+			JohnJameslblDepartDate.setText(Jval);
 			V1lblDepartDate.setText(val);
 			V2lblDepartDate.setText(val);
 			V3lblDepartDate.setText(val);
@@ -593,34 +596,37 @@ public class AllDialog {
 		{
 			final String val = showingFor.getLocation();
 			final String Mval = showingForMary.getLocation();
+			final String Jval = showingForJJ.getLocation();
 			V1lblLocation.setText(val);
 			V2lblLocation.setText(val);
 			V3lblLocation.setText(val);
 			V4lblLocation.setText(val);
 			MarylblLocation.setText(Mval);
-			JohnJameslblLocation.setText(val);
+			JohnJameslblLocation.setText(Jval);
 			txt.append("Location: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getLink();
 			final String Mval = showingForMary.getLink();
+			final String Jval = showingForJJ.getLink();
 			V1lblLink.setText(val);
 			V2lblLink.setText(val);
 			V3lblLink.setText(val);
 			V4lblLink.setText(val);
 			MarylblLink.setText(Mval);
-			JohnJameslblLink.setText(val);
+			JohnJameslblLink.setText(Jval);
 			txt.append("Link: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getSights();
 			final String Mval = showingForMary.getSights();
+			final String Jval = showingForJJ.getSights();
 			V1lblSights.setText(val);
 			V2lblSights.setText(val);
 			V3lblSights.setText(val);
 			V4lblSights.setText(val);
 			MarylblSights.setText(Mval);
-			JohnJameslblSights.setText(val);
+			JohnJameslblSights.setText(Jval);
 			txt.append("Sights: ").append(val).append("<br />");
 		}
 	}
@@ -637,7 +643,10 @@ public class AllDialog {
 	public void showFor(final GWTContact c) {
 		showingFor = c;
 		showingForMary = MaryList.getContact(c.getId());
-		passThroughs = PassThrough.getPass(c.getId());
+		showingForJJ = JJList.getContact(c.getId());
+		for(int i=0; i<PassThrough.getPass(c.getId()).size(); i++) {
+			list.add(PassThrough.getPass(c.getId()).get(i));
+		}
 		updateUI();
 		dialog.center();
 	}

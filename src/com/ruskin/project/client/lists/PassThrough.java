@@ -682,7 +682,7 @@ public class PassThrough extends ArrayList<GWTPassThrough>{
 		gwtC114.setCountry("Switzerland");
 		gwtC114.setLocation("Kussnacht");
 		gwtC114.setSights("intended to ascend Righi but raining; continuing along sides of hills" 
-		+ "bordering Lucerne Lake and then along edge of Zug");
+		+ " bordering Lucerne Lake and then along edge of Zug");
 		
 		GWTPassThrough gwtC115 = GWTPassThrough.createGWTPassThrough("Righi");
 		gwtC115.setReference("Arth");
@@ -700,7 +700,7 @@ public class PassThrough extends ArrayList<GWTPassThrough>{
 		gwtC117.setCountry("Switzerland");
 		gwtC117.setLocation("Schwyz");
 		gwtC117.setSights("vale below Mytten Berg; site of disaster Sept 1806" 
-		+ "rock slide covering village Lake Lowerz");
+		+ " rock slide covering village Lake Lowerz");
 		
 		GWTPassThrough gwtC118 = GWTPassThrough.createGWTPassThrough("Stein");
 		gwtC118.setReference("Basel");

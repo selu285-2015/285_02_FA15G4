@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.ruskin.project.client.MainWidget;
+import com.ruskin.project.client.lists.JJList;
 import com.ruskin.project.client.lists.MaryList;
 import com.ruskin.project.client.lists.PassThrough;
 import com.ruskin.project.shared.Const;
@@ -65,10 +66,10 @@ public class PlaceMapWidget implements IsWidget {
 	private Bounds bounds = new Bounds(-6602637.2967569,2397352.6248374,9051666.0938681,11202898.282064);
 	
 	private final MaryList Mary = new MaryList();
+	private final JJList JohnJames = new JJList();
 	private final PassThrough Pass = new PassThrough();
 	
 	private final List<ReducedContact> RuskinsPoints = new ArrayList<ReducedContact>();
-	private final List<Point> JohnsPlaces = new ArrayList<Point>();
 	
 	private final Projection proj;
 	
@@ -339,8 +340,6 @@ public class PlaceMapWidget implements IsWidget {
 			pointFeature.setFeatureId(c.getId());
 			ruskinVectorLayer.addFeature(pointFeature);
 			
-			RuskinsPoints.add(c);
-			JohnsPlaces.add(point);
 			allControl.deactivate();
 			diaryControl.deactivate();
 			ruskinControl.activate();

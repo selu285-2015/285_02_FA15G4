@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -46,7 +47,7 @@ public class DiaryLayerDialog {
 	private final ListDataProvider<GWTPassThrough> dataProvider = new ListDataProvider<GWTPassThrough>();		
 	private List<GWTPassThrough> list = dataProvider.getList();	
 	
-	private final HorizontalPanel passPnl;
+	private final ScrollPanel passPnl;
 	private final TabPanel tabPanel;
 	
 	private final SimplePanel maryView;
@@ -85,7 +86,9 @@ public class DiaryLayerDialog {
 	public DiaryLayerDialog() {
 		dialog = new DialogBox(false, true);
 		tabPanel = new TabPanel();
-		passPnl = new HorizontalPanel();
+		passPnl = new ScrollPanel();
+		passPnl.setWidth("500px");
+		passPnl.setHeight("100px");
 		
 		maryView = new SimplePanel();
 		johnView = new SimplePanel();
@@ -178,17 +181,12 @@ public class DiaryLayerDialog {
 				return contact.getSights();
 			}
 		};
-		TextColumn<GWTPassThrough> linkColumn = new TextColumn<GWTPassThrough>() {
-			@Override
-			public String getValue(GWTPassThrough contact) {
-				return contact.getLink();
-			}
-		};
-		
+		table.setColumnWidth(0, "25%");
+		table.setColumnWidth(1, "25%");
+		table.setColumnWidth(2, "50%");
 		table.addColumn(countryColumn, "COUNTRY");
 		table.addColumn(locationColumn, "LOCATION");
 		table.addColumn(sightColumn, "SIGHTS");
-		table.addColumn(linkColumn, "LINK");	
 
 		table.setWidth("100%", true);
 		
