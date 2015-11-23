@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.ruskin.project.client.Main;
 import com.ruskin.project.client.SimplifiedCallback;
+import com.ruskin.project.client.lists.JJList;
 import com.ruskin.project.client.lists.MaryList;
 import com.ruskin.project.client.lists.PassThrough;
 import com.ruskin.project.shared.GWTContact;
@@ -80,6 +81,7 @@ public class DiaryLayerDialog {
 	
 	private GWTContact showingFor;
 	private GWTContact showingForMary;
+	private GWTContact showingForJJ;
 	
 	private List<GWTPassThrough> newList;
 	
@@ -133,6 +135,7 @@ public class DiaryLayerDialog {
 			public void onClose(final CloseEvent<PopupPanel> event) {
 				showingFor = null;
 				showingForMary = null;
+				showingForJJ = null;
 				list.clear();
 			}
 		});
@@ -288,62 +291,62 @@ public class DiaryLayerDialog {
 	private void updateUI() {
 
 		dialog.setText(showingFor.getId());
-		final StringBuilder txt = new StringBuilder();
+//		final StringBuilder txt = new StringBuilder();
 		{
-			final String val = showingFor.getCountry();
+			final String Jval = showingForJJ.getCountry();
 			final String Mval = showingForMary.getCountry();
 			MarylblId.setText(Mval);
-			JohnJameslblId.setText(val);
-			txt.append("Country: ").append(val).append("<br />");
+			JohnJameslblId.setText(Jval);
+//			txt.append("Country: ").append(val).append("<br />");
 		}
 		{
-			final String val = nf.format(showingFor.getLongitude());
+			final String Jval = nf.format(showingForJJ.getLongitude());
 			final String Mval = nf.format(showingForMary.getLongitude());
 			MarylblLongitude.setText(Mval);
-			JohnJameslblLongitude.setText(val);
-			txt.append("Longitude: ").append(val).append("<br />");
+			JohnJameslblLongitude.setText(Jval);
+//			txt.append("Longitude: ").append(val).append("<br />");
 		}
 		{
-			final String val = nf.format(showingFor.getLatitude());
+			final String Jval = nf.format(showingForJJ.getLatitude());
 			final String Mval = nf.format(showingForMary.getLatitude());
 			MarylblLatitude.setText(Mval);
-			JohnJameslblLatitude.setText(val);
-			txt.append("Latitude: ").append(val).append("<br />");
+			JohnJameslblLatitude.setText(Jval);
+//			txt.append("Latitude: ").append(val).append("<br />");
 		}
 		{
-			final String val = showingFor.getArrivalDate();
+			final String Jval = showingForJJ.getArrivalDate();
 			final String Mval = showingForMary.getArrivalDate();
 			MarylblArrivalDate.setText(Mval);
-			JohnJameslblArrivalDate.setText(val);
-			txt.append("Arrival Date: ").append(val).append("<br />");
+			JohnJameslblArrivalDate.setText(Jval);
+//			txt.append("Arrival Date: ").append(val).append("<br />");
 		}
 		{
-			final String val = showingFor.getDepartDate();
+			final String Jval = showingForJJ.getDepartDate();
 			final String Mval = showingForMary.getDepartDate();
 			MarylblDepartDate.setText(Mval);
-			JohnJameslblDepartDate.setText(val);
-			txt.append("Depart Date: ").append(val).append("<br />");
+			JohnJameslblDepartDate.setText(Jval);
+//			txt.append("Depart Date: ").append(val).append("<br />");
 		}
 		{
-			final String val = showingFor.getLocation();
+			final String Jval = showingForJJ.getLocation();
 			final String Mval = showingForMary.getLocation();
 			MarylblLocation.setText(Mval);
-			JohnJameslblLocation.setText(val);
-			txt.append("Location: ").append(val).append("<br />");
+			JohnJameslblLocation.setText(Jval);
+//			txt.append("Location: ").append(val).append("<br />");
 		}
 		{
-			final String val = showingFor.getLink();
+			final String Jval = showingForJJ.getLink();
 			final String Mval = showingForMary.getLink();
 			MarylblLink.setText(Mval);
-			JohnJameslblLink.setText(val);
-			txt.append("Link: ").append(val).append("<br />");
+			JohnJameslblLink.setText(Jval);
+//			txt.append("Link:").append(val).append("<br />");
 		}
 		{
-			final String val = showingFor.getSights();
+			final String Jval = showingForJJ.getSights();
 			final String Mval = showingForMary.getSights();
 			MarylblSights.setText(Mval);
-			JohnJameslblSights.setText(val);
-			txt.append("Sights: ").append(val).append("<br />");
+			JohnJameslblSights.setText(Jval);
+//			txt.append("Sights: ").append(val).append("<br />");
 		}
 	}
 
@@ -360,6 +363,7 @@ public class DiaryLayerDialog {
 	public void showFor(final GWTContact c) {
 		showingFor = c;
 		showingForMary = MaryList.getContact(c.getId());
+		showingForJJ = JJList.getContact(c.getId());
 		for(int i=0; i<PassThrough.getPass(c.getId()).size(); i++) {
 			list.add(PassThrough.getPass(c.getId()).get(i));
 		}
