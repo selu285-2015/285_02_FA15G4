@@ -2,7 +2,6 @@ package com.ruskin.project.client;
 
 import java.util.List;
 
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.ReducedContact;

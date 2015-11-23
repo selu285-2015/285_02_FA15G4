@@ -65,11 +65,7 @@ public class PlaceMapWidget implements IsWidget {
 	
 	private Bounds bounds = new Bounds(-6602637.2967569,2397352.6248374,9051666.0938681,11202898.282064);
 	
-	private final MaryList Mary = new MaryList();
-	private final JJList JohnJames = new JJList();
-	private final PassThrough Pass = new PassThrough();
-	
-	private final List<ReducedContact> RuskinsPoints = new ArrayList<ReducedContact>();
+
 	
 	private final Projection proj;
 	

@@ -1,7 +1,6 @@
 package com.ruskin.project.client.lists;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import com.ruskin.project.shared.GWTContact;
@@ -716,6 +715,11 @@ public class JJList extends ArrayList<GWTContact>{
 		list.add(gwtC68);
 		list.add(gwtC69);
 		list.add(gwtC70);
+		
+		for(int i=0; i<list.size(); i++) {
+			list.get(i).setAuthor("John James");
+		}
+		
 		
 		return list;
 	}

@@ -716,6 +716,10 @@ public class MaryList extends ArrayList<GWTContact>{
 		list.add(gwtC69);
 		list.add(gwtC70);
 		
+		for(int i=0; i<list.size(); i++) {
+			list.get(i).setAuthor("Mary");
+		}
+		
 		return list;
 	}
 	
@@ -732,6 +736,11 @@ public class MaryList extends ArrayList<GWTContact>{
 		}
 		return c;
 	}
+	
+	public static List<GWTContact> getAllContacts() {
+		return list;
+	}
+	
 	
 	public static ReducedContact getReducedContact(int location) {
 		ReducedContact c = new ReducedContact(list.get(location).getId(), list.get(location).getLongitude(), list.get(location).getLatitude());

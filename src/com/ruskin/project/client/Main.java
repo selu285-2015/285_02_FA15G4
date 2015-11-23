@@ -1,17 +1,11 @@
 package com.ruskin.project.client;
 
-import java.util.Collections;
-
-import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.ruskin.project.shared.Const;
-import com.ruskin.project.shared.GWTContact;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.

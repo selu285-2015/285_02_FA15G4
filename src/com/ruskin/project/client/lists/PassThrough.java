@@ -3,7 +3,6 @@ package com.ruskin.project.client.lists;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.GWTPassThrough;
 
 public class PassThrough extends ArrayList<GWTPassThrough>{

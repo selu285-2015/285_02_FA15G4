@@ -1,8 +1,6 @@
 package com.ruskin.project.client.dialog.contact;
 
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style;
@@ -12,15 +10,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.i18n.client.NumberFormat;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -291,62 +286,53 @@ public class DiaryLayerDialog {
 	private void updateUI() {
 
 		dialog.setText(showingFor.getId());
-//		final StringBuilder txt = new StringBuilder();
 		{
 			final String Jval = showingForJJ.getCountry();
 			final String Mval = showingForMary.getCountry();
 			MarylblId.setText(Mval);
 			JohnJameslblId.setText(Jval);
-//			txt.append("Country: ").append(val).append("<br />");
 		}
 		{
 			final String Jval = nf.format(showingForJJ.getLongitude());
 			final String Mval = nf.format(showingForMary.getLongitude());
 			MarylblLongitude.setText(Mval);
 			JohnJameslblLongitude.setText(Jval);
-//			txt.append("Longitude: ").append(val).append("<br />");
 		}
 		{
 			final String Jval = nf.format(showingForJJ.getLatitude());
 			final String Mval = nf.format(showingForMary.getLatitude());
 			MarylblLatitude.setText(Mval);
 			JohnJameslblLatitude.setText(Jval);
-//			txt.append("Latitude: ").append(val).append("<br />");
 		}
 		{
 			final String Jval = showingForJJ.getArrivalDate();
 			final String Mval = showingForMary.getArrivalDate();
 			MarylblArrivalDate.setText(Mval);
 			JohnJameslblArrivalDate.setText(Jval);
-//			txt.append("Arrival Date: ").append(val).append("<br />");
 		}
 		{
 			final String Jval = showingForJJ.getDepartDate();
 			final String Mval = showingForMary.getDepartDate();
 			MarylblDepartDate.setText(Mval);
 			JohnJameslblDepartDate.setText(Jval);
-//			txt.append("Depart Date: ").append(val).append("<br />");
 		}
 		{
 			final String Jval = showingForJJ.getLocation();
 			final String Mval = showingForMary.getLocation();
 			MarylblLocation.setText(Mval);
 			JohnJameslblLocation.setText(Jval);
-//			txt.append("Location: ").append(val).append("<br />");
 		}
 		{
 			final String Jval = showingForJJ.getLink();
 			final String Mval = showingForMary.getLink();
 			MarylblLink.setText(Mval);
 			JohnJameslblLink.setText(Jval);
-//			txt.append("Link:").append(val).append("<br />");
 		}
 		{
 			final String Jval = showingForJJ.getSights();
 			final String Mval = showingForMary.getSights();
 			MarylblSights.setText(Mval);
 			JohnJameslblSights.setText(Jval);
-//			txt.append("Sights: ").append(val).append("<br />");
 		}
 	}
 

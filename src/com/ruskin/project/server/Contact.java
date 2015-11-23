@@ -1,7 +1,6 @@
 package com.ruskin.project.server;
 
 import java.awt.geom.Point2D;
-
 import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlElement;

@@ -1,18 +1,13 @@
 package com.ruskin.project.server;
 
 import java.util.ArrayList;
-
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
+//import com.sun.jersey.api.client.ClientResponse;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.ruskin.project.client.ContactService;
 import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.ReducedContact;
-//import com.sun.jersey.api.client.ClientResponse;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * The server-side implementation of the RPC service.
