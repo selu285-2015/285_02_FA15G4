@@ -6,11 +6,11 @@ import java.util.List;
 import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.ReducedContact;
 
-public class JJList extends ArrayList<GWTContact>{
+public class AllList extends ArrayList<GWTContact>{
 	
 	static List<GWTContact> list = new ArrayList<>();
 	
-	public JJList() {
+	public AllList() {
 		buildList();
 	}
 
@@ -715,11 +715,6 @@ public class JJList extends ArrayList<GWTContact>{
 		list.add(gwtC68);
 		list.add(gwtC69);
 		list.add(gwtC70);
-		
-		for(int i=0; i<list.size(); i++) {
-			list.get(i).setAuthor("John James");
-		}
-		
 		
 		return list;
 	}

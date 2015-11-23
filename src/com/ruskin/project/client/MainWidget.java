@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.ruskin.project.client.dialog.contact.AllDialog;
 import com.ruskin.project.client.dialog.contact.DiaryLayerDialog;
 import com.ruskin.project.client.dialog.contact.RuskinDialog;
+import com.ruskin.project.client.lists.AllList;
 import com.ruskin.project.client.lists.JJList;
 import com.ruskin.project.client.lists.MaryList;
 import com.ruskin.project.client.lists.PassThrough;
@@ -32,6 +33,7 @@ public class MainWidget implements IsWidget {
 	private final RuskinDialog ruskinDialog;
 	private final AllDialog allDialog;
 	private final SearchWidget searchWidget;
+	private final AllList All = new AllList();
 	private final MaryList Mary = new MaryList();
 	private final JJList JohnJames = new JJList();
 	private final PassThrough Pass = new PassThrough();

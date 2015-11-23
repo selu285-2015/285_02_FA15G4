@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -18,7 +19,10 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
 import com.ruskin.project.client.MainWidget;
+import com.ruskin.project.client.lists.AllList;
 import com.ruskin.project.client.lists.JJList;
 import com.ruskin.project.client.lists.MaryList;
 import com.ruskin.project.shared.GWTContact;
@@ -76,8 +80,8 @@ public class SearchWidget implements IsWidget {
 			public void onClick(ClickEvent event) {
 				getList().clear();
 				String toSearch = box.getText();
-				for(int i=0; i<MaryList.getSize(); i++) {
-					GWTContact c = MaryList.getAllContacts().get(i);
+				for(int i=0; i<AllList.getSize(); i++) {
+					GWTContact c = AllList.getAllContacts().get(i);
 					if (toSearch.isEmpty()) {
 						getList().add(c);
 					}
@@ -91,10 +95,10 @@ public class SearchWidget implements IsWidget {
 		});
 		
 		// Create the Results table
-		TextColumn<GWTContact> authorColumn = new TextColumn<GWTContact>() {
+		TextColumn<GWTContact> countryColumn = new TextColumn<GWTContact>() {
 			@Override
 			public String getValue(GWTContact contact) {
-				return contact.getAuthor();
+				return contact.getCountry();
 			}
 		};
 		TextColumn<GWTContact> locationColumn = new TextColumn<GWTContact>() {
@@ -103,23 +107,27 @@ public class SearchWidget implements IsWidget {
 				return contact.getLocation();
 			}
 		};
-		TextColumn<GWTContact> sightColumn = new TextColumn<GWTContact>() {
-			@Override
-			public String getValue(GWTContact contact) {
-				return contact.getSights();
-			}
-		};
 		
-		table.addColumn(authorColumn, "AUTHOR");
+		table.addColumn(countryColumn, "COUNTRY");
 		table.addColumn(locationColumn, "LOCATION");
-		table.addColumn(sightColumn, "SIGHTS");
 		
-		table.setColumnWidth(0, "25%");
-		table.setColumnWidth(1, "25%");
-		table.setColumnWidth(2, "50%");		
+		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		final SingleSelectionModel<GWTContact> selectionModel = new SingleSelectionModel<GWTContact>();
+		table.setSelectionModel(selectionModel);
+		
+		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+			public void onSelectionChange(SelectionChangeEvent event) {
+				GWTContact selected = selectionModel.getSelectedObject();
+				if (selected != null) {
+					master.getAllDialog().showFor(selected);
+				}
+			}
+		});  
+		
+		table.setColumnWidth(0, "50%");
+		table.setColumnWidth(1, "50%");
 
 		table.setWidth("100%", true);
-//		table.setRowCount(getList().size());
 				
 		dataProvider.addDataDisplay(table);	
 
