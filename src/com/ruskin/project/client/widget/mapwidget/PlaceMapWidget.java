@@ -1,9 +1,6 @@
 package com.ruskin.project.client.widget.mapwidget;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.gwtopenmaps.openlayers.client.Bounds;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
@@ -22,15 +19,13 @@ import org.gwtopenmaps.openlayers.client.layer.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.ruskin.project.client.MainWidget;
-import com.ruskin.project.client.lists.JJList;
 import com.ruskin.project.client.lists.MaryList;
-import com.ruskin.project.client.lists.PassThrough;
 import com.ruskin.project.shared.Const;
 import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.ReducedContact;
@@ -52,7 +47,7 @@ public class PlaceMapWidget implements IsWidget {
 	private final MapOptions options;
 	private final MapWidget mapWidget;
 	
-	private final ChooseLayer currentLayer;
+	private final ListBox choices;
 	
 	private final Vector diaryVectorLayer;
 	private final Vector ruskinVectorLayer;
@@ -65,14 +60,12 @@ public class PlaceMapWidget implements IsWidget {
 	
 	private Bounds bounds = new Bounds(-6602637.2967569,2397352.6248374,9051666.0938681,11202898.282064);
 	
-
-	
 	private final Projection proj;
 	
 	public PlaceMapWidget(int width, int height, final MainWidget master) {		
 		this.master = master;
 		
-		currentLayer = new ChooseLayer(master);
+		choices = new ListBox();
 		
 		options = new MapOptions();
 		options.setNumZoomLevels(20);
@@ -145,22 +138,23 @@ public class PlaceMapWidget implements IsWidget {
 	
 	private void BuildUI() {
 		final HorizontalPanel buttonPanel = new HorizontalPanel();
-		final Button plot = new Button("plot");
-			
+		
 		buttonPanel.getElement().getStyle().setProperty("height", "inherit");
-	
-		buttonPanel.add(currentLayer);
-		buttonPanel.add(plot);
+
+		choices.addItem("Choose A View");
+		choices.addItem("All Layers");
+		choices.addItem("Diary Layer");
+		choices.addItem("Ruskin Layer");
 		
-		decorator.add(buttonPanel);
-		
-		plot.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				String choice = currentLayer.layer();
-				NewLayer(choice);
+		choices.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent Event) {
+				NewLayer(choices.getItemText(choices.getSelectedIndex()));
 			}
-		});
+    	});
+		
 	
+		buttonPanel.add(choices);
+		decorator.add(buttonPanel);
 	}
 	
 	public String NewLayer(String choice) {
@@ -245,7 +239,6 @@ public class PlaceMapWidget implements IsWidget {
 		Style pointStyle2 = new Style();		
 		
 		if (plot == true) {
-			
 			for (int i=0; i<MaryList.getSize(); i++) {
 				ReducedContact c = MaryList.getReducedContact(i);
 			
@@ -373,10 +366,10 @@ public class PlaceMapWidget implements IsWidget {
 	 * @return
 	 */
 	public Vector getVectorLayer() {
-		if (NewLayer(currentLayer.layer()).matches("Diary Layer")) {
+		if (choices.getItemText(choices.getSelectedIndex()).matches("Diary Layer")) {
 			return diaryVectorLayer;
 		}
-		else if (NewLayer(currentLayer.layer()).matches("Ruskin Layer")) {
+		else if (choices.getItemText(choices.getSelectedIndex()).matches("Ruskin Layer")) {
 			return ruskinVectorLayer;
 		}
 		else {
