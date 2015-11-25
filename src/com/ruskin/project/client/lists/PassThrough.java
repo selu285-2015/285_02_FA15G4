@@ -603,7 +603,7 @@ public class PassThrough extends ArrayList<GWTPassThrough>{
 		gwtC100.setSights("Brigg ('Seen from far away')");
 		
 		GWTPassThrough gwtC137 = GWTPassThrough.createGWTPassThrough("Pissevache");
-		gwtC137.setReference("Matigny");
+		gwtC137.setReference("Matigny-2");
 		gwtC137.setCountry("Switzerland");
 		gwtC137.setLocation("Pissevache");
 		gwtC137.setSights("Waterfall");
@@ -647,7 +647,7 @@ public class PassThrough extends ArrayList<GWTPassThrough>{
 				+ "and 1 league in char a banc through Unterseen to Interlaken");
 		
 		GWTPassThrough gwtC108 = GWTPassThrough.createGWTPassThrough("Thun");
-		gwtC108.setReference("Berne");
+		gwtC108.setReference("Berne-2");
 		gwtC108.setCountry("Switzerland");
 		gwtC108.setLocation("Thun");
 		
@@ -745,27 +745,32 @@ public class PassThrough extends ArrayList<GWTPassThrough>{
 		gwtC125.setLocation("Orbe");
 		
 		GWTPassThrough gwtC126 = GWTPassThrough.createGWTPassThrough("Montavert/Mer de Glace");
-		gwtC126.setReference("Chamouni");
+		gwtC126.setReference("Chamouni-2");
 		gwtC126.setCountry("France");
 		gwtC126.setLocation("Montavert/Mer de Glace");
 		gwtC126.setLongitude(6.844449);
 		gwtC126.setLatitude(45.90375);
 		
 		GWTPassThrough gwtC127 = GWTPassThrough.createGWTPassThrough("Vale of Chamonix");
-		gwtC127.setReference("Chamouni");
+		gwtC127.setReference("Chamouni-2");
 		gwtC127.setCountry("France");
 		gwtC127.setLocation("Vale of Chamonix");
 		gwtC127.setLongitude(6.865575);
 		gwtC127.setLatitude(45.832119);
 		gwtC127.setSights("Mer de Glace");
 		
+		GWTPassThrough gwtC138 = GWTPassThrough.createGWTPassThrough("Blois");
+		gwtC138.setReference("Geneva-2");
+		gwtC138.setCountry("Switzerland");
+		gwtC138.setLocation("Blois");
+		
 		GWTPassThrough gwtC128 = GWTPassThrough.createGWTPassThrough("Martigny");
-		gwtC128.setReference("Geneva");
+		gwtC128.setReference("Geneva-2");
 		gwtC128.setCountry("Switzerland");
 		gwtC128.setLocation("Martigny");
 		
 		GWTPassThrough gwtC129 = GWTPassThrough.createGWTPassThrough("Sallanches");
-		gwtC129.setReference("Geneva");
+		gwtC129.setReference("Geneva-2");
 		gwtC129.setCountry("Switzerland");
 		gwtC129.setLocation("Sallanches");
 		
@@ -807,7 +812,7 @@ public class PassThrough extends ArrayList<GWTPassThrough>{
 		gwtC134.setSights("Cathedral with monument to Bourbons");
 		
 		GWTPassThrough gwtC135 = GWTPassThrough.createGWTPassThrough("Boulogne");
-		gwtC135.setReference("Calais");
+		gwtC135.setReference("Calais-2");
 		gwtC135.setCountry("France");
 		gwtC135.setLocation("Boulogne");
 		gwtC135.setLongitude(1.61389);
@@ -951,6 +956,7 @@ public class PassThrough extends ArrayList<GWTPassThrough>{
 		list.add(gwtC135);
 		list.add(gwtC136);
 		list.add(gwtC137);
+		list.add(gwtC138);
 		
 		return list;
 	}

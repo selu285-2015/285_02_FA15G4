@@ -78,9 +78,9 @@ public class MaryList extends ArrayList<GWTContact>{
 		gwtC7.setDepartDate("23 May, 1833");
 		gwtC7.setSights("Meuse, Sambre, Citadel of Namur");
 		
-		GWTContact gwtC8 = GWTContact.createGWTContact("Andernach");
+		GWTContact gwtC8 = GWTContact.createGWTContact("Spa");
 		gwtC8.setCountry("Belgium");
-		gwtC8.setLocation("Andernach");
+		gwtC8.setLocation("Spa");
 		gwtC8.setLongitude(5.86674);
 		gwtC8.setLatitude(50.48375);
 		gwtC8.setArrivalDate("23 May, 1833");
@@ -105,7 +105,7 @@ public class MaryList extends ArrayList<GWTContact>{
 		gwtC10.setDepartDate("28 May, 1833");
 		gwtC10.setSights("Reinbergy Hotel, Hotel Couronne Impèriale, Mass, St. Gereon, Private Picture Collection, Rubens' birthhouse, St Peter's, Bridge of Boats");
 		
-		GWTContact gwtC11 = GWTContact.createGWTContact("Andernach-2");
+		GWTContact gwtC11 = GWTContact.createGWTContact("Andernach");
 		gwtC11.setCountry("Germany");
 		gwtC11.setLocation("Andernach");
 		gwtC11.setLongitude(7.4004);

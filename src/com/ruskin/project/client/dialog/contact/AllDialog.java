@@ -3,6 +3,8 @@ package com.ruskin.project.client.dialog.contact;
 
 import java.util.List;
 
+import org.gwtopenmaps.openlayers.client.MapWidget;
+
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,10 +26,12 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.ruskin.project.client.Main;
+import com.ruskin.project.client.MainWidget;
 import com.ruskin.project.client.SimplifiedCallback;
 import com.ruskin.project.client.lists.JJList;
 import com.ruskin.project.client.lists.MaryList;
 import com.ruskin.project.client.lists.PassThrough;
+import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.GWTPassThrough;
 
@@ -199,9 +203,12 @@ public class AllDialog {
 		dialog.addCloseHandler(new CloseHandler<PopupPanel>() {
 			@Override
 			public void onClose(final CloseEvent<PopupPanel> event) {
+				PlaceMapWidget.getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
 				showingFor = null;
 				showingForMary = null;
 				showingForJJ = null;
+				list.clear();
+				PlaceMapWidget.getVectorLayer().redraw();
 			}
 		});
 
@@ -527,7 +534,6 @@ public class AllDialog {
 
 	private void updateUI() {
 		dialog.setText(showingFor.getId());
-		final StringBuilder txt = new StringBuilder();
 		{
 			final String val = showingFor.getCountry();
 			final String Mval = showingForMary.getCountry();
@@ -538,7 +544,6 @@ public class AllDialog {
 			V2lblId.setText(val);
 			V3lblId.setText(val);
 			V4lblId.setText(val);
-			txt.append("Country: ").append(val).append("<br />");
 		}
 		{
 			final String val = nf.format(showingFor.getLongitude());
@@ -550,7 +555,6 @@ public class AllDialog {
 			V2lblLongitude.setText(val);
 			V3lblLongitude.setText(val);
 			V4lblLongitude.setText(val);
-			txt.append("Longitude: ").append(val).append("<br />");
 		}
 		{
 			final String val = nf.format(showingFor.getLatitude());
@@ -562,7 +566,6 @@ public class AllDialog {
 			V2lblLatitude.setText(val);
 			V3lblLatitude.setText(val);
 			V4lblLatitude.setText(val);
-			txt.append("Latitude: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getArrivalDate();
@@ -574,7 +577,6 @@ public class AllDialog {
 			V2lblArrivalDate.setText(val);
 			V3lblArrivalDate.setText(val);
 			V4lblArrivalDate.setText(val);
-			txt.append("Arrival Date: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getDepartDate();
@@ -586,7 +588,6 @@ public class AllDialog {
 			V2lblDepartDate.setText(val);
 			V3lblDepartDate.setText(val);
 			V4lblDepartDate.setText(val);
-			txt.append("Depart Date: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getLocation();
@@ -598,7 +599,6 @@ public class AllDialog {
 			V4lblLocation.setText(val);
 			MarylblLocation.setText(Mval);
 			JohnJameslblLocation.setText(Jval);
-			txt.append("Location: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getLink();
@@ -610,7 +610,6 @@ public class AllDialog {
 			V4lblLink.setText(val);
 			MarylblLink.setText(Mval);
 			JohnJameslblLink.setText(Jval);
-			txt.append("Link: ").append(val).append("<br />");
 		}
 		{
 			final String val = showingFor.getSights();
@@ -622,7 +621,6 @@ public class AllDialog {
 			V4lblSights.setText(val);
 			MarylblSights.setText(Mval);
 			JohnJameslblSights.setText(Jval);
-			txt.append("Sights: ").append(val).append("<br />");
 		}
 	}
 

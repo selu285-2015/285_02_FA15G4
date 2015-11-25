@@ -28,6 +28,7 @@ import com.ruskin.project.client.SimplifiedCallback;
 import com.ruskin.project.client.lists.JJList;
 import com.ruskin.project.client.lists.MaryList;
 import com.ruskin.project.client.lists.PassThrough;
+import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.GWTPassThrough;
 
@@ -128,10 +129,12 @@ public class DiaryLayerDialog {
 		dialog.addCloseHandler(new CloseHandler<PopupPanel>() {
 			@Override
 			public void onClose(final CloseEvent<PopupPanel> event) {
+				PlaceMapWidget.getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
 				showingFor = null;
 				showingForMary = null;
 				showingForJJ = null;
 				list.clear();
+				PlaceMapWidget.getVectorLayer().redraw();
 			}
 		});
 
@@ -337,7 +340,6 @@ public class DiaryLayerDialog {
 	}
 
 	public void showFor(final String id) {
-		
 		Main.getContactServices().getContact(id, new SimplifiedCallback<GWTContact>("get contact with id " + id, true) {
 			@Override
 			public void onSuccess(GWTContact result) {	
