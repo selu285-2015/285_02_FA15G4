@@ -347,14 +347,6 @@ public class JJList extends ArrayList<GWTContact>{
 		gwtC37.setArrivalDate("9 July, 1833");
 		gwtC37.setDepartDate("10 July, 1833");
 		
-		GWTContact gwtC38 = GWTContact.createGWTContact("Martigny-2");
-		gwtC38.setCountry("Switzerland");
-		gwtC38.setLocation("Martigny");
-		gwtC38.setLongitude(7.0667);
-		gwtC38.setLatitude(46.1);
-		gwtC38.setArrivalDate("8 July, 1833");
-		gwtC38.setDepartDate("9 July, 1833");
-		
 		GWTContact gwtC39 = GWTContact.createGWTContact("Bex");
 		gwtC39.setCountry("Switzerland");
 		gwtC39.setLocation("Bex");
@@ -682,7 +674,6 @@ public class JJList extends ArrayList<GWTContact>{
 		list.add(gwtC35);
 		list.add(gwtC36);
 		list.add(gwtC37);
-		list.add(gwtC38);
 		list.add(gwtC39);
 		list.add(gwtC40);
 		list.add(gwtC41);

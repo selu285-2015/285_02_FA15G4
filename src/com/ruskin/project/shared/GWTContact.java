@@ -10,6 +10,7 @@ public class GWTContact extends ReducedContact{
 	private String link;
 	private String sights;
 	private String author;
+	private int dateRef;
 	
 	public GWTContact() {
 		super();
@@ -53,6 +54,10 @@ public class GWTContact extends ReducedContact{
 		return author;
 	}
 	
+	public int getDateRef() {
+		return dateRef;
+	}
+	
 	public void setDepartDate(String Departtime) {
 		this.Departtime = Departtime;
 	}
@@ -79,5 +84,10 @@ public class GWTContact extends ReducedContact{
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public void setDateRef(int dateRef) {
+		this.dateRef = dateRef;
+		
 	}
 }

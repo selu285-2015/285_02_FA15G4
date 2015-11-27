@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.ruskin.project.client.MainWidget;
@@ -22,6 +23,7 @@ public class Carousel implements IsWidget {
 	
 	final HorizontalPanel time;
     final HorizontalPanel allInfo;
+    final ScrollPanel scrollable;
 	
 	final ListBox lb;
 	final ListBox may;
@@ -42,6 +44,7 @@ public class Carousel implements IsWidget {
 		carousel = new VerticalPanel();
 		time = new HorizontalPanel();
 		allInfo = new HorizontalPanel();
+		scrollable = new ScrollPanel();
 		
 		lb = new ListBox();
     	may = new ListBox();
@@ -56,6 +59,8 @@ public class Carousel implements IsWidget {
     
 	public void buildUI() {
     // Visibility settings of all widget
+		scrollable.setWidth("1000px");
+		
 		may.setVisible(false);
 		june.setVisible(false);
 		july.setVisible(false);
@@ -200,15 +205,16 @@ public class Carousel implements IsWidget {
     	public void onClick(ClickEvent Event) {
     		allInfo.clear();
     		String day = may.getItemText(may.getSelectedIndex());
+    		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
-    			if (day.matches(c.getArrivalDate())) {
-    				HTML Summary = new HTML("<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " 
-    	    				+ c.getLocation()); 
+    			if (ref >= c.getDateRef()) {
+    				HTML Summary = new HTML("<b>Arrival Date: </b>" + c.getArrivalDate()+ "<b>Departure Date: </b>" + c.getDepartDate() + 
+    						"<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " + c.getLocation()); 
     	    		
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
+    				allInfo.setVisible(true);
     			}
-    			allInfo.setVisible(true);
     		}
     	}
     });
@@ -218,15 +224,16 @@ public class Carousel implements IsWidget {
     	public void onClick(ClickEvent Event) {
     		allInfo.clear();
     		String day = june.getItemText(june.getSelectedIndex());
+    		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
-    			if (day.matches(c.getArrivalDate())) {
-    				HTML Summary = new HTML("<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " 
-    	    				+ c.getLocation()); 
+    			if (ref >= c.getDateRef()) {
+    				HTML Summary = new HTML("<b>Arrival Date: </b>" + c.getArrivalDate()+ "<b>Departure Date: </b>" + c.getDepartDate() + 
+    						"<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " + c.getLocation()); 
     	    		
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
+    				allInfo.setVisible(true);
     			}
-    			allInfo.setVisible(true);
     		}
     	}
     });
@@ -236,15 +243,16 @@ public class Carousel implements IsWidget {
     	public void onClick(ClickEvent Event) {
     		allInfo.clear();
     		String day = july.getItemText(july.getSelectedIndex());
+    		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
-    			if (day.matches(c.getArrivalDate())) {
-    				HTML Summary = new HTML("<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " 
-    	    				+ c.getLocation()); 
+    			if (ref >= c.getDateRef()) {
+    				HTML Summary = new HTML("<b>Arrival Date: </b>" + c.getArrivalDate()+ "<b>Departure Date: </b>" + c.getDepartDate() + 
+    						"<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " + c.getLocation()); 
     	    		
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
+    				allInfo.setVisible(true);
     			}
-    			allInfo.setVisible(true);
     		}
     	}
     });
@@ -254,15 +262,16 @@ public class Carousel implements IsWidget {
     	public void onClick(ClickEvent Event) {
     		allInfo.clear();
     		String day = august.getItemText(august.getSelectedIndex());
+    		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
-    			if (day.matches(c.getArrivalDate())) {
-    				HTML Summary = new HTML("<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " 
-    	    				+ c.getLocation()); 
+    			if (ref >= c.getDateRef()) {
+    				HTML Summary = new HTML("<b>Arrival Date: </b>" + c.getArrivalDate()+ "<b>Departure Date: </b>" + c.getDepartDate() + 
+    						"<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " + c.getLocation()); 
     	    		
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
+        			allInfo.setVisible(true);
     			}
-    			allInfo.setVisible(true);
     		}
     	}
     });
@@ -271,20 +280,17 @@ public class Carousel implements IsWidget {
     september.addClickHandler(new ClickHandler() {
     	public void onClick(ClickEvent Event) {
     		allInfo.clear();
-    		int count = 0;
     		String day = september.getItemText(september.getSelectedIndex());
+    		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
-    			System.out.println("number of contacts: " + AllList.getSize());
-    			if (day.matches(c.getArrivalDate())) {
-    				count++;
-    				HTML Summary = new HTML("<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " 
-    	    				+ c.getLocation()); 
+    			if (ref >= c.getDateRef()) {
+    				HTML Summary = new HTML("<b>Arrival Date: </b>" + c.getArrivalDate()+ "<b>Departure Date: </b>" + c.getDepartDate() + 
+    						"<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " + c.getLocation()); 
     	    		
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
-    				System.out.println("Count: " + count);
+        			allInfo.setVisible(true);
     			}
-    			allInfo.setVisible(true);
     		}
     	}
     });
@@ -294,8 +300,9 @@ public class Carousel implements IsWidget {
     allInfo.addStyleName("allinfo"); 
 	allInfo.setVisible(false);
 
+	scrollable.add(allInfo);
     carousel.add(time);
-    carousel.add(allInfo);
+    carousel.add(scrollable);
 	}
 
 	@Override
