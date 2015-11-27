@@ -199,8 +199,8 @@ public class Carousel implements IsWidget {
     		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
     			if (ref >= c.getDateRef()) {
-    				HTML Summary = new HTML("<b>Arrival Date: </b>" + c.getArrivalDate()+ "<b>Departure Date: </b>" + c.getDepartDate() + 
-    						"<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " + c.getLocation()); 
+    				HTML Summary = new HTML("<b>Arrival Date: </b> <br>" + c.getArrivalDate()+ "<br> <b>Departure Date: </b> <br>" + c.getDepartDate() + 
+    						"<br> <b>Country: </b> <br>" + c.getCountry() + "<br> <b>Location: </b> <br>" + c.getLocation());  
     	    		
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
@@ -218,8 +218,8 @@ public class Carousel implements IsWidget {
     		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
     			if (ref >= c.getDateRef()) {
-    				HTML Summary = new HTML("<b>Arrival Date: </b>" + c.getArrivalDate()+ "<b>Departure Date: </b>" + c.getDepartDate() + 
-    						"<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " + c.getLocation()); 
+    				HTML Summary = new HTML("<b>Arrival Date: </b> <br>" + c.getArrivalDate()+ "<br> <b>Departure Date: </b> <br>" + c.getDepartDate() + 
+    						"<br> <b>Country: </b> <br>" + c.getCountry() + "<br> <b>Location: </b> <br>" + c.getLocation());  
     	    		
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
@@ -237,8 +237,8 @@ public class Carousel implements IsWidget {
     		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
     			if (ref >= c.getDateRef()) {
-    				HTML Summary = new HTML("<b>Arrival Date: </b>" + c.getArrivalDate()+ "<b>Departure Date: </b>" + c.getDepartDate() + 
-    						"<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " + c.getLocation()); 
+    				HTML Summary = new HTML("<b>Arrival Date: </b> <br>" + c.getArrivalDate()+ "<br> <b>Departure Date: </b> <br>" + c.getDepartDate() + 
+    						"<br> <b>Country: </b> <br>" + c.getCountry() + "<br> <b>Location: </b> <br>" + c.getLocation()); 
     	    		
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
@@ -256,8 +256,8 @@ public class Carousel implements IsWidget {
     		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
     			if (ref >= c.getDateRef()) {
-    				HTML Summary = new HTML("<b>Arrival Date: </b>" + c.getArrivalDate()+ "<b>Departure Date: </b>" + c.getDepartDate() + 
-    						"<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " + c.getLocation()); 
+    				HTML Summary = new HTML("<b>Arrival Date: </b> <br>" + c.getArrivalDate()+ "<br> <b>Departure Date: </b> <br>" + c.getDepartDate() + 
+    						"<br> <b>Country: </b> <br>" + c.getCountry() + "<br> <b>Location: </b> <br>" + c.getLocation()); 
     	    		
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
@@ -275,9 +275,9 @@ public class Carousel implements IsWidget {
     		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
     			if (ref >= c.getDateRef()) {
-    				HTML Summary = new HTML("<b>Arrival Date: </b>" + c.getArrivalDate()+ "<b>Departure Date: </b>" + c.getDepartDate() + 
-    						"<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " + c.getLocation()); 
-    	    		
+    				HTML Summary = new HTML("<b>Arrival Date: </b> <br>" + c.getArrivalDate()+ "<br> <b>Departure Date: </b> <br>" + c.getDepartDate() + 
+    						"<br> <b>Country: </b> <br>" + c.getCountry() + "<br> <b>Location: </b> <br>" + c.getLocation()); 
+    
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
         			allInfo.setVisible(true);

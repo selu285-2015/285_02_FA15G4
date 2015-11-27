@@ -20,12 +20,13 @@
 
 .allinfo { 
 	height: 250px;
-	width: 250px; 
+	width: 1000px; 
 	border-style: ridge; 
 } 
 
 .summary { 
 	font-size: 12pt; 
+	width: 200px;
 } 
 
 
