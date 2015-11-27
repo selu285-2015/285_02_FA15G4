@@ -10,14 +10,18 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.ruskin.project.client.MainWidget;
+import com.ruskin.project.client.lists.AllList;
+import com.ruskin.project.shared.GWTContact;
 
 public class Carousel implements IsWidget {
 	
+	final MainWidget master;
 	final VerticalPanel carousel;
-	final VerticalPanel pictures;
+//	final VerticalPanel pictures;
 	
 	final HorizontalPanel time;
-    final HorizontalPanel rochpan;
+    final HorizontalPanel allInfo;
 	
 	final ListBox lb;
 	final ListBox may;
@@ -33,11 +37,11 @@ public class Carousel implements IsWidget {
 	String passthroughs;
 	String location;
 	
-	public Carousel() {
+	public Carousel(MainWidget master) {
+		this.master = master;
 		carousel = new VerticalPanel();
-		pictures = new VerticalPanel();
 		time = new HorizontalPanel();
-		rochpan = new HorizontalPanel();
+		allInfo = new HorizontalPanel();
 		
 		lb = new ListBox();
     	may = new ListBox();
@@ -153,18 +157,6 @@ public class Carousel implements IsWidget {
 	    september.addItem("18 September, 1833");
 	    september.addItem("19 September, 1833");
     
-    display.addClickHandler(new ClickHandler() {
-    	public void onClick(ClickEvent Event) {
-    	   
-    	}
-    });
-   
-//    //set image sources
-//    rochester.setUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Rochester_Castle_Keep_and_Bailey_0038stcp.JPG/400px-Rochester_Castle_Keep_and_Bailey_0038stcp.JPG");
-//    namur.setUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Namur_JPG07.jpg/1024px-Namur_JPG07.jpg");
-   
-
-    
     // Making the month ListBox
     lb.addItem("Select a Month");
     lb.addItem("May");
@@ -206,13 +198,104 @@ public class Carousel implements IsWidget {
  // ClickHandler for may listbox
     may.addClickHandler(new ClickHandler() {
     	public void onClick(ClickEvent Event) {
+    		allInfo.clear();
     		String day = may.getItemText(may.getSelectedIndex());
+    		for (GWTContact c : AllList.getAllContacts()) {
+    			if (day.matches(c.getArrivalDate())) {
+    				HTML Summary = new HTML("<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " 
+    	    				+ c.getLocation()); 
+    	    		
+    	    		Summary.addStyleName("summary");
+    				allInfo.add(Summary);
+    			}
+    			allInfo.setVisible(true);
+    		}
     	}
     });
-   
+    
+ // ClickHandler for may listbox
+    june.addClickHandler(new ClickHandler() {
+    	public void onClick(ClickEvent Event) {
+    		allInfo.clear();
+    		String day = june.getItemText(june.getSelectedIndex());
+    		for (GWTContact c : AllList.getAllContacts()) {
+    			if (day.matches(c.getArrivalDate())) {
+    				HTML Summary = new HTML("<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " 
+    	    				+ c.getLocation()); 
+    	    		
+    	    		Summary.addStyleName("summary");
+    				allInfo.add(Summary);
+    			}
+    			allInfo.setVisible(true);
+    		}
+    	}
+    });
+    
+    // ClickHandler for july listbox
+    july.addClickHandler(new ClickHandler() {
+    	public void onClick(ClickEvent Event) {
+    		allInfo.clear();
+    		String day = july.getItemText(july.getSelectedIndex());
+    		for (GWTContact c : AllList.getAllContacts()) {
+    			if (day.matches(c.getArrivalDate())) {
+    				HTML Summary = new HTML("<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " 
+    	    				+ c.getLocation()); 
+    	    		
+    	    		Summary.addStyleName("summary");
+    				allInfo.add(Summary);
+    			}
+    			allInfo.setVisible(true);
+    		}
+    	}
+    });
+    
+    // ClickHandler for august listbox
+    august.addClickHandler(new ClickHandler() {
+    	public void onClick(ClickEvent Event) {
+    		allInfo.clear();
+    		String day = august.getItemText(august.getSelectedIndex());
+    		for (GWTContact c : AllList.getAllContacts()) {
+    			if (day.matches(c.getArrivalDate())) {
+    				HTML Summary = new HTML("<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " 
+    	    				+ c.getLocation()); 
+    	    		
+    	    		Summary.addStyleName("summary");
+    				allInfo.add(Summary);
+    			}
+    			allInfo.setVisible(true);
+    		}
+    	}
+    });
+    
+    // ClickHandler for september listbox
+    september.addClickHandler(new ClickHandler() {
+    	public void onClick(ClickEvent Event) {
+    		allInfo.clear();
+    		int count = 0;
+    		String day = september.getItemText(september.getSelectedIndex());
+    		for (GWTContact c : AllList.getAllContacts()) {
+    			System.out.println("number of contacts: " + AllList.getSize());
+    			if (day.matches(c.getArrivalDate())) {
+    				count++;
+    				HTML Summary = new HTML("<b>Country: </b>" + c.getCountry() + "<br> <b>Location: </b> " 
+    	    				+ c.getLocation()); 
+    	    		
+    	    		Summary.addStyleName("summary");
+    				allInfo.add(Summary);
+    				System.out.println("Count: " + count);
+    			}
+    			allInfo.setVisible(true);
+    		}
+    	}
+    });
+    allInfo.setHeight("100%");
+    allInfo.setSpacing(25); 
+    allInfo.setBorderWidth(10); 
+    allInfo.addStyleName("allinfo"); 
+	allInfo.setVisible(false);
+
     carousel.add(time);
-    carousel.add(pictures);
-    carousel.add(rochpan);
+    carousel.add(allInfo);
 	}
 
 	@Override

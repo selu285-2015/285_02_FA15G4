@@ -18,6 +18,16 @@
 	bottom: 0px;
 }
 
+.allinfo { 
+	width: 200px; 
+	border-style: ridge; 
+} 
+
+.summary { 
+	font-size: 12pt; 
+} 
+
+
 .rochsum {
    text-decoration: underline;
    font-family: "Premier League", times, fantasy;

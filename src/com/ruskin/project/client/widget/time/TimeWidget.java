@@ -21,7 +21,7 @@ public class TimeWidget implements IsWidget {
 		this.master = master;
 		this.mainPanel = new VerticalPanel();
 		this.mainPanel.setStyleName("queryPanel");
-		carousel = new Carousel();
+		carousel = new Carousel(master);
 		lbl = new Label("Time Tracker");
 	
 		buildUI();
