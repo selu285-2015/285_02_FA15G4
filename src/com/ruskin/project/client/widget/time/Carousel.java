@@ -31,13 +31,6 @@ public class Carousel implements IsWidget {
 	final ListBox august;
 	final ListBox september;
 	
-	final Button display;
-	
-	String country;
-	String sights;
-	String passthroughs;
-	String location;
-	
 	public Carousel(MainWidget master) {
 		this.master = master;
 		carousel = new VerticalPanel();
@@ -52,8 +45,7 @@ public class Carousel implements IsWidget {
     	july = new ListBox();
     	august = new ListBox();
     	september = new ListBox();
-    	
-    	display = new Button("Display");
+   
     	buildUI();
 	}
     
@@ -73,7 +65,6 @@ public class Carousel implements IsWidget {
 		time.add(july);
 		time.add(august);
 		time.add(september);
-		time.add(display);
 		time.setSpacing(5);
  
 	    // Making the may ListBox
@@ -294,7 +285,7 @@ public class Carousel implements IsWidget {
     		}
     	}
     });
-//    allInfo.setHeight("250px");
+    
     allInfo.setSpacing(25); 
     allInfo.setBorderWidth(10); 
     allInfo.addStyleName("allinfo"); 
