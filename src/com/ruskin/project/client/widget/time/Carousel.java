@@ -19,7 +19,6 @@ public class Carousel implements IsWidget {
 	
 	final MainWidget master;
 	final VerticalPanel carousel;
-//	final VerticalPanel pictures;
 	
 	final HorizontalPanel time;
     final HorizontalPanel allInfo;
@@ -43,6 +42,7 @@ public class Carousel implements IsWidget {
 		this.master = master;
 		carousel = new VerticalPanel();
 		time = new HorizontalPanel();
+		time.setHeight("50px");
 		allInfo = new HorizontalPanel();
 		scrollable = new ScrollPanel();
 		
@@ -294,13 +294,14 @@ public class Carousel implements IsWidget {
     		}
     	}
     });
-    allInfo.setHeight("100%");
+//    allInfo.setHeight("250px");
     allInfo.setSpacing(25); 
     allInfo.setBorderWidth(10); 
     allInfo.addStyleName("allinfo"); 
 	allInfo.setVisible(false);
 
 	scrollable.add(allInfo);
+	scrollable.setHeight("250px");
     carousel.add(time);
     carousel.add(scrollable);
 	}

@@ -19,7 +19,8 @@
 }
 
 .allinfo { 
-	width: 200px; 
+	height: 250px;
+	width: 250px; 
 	border-style: ridge; 
 } 
 
@@ -40,16 +41,6 @@
    font-family: "Premier League", times, fantasy;
    text-align: center;
    font-size: 20pt;
-}
-
-.rochdescript {
-	width: 400px;
-	
-}
-
-.rochpan {
-	width: 200px;
-	border-style: ridge;
 }
 
 .mapDecorator{
