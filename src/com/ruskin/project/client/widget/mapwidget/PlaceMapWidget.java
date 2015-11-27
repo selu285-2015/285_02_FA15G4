@@ -62,7 +62,7 @@ public class PlaceMapWidget implements IsWidget {
 	private SelectFeature allControl;
 	
 	private Bounds bounds = new Bounds(-6602637.2967569,2397352.6248374,9051666.0938681,11202898.282064);
-//	private final static List<GWTContact> currentlyHighlighted = new ArrayList<GWTContact>();
+	private final static List<GWTContact> currentlyHighlighted = new ArrayList<GWTContact>();
 	
 	private final Projection proj;
 	
@@ -130,7 +130,7 @@ public class PlaceMapWidget implements IsWidget {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
 				GWTContact c = GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID));
-				eventObject.getVectorFeature().getStyle().setExternalGraphic("img/map_marker_orange.png");	
+				eventObject.getVectorFeature().getStyle().setExternalGraphic("img/map_marker_orange.png");
 				master.getAllDialog().showFor(c);
 				allControl.unSelect(eventObject.getVectorFeature());
 			}
@@ -364,76 +364,76 @@ public class PlaceMapWidget implements IsWidget {
 		}
 	}
 	
-//	/**This method highlights the contact specified by contact in green.
-//	 * 
-//	 * @param contact - the contact to be highlighted
-//	 */
-//	public void highlightContact(GWTContact contact){
-//		VectorFeature contactImage = getVectorLayer().getFeatureById(contact.getId());
-//		contactImage.getStyle().setExternalGraphic("img/map_marker_orange.png");				
-//		currentlyHighlighted.add(contact);
-//	}	
+	/**This method highlights the contact specified by contact in green.
+	 * 
+	 * @param contact - the contact to be highlighted
+	 */
+	public void highlightContact(GWTContact contact){
+		VectorFeature contactImage = getVectorLayer().getFeatureById(contact.getId());
+		contactImage.getStyle().setExternalGraphic("img/map_marker_orange.png");				
+		currentlyHighlighted.add(contact);
+	}	
 	
-//	public void highlightContacts(List<? extends GWTContact> highlights){
-//		for(GWTContact contact:highlights){
-//			highlightContact(contact);
-//		}
-//		
-//	}
-//	/**This method unhighlights (or returns their color to red) all of the currently highlighted contacts.
-//	 * 
-//	 */
-//	public static void clearHighlighted(){	
-//		for(GWTContact c: currentlyHighlighted){
-//			Vector layer = getVectorLayer();
-//			if (layer.equals(allVectorLayer)) {
-//				clearAllLayerHighlighted();
-//			}
-//			else if (layer.equals(diaryVectorLayer)) {
-//				clearDiaryLayerHighlighted();
-//			}
-//			else if (layer.equals(diaryVectorLayer)) {
-//				clearRuskinLayerHighlighted();
-//			}
-//		}
-//		currentlyHighlighted.clear();
-//	}
+	public void highlightContacts(List<? extends GWTContact> highlights){
+		for(GWTContact contact:highlights){
+			highlightContact(contact);
+		}
+		
+	}
+	/**This method unhighlights (or returns their color to red) all of the currently highlighted contacts.
+	 * 
+	 */
+	public static void clearHighlighted(){	
+		for(GWTContact c: currentlyHighlighted){
+			Vector layer = getVectorLayer();
+			if (layer.equals(allVectorLayer)) {
+				clearAllLayerHighlighted();
+			}
+			else if (layer.equals(diaryVectorLayer)) {
+				clearDiaryLayerHighlighted();
+			}
+			else if (layer.equals(diaryVectorLayer)) {
+				clearRuskinLayerHighlighted();
+			}
+		}
+		currentlyHighlighted.clear();
+	}
 	
-//	/**This method unhighlights all of the currently highlighted contacts.
-//	 * 
-//	 */
-//	public static void clearDiaryLayerHighlighted() {	
-//		for(GWTContact c:currentlyHighlighted){
-//			diaryVectorLayer.getFeatureById(c.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
-//		}
-//	}
-//	
-//	/**This method unhighlights all of the currently highlighted contacts.
-//	 * 
-//	 */
-//	public static void clearRuskinLayerHighlighted() {	
-//		for(GWTContact c:currentlyHighlighted){
-//			ruskinVectorLayer.getFeatureById(c.getId()).getStyle().setExternalGraphic("img/map_marker_blue.png");
-//		}
-//	}
-//	
-//	/**This method unhighlights all of the currently highlighted contacts.
-//	 * 
-//	 */
-//	public static void clearAllLayerHighlighted() {	
-//		for(GWTContact c:currentlyHighlighted){
-//			if(c.getAuthor().matches("John Ruskin")) {
-//				allVectorLayer.getFeatureById(c.getId()).getStyle().setExternalGraphic("img/map_marker_blue.png");
-//			}
-//			else {
-//				allVectorLayer.getFeatureById(c.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
-//			}
-//		}
-//	}
+	/**This method unhighlights all of the currently highlighted contacts.
+	 * 
+	 */
+	public static void clearDiaryLayerHighlighted() {	
+		for(GWTContact c:currentlyHighlighted){
+			diaryVectorLayer.getFeatureById(c.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
+		}
+	}
 	
-//	public List<GWTContact> getCurrentlyHighlighted() {
-//		return currentlyHighlighted;
-//	}
+	/**This method unhighlights all of the currently highlighted contacts.
+	 * 
+	 */
+	public static void clearRuskinLayerHighlighted() {	
+		for(GWTContact c:currentlyHighlighted){
+			ruskinVectorLayer.getFeatureById(c.getId()).getStyle().setExternalGraphic("img/map_marker_blue.png");
+		}
+	}
+	
+	/**This method unhighlights all of the currently highlighted contacts.
+	 * 
+	 */
+	public static void clearAllLayerHighlighted() {	
+		for(GWTContact c:currentlyHighlighted){
+			if(c.getAuthor().matches("John Ruskin")) {
+				allVectorLayer.getFeatureById(c.getId()).getStyle().setExternalGraphic("img/map_marker_blue.png");
+			}
+			else {
+				allVectorLayer.getFeatureById(c.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
+			}
+		}
+	}
+	
+	public List<GWTContact> getCurrentlyHighlighted() {
+		return currentlyHighlighted;
+	}
 
 	@Override
 	public Widget asWidget() {

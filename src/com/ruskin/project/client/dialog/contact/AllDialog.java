@@ -203,7 +203,13 @@ public class AllDialog {
 		dialog.addCloseHandler(new CloseHandler<PopupPanel>() {
 			@Override
 			public void onClose(final CloseEvent<PopupPanel> event) {
-				PlaceMapWidget.getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
+				if(showingForMary.getAuthor().matches("John")) {
+					PlaceMapWidget.getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_blue.png");
+				}
+				else {
+					PlaceMapWidget.getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
+				}
+				
 				showingFor = null;
 				showingForMary = null;
 				showingForJJ = null;
