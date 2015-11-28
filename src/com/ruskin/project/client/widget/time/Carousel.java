@@ -1,5 +1,8 @@
 package com.ruskin.project.client.widget.time;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -27,6 +30,8 @@ public class Carousel implements IsWidget {
 	final HorizontalPanel time;
     final HorizontalPanel allInfo;
     final ScrollPanel scrollable;
+    
+    final Button view;
 	
 	final ListBox lb;
 	final ListBox may;
@@ -34,6 +39,8 @@ public class Carousel implements IsWidget {
 	final ListBox july;
 	final ListBox august;
 	final ListBox september;
+	
+	final List<GWTContact> list;
 	
 	public Carousel(MainWidget master) {
 		this.master = master;
@@ -43,12 +50,16 @@ public class Carousel implements IsWidget {
 		allInfo = new HorizontalPanel();
 		scrollable = new ScrollPanel();
 		
+		view = new Button("View On Map");
+		
 		lb = new ListBox();
     	may = new ListBox();
     	june = new ListBox();
     	july = new ListBox();
     	august = new ListBox();
     	september = new ListBox();
+    	
+    	list = new ArrayList<>();
    
     	buildUI();
 	}
@@ -56,6 +67,14 @@ public class Carousel implements IsWidget {
 	public void buildUI() {
     // Visibility settings of all widget
 		scrollable.setWidth("1000px");
+		
+		view.addClickHandler(new ClickHandler() { 
+			public void onClick(ClickEvent Event) {
+				master.getMap().printContacts(list);
+				master.getMap().getVectorLayer().redraw();
+			}
+		});
+
 		
 		may.setVisible(false);
 		june.setVisible(false);
@@ -69,6 +88,7 @@ public class Carousel implements IsWidget {
 		time.add(july);
 		time.add(august);
 		time.add(september);
+		time.add(view);
 		time.setSpacing(5);
  
 	    // Making the may ListBox
@@ -78,7 +98,7 @@ public class Carousel implements IsWidget {
 	    may.addItem("16 May, 1833");
 	    may.addItem("17 May, 1833");
 	    may.addItem("18 May, 1833");
-	    may.addItem("19 May, 1833");
+	    may.addItem("22 May, 1833");
 	    may.addItem("23 May, 1833");
 	    may.addItem("24 May, 1833");
 	    may.addItem("25 May, 1833");
@@ -139,8 +159,6 @@ public class Carousel implements IsWidget {
 	    august.addItem("10 August, 1833");
 	    august.addItem("14 August, 1833");
 	    august.addItem("15 August, 1833");
-	    august.addItem("16 August, 1833");
-	    august.addItem("17 August, 1833");
 	    august.addItem("18 August, 1833");
 	    august.addItem("19 August, 1833");
 	    august.addItem("22 August, 1833");
@@ -199,6 +217,7 @@ public class Carousel implements IsWidget {
     may.addClickHandler(new ClickHandler() {
     	public void onClick(ClickEvent Event) {
     		allInfo.clear();
+    		list.clear();
     		String day = may.getItemText(may.getSelectedIndex());
     		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
@@ -209,6 +228,7 @@ public class Carousel implements IsWidget {
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
     				allInfo.setVisible(true);
+    				list.add(c);
     			}
     		}
     	}
@@ -218,6 +238,7 @@ public class Carousel implements IsWidget {
     june.addClickHandler(new ClickHandler() {
     	public void onClick(ClickEvent Event) {
     		allInfo.clear();
+    		list.clear();
     		String day = june.getItemText(june.getSelectedIndex());
     		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
@@ -228,6 +249,7 @@ public class Carousel implements IsWidget {
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
     				allInfo.setVisible(true);
+    				list.add(c);
     			}
     		}
     	}
@@ -237,6 +259,7 @@ public class Carousel implements IsWidget {
     july.addClickHandler(new ClickHandler() {
     	public void onClick(ClickEvent Event) {
     		allInfo.clear();
+    		list.clear();
     		String day = july.getItemText(july.getSelectedIndex());
     		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
@@ -247,6 +270,7 @@ public class Carousel implements IsWidget {
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
     				allInfo.setVisible(true);
+    				list.add(c);
     			}
     		}
     	}
@@ -256,6 +280,7 @@ public class Carousel implements IsWidget {
     august.addClickHandler(new ClickHandler() {
     	public void onClick(ClickEvent Event) {
     		allInfo.clear();
+    		list.clear();
     		String day = august.getItemText(august.getSelectedIndex());
     		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
@@ -266,6 +291,7 @@ public class Carousel implements IsWidget {
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
         			allInfo.setVisible(true);
+        			list.add(c);
     			}
     		}
     	}
@@ -276,6 +302,7 @@ public class Carousel implements IsWidget {
     	public void onClick(ClickEvent Event) {
     		allInfo.clear();
     		String day = september.getItemText(september.getSelectedIndex());
+    		list.clear();
     		int ref = AllList.getRef(day);
     		for (GWTContact c : AllList.getAllContacts()) {
     			if (ref >= c.getDateRef()) {
@@ -285,6 +312,7 @@ public class Carousel implements IsWidget {
     	    		Summary.addStyleName("summary");
     				allInfo.add(Summary);
         			allInfo.setVisible(true);
+        			list.add(c);
     			}
     		}
     	}
