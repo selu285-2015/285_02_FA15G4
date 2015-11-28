@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.ruskin.project.client.Main;
+import com.ruskin.project.client.MainWidget;
 import com.ruskin.project.client.SimplifiedCallback;
 import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 import com.ruskin.project.shared.GWTContact;
@@ -32,6 +33,8 @@ import com.ruskin.project.shared.GWTContact;
  *Author: Brittney Jarreau
  */
 public class RuskinDialog {
+	private final MainWidget master;
+	
 	private final NumberFormat nf = NumberFormat.getFormat("0.0####");
 	private final DialogBox dialog;
 	
@@ -91,7 +94,9 @@ public class RuskinDialog {
 	
 	private GWTContact showingFor;
 
-	public RuskinDialog() {
+	public RuskinDialog(MainWidget master) {
+		this.master = master;
+		
 		dialog = new DialogBox(false, true);
 		tabPanel = new TabPanel();
 		passPnl = new HorizontalPanel();
@@ -154,9 +159,9 @@ public class RuskinDialog {
 		dialog.addCloseHandler(new CloseHandler<PopupPanel>() {
 			@Override
 			public void onClose(final CloseEvent<PopupPanel> event) {
-				PlaceMapWidget.getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
+				master.getMap().getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
 				showingFor = null;
-				PlaceMapWidget.getVectorLayer().redraw();
+				master.getMap().getVectorLayer().redraw();
 			}
 		});
 

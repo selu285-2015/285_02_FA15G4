@@ -1,5 +1,8 @@
 package com.ruskin.project.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -17,6 +20,7 @@ import com.ruskin.project.client.lists.PassThrough;
 import com.ruskin.project.client.searchWidget.SearchWidget;
 import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 import com.ruskin.project.client.widget.time.TimeWidget;
+import com.ruskin.project.shared.GWTContact;
 
 /**
  * The main widget, which is added to the RootPanel.
@@ -42,9 +46,9 @@ public class MainWidget implements IsWidget {
 		this.mainPanel = new VerticalPanel();
 		placesMap = new PlaceMapWidget(700,450, this);
 		timePanel = new TimeWidget(this);
-		diaryDialog = new DiaryLayerDialog();
-		ruskinDialog = new RuskinDialog();
-		allDialog = new AllDialog();
+		diaryDialog = new DiaryLayerDialog(this);
+		ruskinDialog = new RuskinDialog(this);
+		allDialog = new AllDialog(this);
 		searchWidget = new SearchWidget(this);
 		
 		this.buildUI();		
@@ -72,7 +76,7 @@ public class MainWidget implements IsWidget {
 		mainPanel.add(timePanel);		
 	
 	}
-
+	
 	public final PlaceMapWidget getMap() {
 		return placesMap;
 	}

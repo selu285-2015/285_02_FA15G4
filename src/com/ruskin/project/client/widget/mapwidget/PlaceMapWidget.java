@@ -43,7 +43,7 @@ import com.ruskin.project.shared.ReducedContact;
  */
 public class PlaceMapWidget implements IsWidget {
 
-	private final MainWidget master;	
+	private static MainWidget master;	
 	private final VerticalPanel decorator;
 	private final Map map;
 	
@@ -62,7 +62,8 @@ public class PlaceMapWidget implements IsWidget {
 	private SelectFeature allControl;
 	
 	private Bounds bounds = new Bounds(-6602637.2967569,2397352.6248374,9051666.0938681,11202898.282064);
-	private final static List<GWTContact> currentlyHighlighted = new ArrayList<GWTContact>();
+	private final Bounds maxVisibleExtent;
+	private static List<GWTContact> currentlyHighlighted = new ArrayList<>();
 	
 	private final Projection proj;
 	
@@ -142,6 +143,7 @@ public class PlaceMapWidget implements IsWidget {
 		LonLat center = new LonLat(8,48);
 		center.transform(proj.getProjectionCode(), map.getProjection());
 		map.setCenter(center, 5);
+		maxVisibleExtent = map.getExtent();
 		
 	}	
 	
@@ -184,6 +186,15 @@ public class PlaceMapWidget implements IsWidget {
 		return choice;
 	}
 	
+	/** Sets the center of the map and zoom level.
+	 * 
+	 * @param ll
+	 * @param zoom
+	 */	
+	public void setCenter(LonLat ll, int zoom) {
+		this.map.setCenter(ll,zoom);
+	}	
+	
 	/** Returns the current base layer of this MapWidget.
 	 * 
 	 * @return
@@ -219,6 +230,40 @@ public class PlaceMapWidget implements IsWidget {
 	public Layer[] getLayers() {
 		return map.getLayers();
 	}
+	
+	/**
+	 * Prints the given {@link ReducedContact}s on this MapWidget.
+	 * 
+	 * @param contacts
+	 *            - a list of {@link ReducedContact} objects resulting from search
+	 */		
+	public void printContacts(List<? extends ReducedContact> contacts) {
+		getVectorLayer().destroyFeatures();
+		Style pointStyle = new Style();		
+		for (ReducedContact c : contacts) {
+
+			Point point = new Point(c.getLongitude(), c.getLatitude());
+			point.transform(proj, new Projection(map.getProjection()));
+				
+			pointStyle.setExternalGraphic("img/map_marker_red.png");
+			pointStyle.setGraphicSize(10, 17);
+			pointStyle.setFillOpacity(1.0);
+
+			VectorFeature pointFeature = new VectorFeature(point, pointStyle);
+			pointFeature.getAttributes().setAttribute(Const.FEATURE_ATTRIBUTE_CONTACT_ID, c.getId());
+			pointFeature.setFeatureId(c.getId());
+			getVectorLayer().addFeature(pointFeature);			
+		}
+
+		Bounds dataExtent = getVectorLayer().getDataExtent();
+		boolean outOfBounds = !maxVisibleExtent.containsBounds(dataExtent, false, true);
+		if(!outOfBounds){		
+			zoomToBounds(getVectorLayer().getDataExtent());			
+		}else{
+			this.setCenter(new LonLat(8, 48), 5);
+		}
+	}
+
 	
 	public void PlotPointAll(Boolean plot) {
 		map.addLayer(allVectorLayer);
@@ -352,7 +397,7 @@ public class PlaceMapWidget implements IsWidget {
 	 * 
 	 * @return
 	 */
-	public static Vector getVectorLayer() {
+	public Vector getVectorLayer() {
 		if (choices.getItemText(choices.getSelectedIndex()).matches("Diary Layer")) {
 			return diaryVectorLayer;
 		}
@@ -374,17 +419,17 @@ public class PlaceMapWidget implements IsWidget {
 		currentlyHighlighted.add(contact);
 	}	
 	
-	public void highlightContacts(List<? extends GWTContact> highlights){
-		for(GWTContact contact:highlights){
+	public void highlightContactsFromSearch(){
+		List<GWTContact> list = master.getSearchWidget().getList();
+		for(GWTContact contact: list){
 			highlightContact(contact);
+			currentlyHighlighted.add(contact);
 		}
-		
 	}
-	/**This method unhighlights (or returns their color to red) all of the currently highlighted contacts.
+	/**This method unhighlights all of the currently highlighted contacts.
 	 * 
 	 */
-	public static void clearHighlighted(){	
-		for(GWTContact c: currentlyHighlighted){
+	public void clearHighlighted(){	
 			Vector layer = getVectorLayer();
 			if (layer.equals(allVectorLayer)) {
 				clearAllLayerHighlighted();
@@ -395,7 +440,6 @@ public class PlaceMapWidget implements IsWidget {
 			else if (layer.equals(diaryVectorLayer)) {
 				clearRuskinLayerHighlighted();
 			}
-		}
 		currentlyHighlighted.clear();
 	}
 	

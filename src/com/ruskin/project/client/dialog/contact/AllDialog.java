@@ -40,6 +40,8 @@ import com.ruskin.project.shared.GWTPassThrough;
  */
 public class AllDialog {
 	
+	private final MainWidget master;
+	
 	private final NumberFormat nf = NumberFormat.getFormat("0.0####");
 	private final DialogBox dialog;
 	
@@ -120,7 +122,8 @@ public class AllDialog {
 	
 	private List<GWTPassThrough> newList;
 	
-	public AllDialog() {
+	public AllDialog(MainWidget master) {
+		this.master = master;
 		dialog = new DialogBox(false, true);
 		tabPanel = new TabPanel();
 		passPnl = new ScrollPanel();
@@ -204,17 +207,17 @@ public class AllDialog {
 			@Override
 			public void onClose(final CloseEvent<PopupPanel> event) {
 				if(showingForMary.getAuthor().matches("John")) {
-					PlaceMapWidget.getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_blue.png");
+					master.getMap().getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_blue.png");
 				}
 				else {
-					PlaceMapWidget.getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
+					master.getMap().getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
 				}
 				
 				showingFor = null;
 				showingForMary = null;
 				showingForJJ = null;
 				list.clear();
-				PlaceMapWidget.getVectorLayer().redraw();
+				master.getMap().getVectorLayer().redraw();
 			}
 		});
 

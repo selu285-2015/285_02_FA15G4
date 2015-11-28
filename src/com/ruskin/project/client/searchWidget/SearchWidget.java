@@ -3,6 +3,9 @@ package com.ruskin.project.client.searchWidget;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
+import org.gwtopenmaps.openlayers.client.layer.Vector;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -25,6 +28,7 @@ import com.ruskin.project.client.MainWidget;
 import com.ruskin.project.client.lists.AllList;
 import com.ruskin.project.client.lists.JJList;
 import com.ruskin.project.client.lists.MaryList;
+import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 import com.ruskin.project.shared.GWTContact;
 import com.ruskin.project.shared.GWTPassThrough;
 import com.ruskin.project.shared.ReducedContact;
@@ -36,6 +40,7 @@ import com.ruskin.project.shared.ReducedContact;
  */
 public class SearchWidget implements IsWidget {
 	private final MainWidget master;
+	
 	VerticalPanel panel;
 	HorizontalPanel searchbar;
 	ScrollPanel scrollable;
@@ -88,7 +93,9 @@ public class SearchWidget implements IsWidget {
 					else if(c.getLocation().contains(toSearch) || c.getCountry().contains(toSearch)) {
 						getList().add(c);
 					}
-				}
+				}		
+				master.getMap().printContacts(list);
+				master.getMap().getVectorLayer().redraw();
 				System.out.println(getList().size());
 				table.setVisibleRange(0, getList().size());
 			}

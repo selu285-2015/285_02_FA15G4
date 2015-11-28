@@ -15,6 +15,10 @@ import com.ruskin.project.client.MainWidget;
 import com.ruskin.project.client.lists.AllList;
 import com.ruskin.project.shared.GWTContact;
 
+/** A timeline tracker that allows for a user to select a desired
+ * date and view the places that were visited up until that date.
+ *Authors: Holden Pitre & Brittney Jarreau
+ */
 public class Carousel implements IsWidget {
 	
 	final MainWidget master;

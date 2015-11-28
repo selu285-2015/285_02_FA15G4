@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.ruskin.project.client.Main;
+import com.ruskin.project.client.MainWidget;
 import com.ruskin.project.client.SimplifiedCallback;
 import com.ruskin.project.client.lists.JJList;
 import com.ruskin.project.client.lists.MaryList;
@@ -36,6 +37,7 @@ import com.ruskin.project.shared.GWTPassThrough;
  *Author: Brittney Jarreau
  */
 public class DiaryLayerDialog {
+	private final MainWidget master;
 	
 	private final NumberFormat nf = NumberFormat.getFormat("0.0####");
 	private final DialogBox dialog;
@@ -81,7 +83,9 @@ public class DiaryLayerDialog {
 	
 	private List<GWTPassThrough> newList;
 	
-	public DiaryLayerDialog() {
+	public DiaryLayerDialog(MainWidget master) {
+		this.master = master;
+		
 		dialog = new DialogBox(false, true);
 		tabPanel = new TabPanel();
 		passPnl = new ScrollPanel();
@@ -129,12 +133,12 @@ public class DiaryLayerDialog {
 		dialog.addCloseHandler(new CloseHandler<PopupPanel>() {
 			@Override
 			public void onClose(final CloseEvent<PopupPanel> event) {
-				PlaceMapWidget.getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
+				master.getMap().getVectorLayer().getFeatureById(showingFor.getId()).getStyle().setExternalGraphic("img/map_marker_red.png");
 				showingFor = null;
 				showingForMary = null;
 				showingForJJ = null;
 				list.clear();
-				PlaceMapWidget.getVectorLayer().redraw();
+				master.getMap().getVectorLayer().redraw();
 			}
 		});
 
