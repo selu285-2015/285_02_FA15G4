@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.ruskin.project.client.Main;
 import com.ruskin.project.client.MainWidget;
-import com.ruskin.project.client.SimplifiedCallback;
 import com.ruskin.project.client.widget.mapwidget.PlaceMapWidget;
 import com.ruskin.project.shared.GWTContact;
 
