@@ -475,17 +475,7 @@ public class RuskinDialog {
 		}
 		
 	}
-
-	public void showFor(final String id) {
-		
-		Main.getContactServices().getContact(id, new SimplifiedCallback<GWTContact>("get contact with id " + id, true) {
-			@Override
-			public void onSuccess(GWTContact result) {	
-				showFor(result);
-			}
-		});
-	}
-
+	
 	public void showFor(final GWTContact c) {
 		showingFor = c;
 		updateUI();

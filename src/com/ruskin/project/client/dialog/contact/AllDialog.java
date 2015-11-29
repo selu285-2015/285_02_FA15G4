@@ -28,6 +28,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.ruskin.project.client.Main;
 import com.ruskin.project.client.MainWidget;
 import com.ruskin.project.client.SimplifiedCallback;
+import com.ruskin.project.client.lists.AllList;
 import com.ruskin.project.client.lists.JJList;
 import com.ruskin.project.client.lists.MaryList;
 import com.ruskin.project.client.lists.PassThrough;
@@ -119,6 +120,7 @@ public class AllDialog {
 	private GWTContact showingFor;
 	private GWTContact showingForMary;
 	private GWTContact showingForJJ;
+	private GWTContact showingForRuskin;
 	
 	private List<GWTPassThrough> newList;
 	
@@ -216,6 +218,7 @@ public class AllDialog {
 				showingFor = null;
 				showingForMary = null;
 				showingForJJ = null;
+				showingForRuskin = null;
 				list.clear();
 				master.getMap().getVectorLayer().redraw();
 			}
@@ -544,7 +547,7 @@ public class AllDialog {
 	private void updateUI() {
 		dialog.setText(showingFor.getId());
 		{
-			final String val = showingFor.getCountry();
+			final String val = showingForRuskin.getCountry();
 			final String Mval = showingForMary.getCountry();
 			final String Jval = showingForJJ.getCountry();
 			MarylblId.setText(Mval);
@@ -555,7 +558,7 @@ public class AllDialog {
 			V4lblId.setText(val);
 		}
 		{
-			final String val = nf.format(showingFor.getLongitude());
+			final String val = nf.format(showingForRuskin.getLongitude());
 			final String Mval = nf.format(showingForMary.getLongitude());
 			final String Jval = nf.format(showingForJJ.getLongitude());
 			MarylblLongitude.setText(Mval);
@@ -566,7 +569,7 @@ public class AllDialog {
 			V4lblLongitude.setText(val);
 		}
 		{
-			final String val = nf.format(showingFor.getLatitude());
+			final String val = nf.format(showingForRuskin.getLatitude());
 			final String Mval = nf.format(showingForMary.getLatitude());
 			final String Jval = nf.format(showingForJJ.getLatitude());
 			MarylblLatitude.setText(Mval);
@@ -577,7 +580,7 @@ public class AllDialog {
 			V4lblLatitude.setText(val);
 		}
 		{
-			final String val = showingFor.getArrivalDate();
+			final String val = showingForRuskin.getArrivalDate();
 			final String Mval = showingForMary.getArrivalDate();
 			final String Jval = showingForJJ.getArrivalDate();
 			MarylblArrivalDate.setText(Mval);
@@ -588,7 +591,7 @@ public class AllDialog {
 			V4lblArrivalDate.setText(val);
 		}
 		{
-			final String val = showingFor.getDepartDate();
+			final String val = showingForRuskin.getDepartDate();
 			final String Mval = showingForMary.getDepartDate();
 			final String Jval = showingForJJ.getDepartDate();
 			MarylblDepartDate.setText(Mval);
@@ -599,7 +602,7 @@ public class AllDialog {
 			V4lblDepartDate.setText(val);
 		}
 		{
-			final String val = showingFor.getLocation();
+			final String val = showingForRuskin.getLocation();
 			final String Mval = showingForMary.getLocation();
 			final String Jval = showingForJJ.getLocation();
 			V1lblLocation.setText(val);
@@ -610,7 +613,7 @@ public class AllDialog {
 			JohnJameslblLocation.setText(Jval);
 		}
 		{
-			final String val = showingFor.getLink();
+			final String val = showingForRuskin.getLink();
 			final String Mval = showingForMary.getLink();
 			final String Jval = showingForJJ.getLink();
 			V1lblLink.setText(val);
@@ -621,7 +624,7 @@ public class AllDialog {
 			JohnJameslblLink.setText(Jval);
 		}
 		{
-			final String val = showingFor.getSights();
+			final String val = showingForRuskin.getSights();
 			final String Mval = showingForMary.getSights();
 			final String Jval = showingForJJ.getSights();
 			V1lblSights.setText(val);
@@ -633,19 +636,11 @@ public class AllDialog {
 		}
 	}
 
-	public void showFor(final String id) {
-		Main.getContactServices().getContact(id, new SimplifiedCallback<GWTContact>("get contact with id " + id, true){
-			@Override
-			public void onSuccess(GWTContact result) {	
-				showFor(result);
-			}
-		});
-	}
-
 	public void showFor(final GWTContact c) {
 		showingFor = c;
 		showingForMary = MaryList.getContact(c.getId());
 		showingForJJ = JJList.getContact(c.getId());
+		showingForRuskin = AllList.getContact(c.getId());
 		for(int i=0; i<PassThrough.getPass(c.getId()).size(); i++) {
 			list.add(PassThrough.getPass(c.getId()).get(i));
 		}

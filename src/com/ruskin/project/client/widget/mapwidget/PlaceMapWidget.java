@@ -112,7 +112,7 @@ public class PlaceMapWidget implements IsWidget {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
 				GWTContact c = GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID));
-				eventObject.getVectorFeature().getStyle().setExternalGraphic("img/map_marker_orange.png");	
+				eventObject.getVectorFeature().getStyle().setExternalGraphic("img/map_marker_gray.png");	
 				master.getDiaryDialog().showFor(c);
 				diaryControl.unSelect(eventObject.getVectorFeature());
 			}
@@ -121,7 +121,7 @@ public class PlaceMapWidget implements IsWidget {
 		ruskinVectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-				eventObject.getVectorFeature().getStyle().setExternalGraphic("img/map_marker_orange.png");	
+				eventObject.getVectorFeature().getStyle().setExternalGraphic("img/map_marker_gray.png");	
 				master.getRuskinDialog().showFor(GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID)));
 				ruskinControl.unSelect(eventObject.getVectorFeature());
 			}
@@ -131,7 +131,7 @@ public class PlaceMapWidget implements IsWidget {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
 				GWTContact c = GWTContact.createGWTContact(eventObject.getVectorFeature().getAttributes().getAttributeAsString(Const.FEATURE_ATTRIBUTE_CONTACT_ID));
-				eventObject.getVectorFeature().getStyle().setExternalGraphic("img/map_marker_orange.png");
+				eventObject.getVectorFeature().getStyle().setExternalGraphic("img/map_marker_gray.png");
 				master.getAllDialog().showFor(c);
 				allControl.unSelect(eventObject.getVectorFeature());
 			}
@@ -415,17 +415,18 @@ public class PlaceMapWidget implements IsWidget {
 	 */
 	public void highlightContact(GWTContact contact){
 		VectorFeature contactImage = getVectorLayer().getFeatureById(contact.getId());
-		contactImage.getStyle().setExternalGraphic("img/map_marker_orange.png");				
+		contactImage.getStyle().setExternalGraphic("img/map_marker_gray.png");				
 		currentlyHighlighted.add(contact);
 	}	
 	
-	public void highlightContactsFromSearch(){
-		List<GWTContact> list = master.getSearchWidget().getList();
-		for(GWTContact contact: list){
-			highlightContact(contact);
-			currentlyHighlighted.add(contact);
-		}
-	}
+//	public void highlightContactsFromSearch(){
+//		List<GWTContact> list = master.getSearchWidget().getList();
+//		for(GWTContact contact: list){
+//			highlightContact(contact);
+//			currentlyHighlighted.add(contact);
+//		}
+//	}
+	
 	/**This method unhighlights all of the currently highlighted contacts.
 	 * 
 	 */
